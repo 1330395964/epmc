@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gxuwz.project.system.college.mapper.CollegeMapper">
+    
+    <resultMap type="College" id="CollegeResult">
+        <result property="collegeId"    column="college_id"    />
+        <result property="collegeName"    column="college_name"    />
+    </resultMap>
+
+    <sql id="selectCollegeVo">
+        select college_id, college_name from sys_college
+    </sql>
+
+    <select id="selectCollegeList" parameterType="College" resultMap="CollegeResult">
+        <include refid="selectCollegeVo"/>
+        <where>  
+            <if test="collegeName != null  and collegeName != ''"> and college_name like concat('%', #{collegeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCollegeById" parameterType="Long" resultMap="CollegeResult">
+        <include refid="selectCollegeVo"/>
+        where college_id = #{collegeId}
+    </select>
+        
+    <insert id="insertCollege" parameterType="College" useGeneratedKeys="true" keyProperty="collegeId">
+        insert into sys_college
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="collegeName != null  and collegeName != ''">college_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="collegeName != null  and collegeName != ''">#{collegeName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCollege" parameterType="College">
+        update sys_college
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="collegeName != null  and collegeName != ''">college_name = #{collegeName},</if>
+        </trim>
+        where college_id = #{collegeId}
+    </update>
+
+    <delete id="deleteCollegeById" parameterType="Long">
+        delete from sys_college where college_id = #{collegeId}
+    </delete>
+
+    <delete id="deleteCollegeByIds" parameterType="String">
+        delete from sys_college where college_id in 
+        <foreach item="collegeId" collection="array" open="(" separator="," close=")">
+            #{collegeId}
+        </foreach>
+    </delete>
+    
+</mapper>

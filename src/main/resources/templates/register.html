@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('用户注册')" />
+	<th:block th:include="include :: select2-css" />
+</head>
+<body>
+    <div class="main-content">
+        <h1>用户注册</h1>
+        <form id="form-user-add" class="form-horizontal">
+            <input name="deptId" type="hidden" id="treeId"/>
+            <h4 class="form-header h4">基本信息</h4>
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">用户名称：</label>
+                        <div class="col-sm-8">
+                            <input name="userName" placeholder="学生名称或教职工名称" class="form-control" type="text" maxlength="30" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">手机号码：</label>
+                        <div class="col-sm-8">
+                            <input id="phonenumber" name="phonenumber" placeholder="请输入手机号码" class="form-control" type="text" maxlength="11" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">邮箱：</label>
+                        <div class="col-sm-8">
+                            <input id="email" name="email" class="form-control email" type="text" maxlength="20" placeholder="请输入邮箱" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">学号&工号：</label>
+                        <div class="col-sm-8">
+                            <input id="loginName" name="loginName" placeholder="请输入学号或工号" class="form-control" type="text" maxlength="30" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">登录密码：</label>
+                        <div class="col-sm-8">
+                            <input name="password" placeholder="请输入登录密码" class="form-control" type="password" th:value="${@config.getKey('sys.user.initPassword')}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">用户性别：</label>
+                        <div class="col-sm-8">
+                            <select name="sex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
+				                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+				            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">我是教职工：</label>
+                        <div class="col-sm-8">
+                            <label class="toggle-switch switch-solid">
+                                <input type="checkbox" id="status" checked>
+                                <span></span>
+                            </label>
+                            <span id="status-tip">注册教职工身份</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group" id="a_dept">
+                        <label class="col-sm-4 control-label is-required">归属部门：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input name="deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="form-header h4">其他信息</h4>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">备注：</label>
+                        <div class="col-xs-10">
+                            <textarea name="remark" placeholder="简要描述下自己所属职位" maxlength="500" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+      
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-info" onclick="toLogin()"><i class="fa fa-reply-all"></i>去登录 </button>
+        </div>
+    </div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: select2-js" />
+	<script>
+	    var prefix = ctx + "register";
+	    function toLogin(){
+	        window.location.href = "/";
+        }
+        $("#form-user-add").validate({
+        	onkeyup: false,
+        	rules:{
+        		loginName:{
+        			minlength: 2,
+        			maxlength: 20,
+        			remote: {
+                        url: prefix + "/checkLoginNameUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"loginName": function() {
+                                return $.common.trim($("#loginName").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		password:{
+        			minlength: 5,
+        			maxlength: 20
+        		},
+        		email:{
+                    email:true,
+                    remote: {
+                        url: prefix + "/checkEmailUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            "email": function () {
+                                return $.common.trim($("#email").val());
+                            }
+                        },
+                        dataFilter: function (data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		phonenumber:{
+        			isPhone:true,
+                    remote: {
+                        url: prefix + "/checkPhoneUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            "phonenumber": function () {
+                                return $.common.trim($("#phonenumber").val());
+                            }
+                        },
+                        dataFilter: function (data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        	},
+        	messages: {
+                "loginName": {
+                    remote: "用户已经存在"
+                },
+        		"email": {
+                    remote: "Email已经存在"
+                },
+        		"phonenumber":{
+                	remote: "手机号码已经存在"
+        		}
+            },
+            focusCleanup: true
+        });
+
+        $("#status").on('click', function(){
+            console.log('改变了', $(this).is(':checked'))
+            if($(this).is(':checked')){
+                $("#status-tip").text("注册教职工身份");
+                $("#a_dept").show();
+            }else{
+                $("#status-tip").text("注册学生身份");
+                $("#a_dept").hide();
+            }
+        });
+        
+        function submitHandler() {
+	        if ($.validate.form()) {
+	        	var data = $("#form-user-add").serializeArray();
+	        	var student = $("input[id='status']").is(':checked') == true ? false : true;
+	        	var roleIds = $.form.selectCheckeds("role");
+	        	var postIds = $.form.selectSelects("post");
+	        	data.push({"name": "student", "value": student});
+	        	data.push({"name": "roleIds", "value": roleIds});
+	        	data.push({"name": "postIds", "value": postIds});
+	        	$.operate.save(prefix + "/add", data, function(d){
+	        	    if(d.code == web_status.SUCCESS){
+                        toLogin();
+                    }
+                });
+	        }
+	    }
+         
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+        	var treeId = $("#treeId").val();
+        	var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
+        	var url = prefix + "/selectDeptTree/" + deptId;
+			var options = {
+				title: '选择部门',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+				var body = layer.getChildFrame('body', index);
+    			$("#treeId").val(body.find('#treeId').val());
+    			$("#treeName").val(body.find('#treeName').val());
+    			layer.close(index);
+			}
+		}
+
+		$(function() {
+            $('#post').select2({
+                placeholder: "请选择岗位",
+                allowClear: true
+            });
+        })
+
+        //保存省
+        var provinceArray = new Array();
+        //保存市
+        var cityArray = new Array();
+        var cityList;
+
+
+        var provinceTag = document.getElementById("province");
+        var cityTag = document.getElementById("city");
+        var areaTag = document.getElementById("area");
+
+        for(var i=0; i<provinceList.length; i++){
+            var province = provinceList[i];
+            var provinceName = province.name;
+            provinceArray[i]=provinceName;
+            provinceTag.add(new Option(provinceName,i));
+        }
+
+        //选择省
+        function chooseProvince(th){
+            var index = th.selectedIndex-1;
+            var provinceName = provinceArray[index];
+
+
+            for(var n=0; n<provinceList.length; n++){
+                var provice = provinceList[n];
+                if (provice.name == provinceName){
+                    cityList = provice.cityList;
+                    cityTag.innerHTML="";
+                    for(var c=0; c<cityList.length; c++){
+                        var city = cityList[c];
+                        var cityName = city.name;
+                        cityArray[c] = cityName;
+                        cityTag.add(new Option(cityName,c));
+                    }
+                }
+            }
+            var cityName = cityArray[0];
+            var city1 = cityList[0];
+            var areaList = city1.areaList;
+            areaTag.innerHTML="";
+            for(var a=0; a<areaList.length; a++){
+                var area = areaList[a];
+                areaTag.add(new Option(area,a));
+            }
+        }
+        //选择市
+        function chooseCity(tag){
+            var index2 = tag.selectedIndex;
+            var cityName = cityArray[index2];
+            for(var m=0; m<cityList.length; m++){
+                var city1 = cityList[m];
+                if (city1.name == cityName){
+                    var areaList = city1.areaList;
+                    areaTag.innerHTML="";
+                    for(var a=0; a<areaList.length; a++){
+                        var area = areaList[a];
+                        areaTag.add(new Option(area,a));
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

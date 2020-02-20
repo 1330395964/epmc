@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gxuwz.project.system.major.mapper.MajorMapper">
+    
+    <resultMap type="Major" id="MajorResult">
+        <result property="majorId"    column="major_id"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="collegeId"    column="college_id"    />
+        <association property="college" column="college_id" javaType="College" resultMap="CollegeResult"/>
+    </resultMap>
+
+    <resultMap type="College" id="CollegeResult">
+        <result property="collegeId"    column="college_id"    />
+        <result property="collegeName"    column="college_name"    />
+    </resultMap>
+
+    <sql id="selectMajorVo">
+        select major_id, major_name, college_id from sys_major
+    </sql>
+
+    <select id="selectMajorList" parameterType="Major" resultMap="MajorResult">
+        select s_m.major_id, s_m.major_name, s_m.college_id, s_c.college_name from sys_major s_m
+        left join sys_college s_c on s_m.college_id = s_c.college_id
+        <where>  
+            <if test="majorName != null  and majorName != ''"> and s_m.major_name like concat('%', #{majorName}, '%')</if>
+            <if test="collegeId != null "> and s_m.college_id = #{collegeId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMajorById" parameterType="Long" resultMap="MajorResult">
+        <include refid="selectMajorVo"/>
+        where major_id = #{majorId}
+    </select>
+        
+    <insert id="insertMajor" parameterType="Major" useGeneratedKeys="true" keyProperty="majorId">
+        insert into sys_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorName != null  and majorName != ''">major_name,</if>
+            <if test="collegeId != null ">college_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorName != null  and majorName != ''">#{majorName},</if>
+            <if test="collegeId != null ">#{collegeId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMajor" parameterType="Major">
+        update sys_major
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="majorName != null  and majorName != ''">major_name = #{majorName},</if>
+            <if test="collegeId != null ">college_id = #{collegeId},</if>
+        </trim>
+        where major_id = #{majorId}
+    </update>
+
+    <delete id="deleteMajorById" parameterType="Long">
+        delete from sys_major where major_id = #{majorId}
+    </delete>
+
+    <delete id="deleteMajorByIds" parameterType="String">
+        delete from sys_major where major_id in 
+        <foreach item="majorId" collection="array" open="(" separator="," close=")">
+            #{majorId}
+        </foreach>
+    </delete>
+    
+</mapper>
