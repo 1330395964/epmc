@@ -53,8 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="recordId">
-        insert into sys_record
-        <trim prefix="(" suffix=")" suffixOverrides=",">
+        insert into sys_record(
             <if test="recordNumber != null  and recordNumber != ''">record_number,</if>
             <if test="recordDate != null ">record_date,</if>
             <if test="tempMorning != null  and tempMorning != ''">temp_morning,</if>
@@ -66,13 +65,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="otherSituation != null  and otherSituation != ''">other_situation,</if>
             <if test="outsideLife != null  and outsideLife != ''">outside_life,</if>
             <if test="outsideReason != null  and outsideReason != ''">outside_reason,</if>
-            <if test="health != null">health,</if>
-            <if test="fever != null">fever,</if>
-            <if test="cough != null">cough,</if>
-            <if test="weak != null">weak,</if>
-            <if test="remark != null">remark,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="health != null  and health != ''">health,</if>
+            <if test="fever != null  and fever != ''">fever,</if>
+            <if test="cough != null  and cough != ''">cough,</if>
+            <if test="weak != null  and weak != ''">weak,</if>
+            <if test="remark != null  and remark != ''">remark</if>
+        )values(
             <if test="recordNumber != null  and recordNumber != ''">#{recordNumber},</if>
             <if test="recordDate != null ">#{recordDate},</if>
             <if test="tempMorning != null  and tempMorning != ''">#{tempMorning},</if>
@@ -84,12 +82,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="otherSituation != null  and otherSituation != ''">#{otherSituation},</if>
             <if test="outsideLife != null  and outsideLife != ''">#{outsideLife},</if>
             <if test="outsideReason != null  and outsideReason != ''">#{outsideReason},</if>
-            <if test="health != null">#{health},</if>
-            <if test="fever != null">#{fever},</if>
-            <if test="cough != null">#{cough},</if>
-            <if test="weak != null">#{weak},</if>
-            <if test="remark != null">#{remark},</if>
-         </trim>
+            <if test="health != null  and health != ''">#{health},</if>
+            <if test="fever != null  and fever != ''">#{fever},</if>
+            <if test="cough != null  and cough != ''">#{cough},</if>
+            <if test="weak != null  and weak != ''">#{weak},</if>
+            <if test="remark != null  and remark != ''">#{remark}</if>
+        )
     </insert>
 
     <update id="updateRecord" parameterType="Record">
@@ -106,11 +104,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="otherSituation != null  and otherSituation != ''">other_situation = #{otherSituation},</if>
             <if test="outsideLife != null  and outsideLife != ''">outside_life = #{outsideLife},</if>
             <if test="outsideReason != null  and outsideReason != ''">outside_reason = #{outsideReason},</if>
-            <if test="health != null">health = #{health},</if>
-            <if test="fever != null">fever = #{fever},</if>
-            <if test="cough != null">cough = #{cough},</if>
-            <if test="weak != null">weak = #{weak},</if>
-            <if test="remark != null">remark = #{remark},</if>
+            <if test="health != null  and health != ''">health = #{health},</if>
+            <if test="fever != null  and fever != ''">fever = #{fever},</if>
+            <if test="cough != null  and cough != ''">cough = #{cough},</if>
+            <if test="weak != null  and weak != ''">weak = #{weak},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
         </trim>
         where record_id = #{recordId}
     </update>

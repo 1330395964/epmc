@@ -64,6 +64,26 @@ public class Record extends BaseEntity
     @Excel(name = "离开事由")
     private String outsideReason;
 
+    /** 是否健康：Y是 N否*/
+    @Excel(name = "是否健康", readConverterExp = "Y=是,N=否")
+    private String health;
+
+    /** 是否发热：Y是 N否 */
+    @Excel(name = "是否发热", readConverterExp = "Y=是,N=否")
+    private String fever;
+
+    /** 是否干咳：Y是 N否*/
+    @Excel(name = "是否干咳", readConverterExp = "Y=是,N=否")
+    private String cough;
+
+    /** 是否乏力：Y是 N否*/
+    @Excel(name = "是否乏力", readConverterExp = "Y=是,N=否")
+    private String weak;
+
+    /** 其他 */
+    @Excel(name = "其他")
+    private String remark;
+
     public void setRecordId(Long recordId) 
     {
         this.recordId = recordId;
@@ -171,6 +191,46 @@ public class Record extends BaseEntity
     public String getOutsideReason() 
     {
         return outsideReason;
+    }
+
+    public String getHealth() {
+        return health;
+    }
+
+    public void setHealth(String health) {
+        this.health = health;
+    }
+
+    public String getFever() {
+        return fever;
+    }
+
+    public void setFever(String fever) {
+        this.fever = fever;
+    }
+
+    public String getWeak() {
+        return weak;
+    }
+
+    public void setWeak(String weak) {
+        this.weak = weak;
+    }
+
+    public String getCough() {
+        return cough;
+    }
+
+    public void setCough(String cough) {
+        this.cough = cough;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override

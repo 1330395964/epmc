@@ -29,32 +29,24 @@
                                 <input type="text" name="tempAfternoon"/>
                             </li>
                             <li>
-                                <p>0无咳嗽1有咳嗽：</p>
-                                <input type="text" name="recordCough"/>
+                                <p>是否健康：</p>
+                                <input type="text" name="health"/>
                             </li>
                             <li>
-                                <p>证明人：</p>
-                                <input type="text" name="referencesName"/>
+                                <p>是否发热：</p>
+                                <input type="text" name="fever"/>
                             </li>
                             <li>
-                                <p>同居0无咳嗽1有咳嗽：</p>
-                                <input type="text" name="otherCough"/>
+                                <p>是否干咳：</p>
+                                <input type="text" name="cough"/>
                             </li>
                             <li>
-                                <p>同居人姓名：</p>
-                                <input type="text" name="otherName"/>
+                                <p>是否乏力：</p>
+                                <input type="text" name="weak"/>
                             </li>
                             <li>
-                                <p>同居人情况：</p>
-                                <input type="text" name="otherSituation"/>
-                            </li>
-                            <li>
-                                <p>0无离开1有离开：</p>
-                                <input type="text" name="outsideLife"/>
-                            </li>
-                            <li>
-                                <p>离开事由：</p>
-                                <input type="text" name="outsideReason"/>
+                                <p>其他：</p>
+                                <input type="text" name="remark"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -123,32 +115,24 @@
                     title : '下午温度'
                 },
                 {
-                    field : 'recordCough', 
-                    title : '0无咳嗽1有咳嗽'
+                    field : 'health',
+                    title : '是否健康'
                 },
                 {
-                    field : 'referencesName', 
-                    title : '证明人'
+                    field : 'fever',
+                    title : '是否发热'
                 },
                 {
-                    field : 'otherCough', 
-                    title : '同居0无咳嗽1有咳嗽'
+                    field : 'cough',
+                    title : '是否干咳'
                 },
                 {
-                    field : 'otherName', 
-                    title : '同居人姓名'
+                    field : 'weak',
+                    title : '是否乏力'
                 },
                 {
-                    field : 'otherSituation', 
-                    title : '同居人情况'
-                },
-                {
-                    field : 'outsideLife', 
-                    title : '0无离开1有离开'
-                },
-                {
-                    field : 'outsideReason', 
-                    title : '离开事由'
+                    field : 'remark',
+                    title : '其他'
                 },
                 {
                     title: '操作',
