@@ -7,10 +7,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="College" id="CollegeResult">
         <result property="collegeId"    column="college_id"    />
         <result property="collegeName"    column="college_name"    />
+        <result property="deptId" column="dept_id"/>
+        <association property="dept" column="dept_id"
+                     javaType="Dept"
+                     select="edu.gxuwz.project.system.dept.mapper.DeptMapper.selectDeptById"/>
     </resultMap>
 
     <sql id="selectCollegeVo">
-        select college_id, college_name from sys_college
+        select college_id, college_name, dept_id from sys_college
     </sql>
 
     <select id="selectCollegeList" parameterType="College" resultMap="CollegeResult">
@@ -38,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateCollege" parameterType="College">
         update sys_college
         <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">dept_id = #{deptId},</if>
             <if test="collegeName != null  and collegeName != ''">college_name = #{collegeName},</if>
         </trim>
         where college_id = #{collegeId}

@@ -82,9 +82,6 @@
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:record:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
-                <a class="btn btn-warning" onclick="$.table.exportWord()" shiro:hasPermission="system:record:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -167,6 +164,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$.table.exportWord1(\'system/record/exportSelf?type=word&other='+row.recordNumber+'\')"><i class="fa fa-edit"></i>导出Word</a> ');
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.recordId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.recordId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');

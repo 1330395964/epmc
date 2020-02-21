@@ -1,6 +1,5 @@
 package edu.gxuwz.project.system.record.controller;
 
-import edu.gxuwz.common.constant.ShiroConstants;
 import edu.gxuwz.common.utils.DateUtils;
 import edu.gxuwz.common.utils.DocumentHandler;
 import edu.gxuwz.common.utils.StringUtils;
@@ -12,9 +11,9 @@ import edu.gxuwz.framework.mq.MqMailService;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
-import edu.gxuwz.project.system.college.domain.College;
 import edu.gxuwz.project.system.college.service.ICollegeService;
-import edu.gxuwz.project.system.grade.domain.Grade;
+import edu.gxuwz.project.system.dept.domain.Dept;
+import edu.gxuwz.project.system.dept.service.IDeptService;
 import edu.gxuwz.project.system.grade.service.IGradeService;
 import edu.gxuwz.project.system.record.domain.Record;
 import edu.gxuwz.project.system.record.service.IRecordService;
@@ -60,6 +59,9 @@ public class RecordController extends BaseController
 
     @Autowired
     private MqMailService mqMailService;
+
+    @Autowired
+    private IDeptService deptService;
 
     @RequiresPermissions("system:record:view")
     @GetMapping()
@@ -195,6 +197,15 @@ public class RecordController extends BaseController
     public AjaxResult export(Record record, HttpServletRequest request)
     {
         String type = request.getParameter("type");
+        String userSelf = request.getParameter("userSelf");
+        String other = request.getParameter("other");
+        if(!StringUtils.isEmpty(userSelf)){
+            User sysUser = getSysUser();
+            record.setRecordNumber(sysUser.getLoginName());
+        }
+        if(!StringUtils.isEmpty(other)){
+            record.setRecordNumber(other);
+        }
         List<Record> list = recordService.selectRecordList(record);
         if(StringUtils.isEmpty(type)){
             ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
@@ -205,14 +216,13 @@ public class RecordController extends BaseController
             try {
                 Record record1 = list.get(0);
                 User user = userService.selectUserByLoginName(record1.getRecordNumber());
-                College college = collegeService.selectCollegeById(user.getCollegeId());
-                Grade grade = gradeService.selectGradeById(user.getGradeId());
+                Dept dept = deptService.selectDeptById(user.getDeptId());
                 String institute = "";
-                if(college != null){
-                    institute = college.getCollegeName();
+                if(dept != null){
+                    institute = dept.getDeptName();
                 }
-                if(grade != null){
-                    institute += grade.getGrade()+grade.getGradeName();
+                if(!StringUtils.isEmpty(user.getGradeId())) {
+                    institute += user.getGradeId();
                 }
                 name = user.getLoginName() + user.getUserName();
                 dataMap.put("userName", StringUtils.isEmpty(user.getUserName())? "" : user.getUserName());
@@ -273,6 +283,11 @@ public class RecordController extends BaseController
     public AjaxResult exportSelf(Record record, HttpServletRequest request)
     {
         String type = request.getParameter("type");
+        String userSelf = request.getParameter("userSelf");
+        if(!StringUtils.isEmpty(userSelf)){
+            User sysUser = getSysUser();
+            record.setRecordNumber(sysUser.getLoginName());
+        }
         record.setRecordNumber(getLoginName());
         List<Record> list = recordService.selectRecordList(record);
         if(StringUtils.isEmpty(type)){
@@ -284,14 +299,12 @@ public class RecordController extends BaseController
             try {
                 String institute = "";
                 User user = getSysUser();
-                Grade grade = gradeService.selectGradeById(user.getGradeId());
-                College college = collegeService.selectCollegeById(user.getCollegeId());
-                if(college != null){
-                    institute = college.getCollegeName();
+                Dept dept = deptService.selectDeptById(user.getDeptId());
+                if(dept != null){
+                    institute = dept.getDeptName();
                 }
-                name = user.getLoginName() + user.getUserName();
-                if(grade != null){
-                    institute += grade.getGrade()+grade.getGradeName();
+                if(!StringUtils.isEmpty(user.getGradeId())) {
+                    institute += user.getGradeId();
                 }
                 dataMap.put("userName", StringUtils.isEmpty(user.getUserName())? "" : user.getUserName());
                 String sex = "";
@@ -379,18 +392,18 @@ public class RecordController extends BaseController
                     public void run() {
                         try {
                             User user = getSysUser();
-                            College college = collegeService.selectCollegeById(user.getCollegeId());
-                            Grade grade = gradeService.selectGradeById(user.getGradeId());
+                            //College college = collegeService.selectCollegeById(user.getCollegeId());
+                            Dept dept = deptService.selectDeptById(user.getDeptId());
                             StringBuilder content = new StringBuilder();
                             content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
                                     .append("身份证号：" + user.getCardNu() + "\r\n")
                                     .append("证件号：" + user.getLoginName() + "\r\n")
                                     .append("姓名：" + user.getUserName() + "\r\n");
-                            if(college != null){
-                                content.append("所在学院：" + college.getCollegeName() + "\r\n");
+                            if(dept != null){
+                                content.append("所在学院(部门)：" + dept.getDeptName() + "\r\n");
                             }
-                            if (grade != null) {
-                                content.append("所在班级：" + grade.getGrade() + grade.getGradeName() + "\r\n");
+                            if (!StringUtils.isEmpty(user.getGradeId())) {
+                                content.append("所在班级：" + user.getGradeId() + "\r\n");
                             }
                             content.append("温度：" + record.getTempMorning() + "\r\n")
                                     .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
@@ -415,18 +428,18 @@ public class RecordController extends BaseController
                     public void run() {
                         try {
                             User user = getSysUser();
-                            College college = collegeService.selectCollegeById(user.getCollegeId());
-                            Grade grade = gradeService.selectGradeById(user.getGradeId());
+                            //College college = collegeService.selectCollegeById(user.getCollegeId());
+                            Dept dept = deptService.selectDeptById(user.getDeptId());
                             StringBuilder content = new StringBuilder();
                             content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
                                     .append("身份证号：" + user.getCardNu() + "\r\n")
                                     .append("证件号：" + user.getLoginName() + "\r\n")
                                     .append("姓名：" + user.getUserName() + "\r\n");
-                            if(college != null){
-                                content.append("所在学院：" + college.getCollegeName() + "\r\n");
+                            if(dept != null){
+                                content.append("所在学院（部门）：" + dept.getDeptName() + "\r\n");
                             }
-                            if (grade != null) {
-                                content.append("所在班级：" + grade.getGrade() + grade.getGradeName() + "\r\n");
+                            if (!StringUtils.isEmpty(user.getGradeId())) {
+                                content.append("所在班级：" + user.getGradeId() + "\r\n");
                             }
                             content.append("温度：" + record.getTempMorning() + "\r\n")
                                     .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")

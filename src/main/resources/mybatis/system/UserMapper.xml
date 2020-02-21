@@ -38,7 +38,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="afterWuhan"   column="after_wuhan"  />
 		<result property="contactWuhan"       column="contact_wuhan"       />
 		<result property="gradeId"   column="grade_id"  />
-		<result property="collegeId"       column="college_id"       />
 		<result property="cardNu"       column="card_nu"       />
 		<association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
@@ -67,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         		u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
         		u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
 				u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
-				u.grade_id, u.college_id, u.card_nu,
+				u.grade_id, u.card_nu,
        		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
        		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
 		from sys_user u
@@ -81,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
 		 u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
 		 u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
-		 u.grade_id, u.college_id, u.card_nu,
+		 u.grade_id, u.card_nu,
 		 d.dept_name, d.leader from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
 		where u.del_flag = '0'
@@ -112,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
 		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
 		u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
-		u.grade_id, u.college_id, u.card_nu from sys_user u
+		u.grade_id, u.card_nu from sys_user u
 		left join sys_user_role r on u.user_id = r.user_id
 		where r.role_id = 100
 	</select>
@@ -122,7 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
 		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
 		u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
-		u.grade_id, u.college_id, u.card_nu,
+		u.grade_id, u.card_nu,
 		d.dept_name, d.leader from sys_user u
 		left join sys_user_role r on u.user_id = r.user_id
 		where r.role_id = 103
@@ -236,7 +235,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="afterWuhan != null">after_wuhan = #{afterWuhan},</if>
 			<if test="contactWuhan != null">contact_wuhan = #{contactWuhan},</if>
 			<if test="gradeId != null">grade_id = #{gradeId},</if>
-			<if test="collegeId != null">college_id = #{collegeId},</if>
 		    <if test="cardNu != null and cardNu != ''">card_nu = #{cardNu},</if>
  			update_time = sysdate()
  		</set>
@@ -271,7 +269,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="afterWuhan != null">after_wuhan,</if>
 			<if test="contactWuhan != null">contact_wuhan,</if>
 			<if test="gradeId != null">grade_id,</if>
-			<if test="collegeId != null">college_id,</if>
 	   		 <if test="cardNu != null and cardNu != ''">card_nu,</if>
  			create_time
  		)values(
@@ -301,7 +298,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="afterWuhan != null">#{afterWuhan},</if>
 			<if test="contactWuhan != null">#{contactWuhan},</if>
 			<if test="gradeId != null">#{gradeId},</if>
-			<if test="collegeId != null">#{collegeId},</if>
 	    	<if test="cardNu != null and cardNu != ''">#{cardNu},</if>
  			sysdate()
  		)

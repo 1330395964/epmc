@@ -152,7 +152,7 @@
 <!--                    <input name="outsideReason" class="form-control" type="text">-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="row" th:value="${show_btn} == true">
+            <div class="row" th:if="${show_btn} == true">
                 <div class="col-sm-offset-5 col-sm-10">
                     <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
                 </div>

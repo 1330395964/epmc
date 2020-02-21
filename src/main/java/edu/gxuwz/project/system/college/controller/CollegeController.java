@@ -8,6 +8,7 @@ import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
 import edu.gxuwz.project.system.college.domain.College;
 import edu.gxuwz.project.system.college.service.ICollegeService;
+import edu.gxuwz.project.system.dept.service.IDeptService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class CollegeController extends BaseController
 
     @Autowired
     private ICollegeService collegeService;
+
+    @Autowired
+    private IDeptService deptService;
 
     @RequiresPermissions("system:college:view")
     @GetMapping()

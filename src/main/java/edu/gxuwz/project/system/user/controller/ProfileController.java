@@ -8,23 +8,18 @@ import edu.gxuwz.framework.config.RuoYiConfig;
 import edu.gxuwz.framework.shiro.service.PasswordService;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
-import edu.gxuwz.project.system.college.domain.College;
 import edu.gxuwz.project.system.college.service.ICollegeService;
 import edu.gxuwz.project.system.grade.domain.Grade;
 import edu.gxuwz.project.system.grade.service.IGradeService;
+import edu.gxuwz.project.system.user.domain.User;
+import edu.gxuwz.project.system.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import edu.gxuwz.project.system.user.domain.User;
-import edu.gxuwz.project.system.user.service.IUserService;
 
 import java.util.List;
 
@@ -74,9 +69,9 @@ public class ProfileController extends BaseController
     {
         User user = getSysUser();
         mmap.put("user", user);
-        List<College> colleges = collegeService.selectCollegeList(new College());
+        //List<College> colleges = collegeService.selectCollegeList(new College());
         List<Grade> grades = gradeService.selectGradeList(new Grade());
-        mmap.put("colleges", colleges);
+        //mmap.put("colleges", colleges);
         mmap.put("grades", grades);
         return prefix + "/profile1";
     }
@@ -160,7 +155,6 @@ public class ProfileController extends BaseController
         currentUser.setPhonenumber(user.getPhonenumber());
         currentUser.setSex(user.getSex());
         currentUser.setCardNu(user.getCardNu());
-        currentUser.setCollegeId(user.getCollegeId());
         currentUser.setGradeId(user.getGradeId());
         currentUser.setContactWuhan(user.getContactWuhan());
         currentUser.setAfterWuhan(user.getAfterWuhan());
@@ -173,7 +167,8 @@ public class ProfileController extends BaseController
         currentUser.setProvince(user.getProvince());
         currentUser.setParentsPhnu(user.getParentsPhnu());
         currentUser.setParentsName(user.getParentsName());
-
+        currentUser.setDeptId(user.getDeptId());
+        currentUser.setGradeId(user.getGradeId());
         if (userService.updateUserInfo(currentUser) > 0)
         {
             setSysUser(userService.selectUserById(currentUser.getUserId()));

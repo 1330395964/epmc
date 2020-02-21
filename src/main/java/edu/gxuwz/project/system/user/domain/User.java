@@ -3,12 +3,9 @@ package edu.gxuwz.project.system.user.domain;
 import edu.gxuwz.framework.aspectj.lang.annotation.Excel;
 import edu.gxuwz.framework.aspectj.lang.annotation.Excels;
 import edu.gxuwz.framework.web.domain.BaseEntity;
-import edu.gxuwz.project.system.college.domain.College;
 import edu.gxuwz.project.system.dept.domain.Dept;
-import edu.gxuwz.project.system.grade.domain.Grade;
 import edu.gxuwz.project.system.role.domain.Role;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -158,7 +155,16 @@ public class User extends BaseEntity
     /**
      * 班级
      */
-    private Long gradeId;
+    @Excel(name = "班级")
+    private String gradeId;
+
+    public String getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(String gradeId) {
+        this.gradeId = gradeId;
+    }
 
     public Boolean getStudent() {
         return student;
@@ -256,38 +262,6 @@ public class User extends BaseEntity
         this.contactWuhan = contactWuhan;
     }
 
-    public Long getGradeId() {
-        return gradeId;
-    }
-
-    public void setGradeId(Long gradeId) {
-        this.gradeId = gradeId;
-    }
-
-    public Long getCollegeId() {
-        return collegeId;
-    }
-
-    public void setCollegeId(Long collegeId) {
-        this.collegeId = collegeId;
-    }
-
-    public College getCollege() {
-        return college;
-    }
-
-    public void setCollege(College college) {
-        this.college = college;
-    }
-
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
-
     @Excel(name = "身份证号")
     private String cardNu;
 
@@ -332,28 +306,12 @@ public class User extends BaseEntity
                 ", contactWuhan='" + contactWuhan + '\'' +
                 ", gradeId=" + gradeId +
                 ", cardNu='" + cardNu + '\'' +
-                ", collegeId=" + collegeId +
-                ", college=" + college +
-                ", grade=" + grade +
                 ", dept=" + dept +
                 ", roles=" + roles +
                 ", roleIds=" + Arrays.toString(roleIds) +
                 ", postIds=" + Arrays.toString(postIds) +
                 '}';
     }
-
-    /**
-     * 学院部门
-     */
-    private Long collegeId;
-
-    private College college;
-
-    @Excels({
-            @Excel(name = "班级", targetAttr = "gradeName"),
-            @Excel(name = "专业", targetAttr = "majorName")
-    })
-    private Grade grade;
 
     /** 部门对象 */
     @Excels({

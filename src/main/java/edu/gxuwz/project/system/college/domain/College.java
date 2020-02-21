@@ -2,8 +2,7 @@ package edu.gxuwz.project.system.college.domain;
 
 import edu.gxuwz.framework.aspectj.lang.annotation.Excel;
 import edu.gxuwz.framework.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import edu.gxuwz.project.system.dept.domain.Dept;
 
 /**
  * 二级学院与部门对象 sys_college
@@ -22,7 +21,38 @@ public class College extends BaseEntity
     @Excel(name = "名称")
     private String collegeName;
 
-    public void setCollegeId(Long collegeId) 
+    private Long deptId;
+
+    @Excel(name = "部门" , targetAttr = "deptName")
+    private Dept dept;
+
+    @Override
+    public String toString() {
+        return "College{" +
+                "collegeId=" + collegeId +
+                ", collegeName='" + collegeName + '\'' +
+                ", deptId=" + deptId +
+                ", dept=" + dept +
+                '}';
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
+
+    public Dept getDept() {
+        return dept;
+    }
+
+    public void setDept(Dept dept) {
+        this.dept = dept;
+    }
+
+    public void setCollegeId(Long collegeId)
     {
         this.collegeId = collegeId;
     }
@@ -41,11 +71,4 @@ public class College extends BaseEntity
         return collegeName;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-            .append("collegeId", getCollegeId())
-            .append("collegeName", getCollegeName())
-            .toString();
-    }
 }
