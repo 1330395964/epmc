@@ -29,6 +29,9 @@ public interface IRecordService
      */
     public List<Record> selectRecordList(Record record);
 
+    public List<Record> bumen(Record record);
+    public List<Record> geren(Record record);
+
     /**
      * 新增记录
      * 

@@ -50,7 +50,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="weak != null">and weak = #{weak}</if>
         </where>
     </select>
-    
+
+    <select id="bumen" parameterType="Record" resultMap="RecordResult">
+        select record_id, record_number, record_date, temp_morning, temp_afternoon,
+        record_cough, references_name, other_cough, other_name, other_situation,
+        outside_life, outside_reason ,health, fever,cough,weak ,r.remark from sys_record r
+        left join sys_user u on r.record_number = u.login_name
+        where u.dept_id = #{deptId}
+    </select>
+
+    <select id="geren" parameterType="Record" resultMap="RecordResult">
+        select record_id, record_number, record_date, temp_morning, temp_afternoon,
+        record_cough, references_name, other_cough, other_name, other_situation,
+        outside_life, outside_reason ,health, fever,cough,weak ,remark from sys_record r
+        where r.record_number = #{recordNumber}
+    </select>
+
+
     <select id="selectRecordById" parameterType="Long" resultMap="RecordResult">
         <include refid="selectRecordVo"/>
         where record_id = #{recordId}

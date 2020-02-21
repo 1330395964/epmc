@@ -84,6 +84,8 @@ public class Record extends BaseEntity
     @Excel(name = "其他")
     private String remark;
 
+    private Long deptId;
+
     public void setRecordId(Long recordId)
     {
         this.recordId = recordId;
@@ -123,6 +125,14 @@ public class Record extends BaseEntity
     public void setTempAfternoon(String tempAfternoon)
     {
         this.tempAfternoon = tempAfternoon;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
     }
 
     public String getTempAfternoon()

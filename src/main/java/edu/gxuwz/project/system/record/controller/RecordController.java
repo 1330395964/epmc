@@ -1,9 +1,11 @@
 package edu.gxuwz.project.system.record.controller;
 
+import edu.gxuwz.common.constant.ShiroConstants;
 import edu.gxuwz.common.utils.DateUtils;
 import edu.gxuwz.common.utils.DocumentHandler;
 import edu.gxuwz.common.utils.StringUtils;
 import edu.gxuwz.common.utils.poi.ExcelUtil;
+import edu.gxuwz.common.utils.security.ShiroUtils;
 import edu.gxuwz.framework.aspectj.lang.annotation.Log;
 import edu.gxuwz.framework.aspectj.lang.enums.BusinessType;
 import edu.gxuwz.framework.mq.MqMailService;
@@ -76,6 +78,54 @@ public class RecordController extends BaseController
     {
         startPage();
         List<Record> list = recordService.selectRecordList(record);
+        return getDataTable(list);
+    }
+
+    @RequiresPermissions("system:record:view")
+    @GetMapping("bumen")
+    public String bumen()
+    {
+        return prefix + "/bumenRecord";
+    }
+
+    @RequiresPermissions("system:record:view")
+    @GetMapping("geren")
+    public String geren()
+    {
+        return prefix + "/gerenRecord";
+    }
+
+    /**
+     * 部门管理员查看疫情情况
+     * @param
+     * @return
+     */
+    @RequiresPermissions("bumen")
+    @PostMapping("/bumens")
+    @ResponseBody
+    public TableDataInfo bumen(Record record)
+    {
+        startPage();
+        User user = ShiroUtils.getSysUser();
+        record.setDeptId(user.getDeptId());
+        List<Record> list = recordService.bumen(record);
+        return getDataTable(list);
+    }
+
+    /**
+     * 个人查看疫情情况
+     * @param
+     * @return
+     */
+    @RequiresPermissions("geren")
+    @PostMapping("/gerens")
+    @ResponseBody
+    public TableDataInfo geren(Record record)
+    {
+        startPage();
+        User user = ShiroUtils.getSysUser();
+        record.setRecordNumber(user.getLoginName());
+        List<Record> list = recordService.geren(record);
         return getDataTable(list);
     }
 

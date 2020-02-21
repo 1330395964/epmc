@@ -46,6 +46,17 @@ public class RecordServiceImpl implements IRecordService
         return recordMapper.selectRecordList(record);
     }
 
+    @Override
+    public List<Record> bumen(Record record)
+    {
+        return recordMapper.bumen(record);
+    }
+    @Override
+    public List<Record> geren(Record record)
+    {
+        return recordMapper.geren(record);
+    }
+
     /**
      * 新增记录
      * 
