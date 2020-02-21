@@ -75,6 +75,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join sys_user_role r on u.user_id = r.user_id
         where r.role_id = 100
         )
+        <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
+        <if test="recordDate != null "> and record_date = #{recordDate}</if>
+        <if test="tempMorning != null  and tempMorning != ''"> and temp_morning = #{tempMorning}</if>
+        <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>
+        <if test="recordCough != null  and recordCough != ''"> and record_cough = #{recordCough}</if>
+        <if test="referencesName != null  and referencesName != ''"> and references_name like concat('%', #{referencesName}, '%')</if>
+        <if test="otherCough != null  and otherCough != ''"> and other_cough = #{otherCough}</if>
+        <if test="otherName != null  and otherName != ''"> and other_name like concat('%', #{otherName}, '%')</if>
+        <if test="otherSituation != null  and otherSituation != ''"> and other_situation = #{otherSituation}</if>
+        <if test="outsideLife != null  and outsideLife != ''"> and outside_life = #{outsideLife}</if>
+        <if test="outsideReason != null  and outsideReason != ''"> and outside_reason = #{outsideReason}</if>
+        <if test="health != null ">and health = #{health}</if>
+        <if test="fever != null">and fever = #{fever}</if>
+        <if test="cough != null">and cough = #{cough}</if>
+        <if test="weak != null">and weak = #{weak}</if>
     </select>
 
     <select id="jiaozhigong" parameterType="Record" resultMap="RecordResult">
