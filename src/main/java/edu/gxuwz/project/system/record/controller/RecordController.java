@@ -248,10 +248,14 @@ public class RecordController extends BaseController
                 int size = 0;
                 if(list.size()>=14){
                     size = 14;
-                }else{
-                    size = list.size();
+                    for(int i=list.size()-1; i>=0;i--){
+                        size--;
+                        if(size==0){
+                            size=i;
+                        }
+                    }
                 }
-                for (int i = 0; i < size; i++) {
+                for (int i = size; i<list.size(); i++) {
                     Map<String, Object> map = new HashMap<String, Object>();
                     Record r = list.get(i);
                     map.put("month",  DateUtils.parseDateToStr("M", r.getRecordDate()));
@@ -284,11 +288,16 @@ public class RecordController extends BaseController
     {
         String type = request.getParameter("type");
         String userSelf = request.getParameter("userSelf");
+        String other = request.getParameter("other");
         if(!StringUtils.isEmpty(userSelf)){
             User sysUser = getSysUser();
             record.setRecordNumber(sysUser.getLoginName());
         }
-        record.setRecordNumber(getLoginName());
+        if(!StringUtils.isEmpty(other)){
+            record.setRecordNumber(other);
+        }else{
+            record.setRecordNumber(getLoginName());
+        }
         List<Record> list = recordService.selectRecordList(record);
         if(StringUtils.isEmpty(type)){
             ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
@@ -298,7 +307,7 @@ public class RecordController extends BaseController
             String name = "1";
             try {
                 String institute = "";
-                User user = getSysUser();
+                User user = userService.selectUserByLoginName(record.getRecordNumber());
                 Dept dept = deptService.selectDeptById(user.getDeptId());
                 if(dept != null){
                     institute = dept.getDeptName();
@@ -329,10 +338,14 @@ public class RecordController extends BaseController
                 int size = 0;
                 if(list.size()>=14){
                     size = 14;
-                }else{
-                    size = list.size();
+                    for(int i=list.size()-1; i>=0;i--){
+                        size--;
+                        if(size==0){
+                            size=i;
+                        }
+                    }
                 }
-                for (int i = 0; i < size; i++) {
+                for (int i = size; i<list.size(); i++) {
                     Map<String, Object> map = new HashMap<String, Object>();
                     Record r = list.get(i);
                     map.put("month",  DateUtils.parseDateToStr("M", r.getRecordDate()));

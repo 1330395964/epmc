@@ -308,9 +308,8 @@ $(function(){
 	$.get(ctx+'wanshanXinxi', function(data){
 		if(data.code == -1){
 			$.modal.confirm("你的信息未完善，是否完善", function() {
-				if(data.student) {
+				//if(data.student) {
 					$.modal.open("个人信息", ctx + 'system/user/profile/profile1');
-				}
 			});
 		}
 	});

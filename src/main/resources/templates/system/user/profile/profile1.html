@@ -174,7 +174,7 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="submitUserInfo()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler1()"><i class="fa fa-check"></i>保 存</button>&nbsp;
                                             <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
                                         </div>
                                     </div>
@@ -377,11 +377,17 @@
 		    focusCleanup: true
 		});
 		
-		function submitUserInfo() {
+		function submitHandler() {
 	        if ($.validate.form()) {
 	        	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
 	        }
 	    }
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
+            }
+        }
 	    
 	    /*用户管理-修改密码*/
 	    $("#form-user-resetPwd").validate({
