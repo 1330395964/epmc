@@ -2082,7 +2082,7 @@
 												</w14:textFill>
 											</w:rPr>
 										</w:pPr>
-										<#if list.fever != true>
+										<#if list.fever == true>
 											<w:r>
 												<w:rPr>
 													<w:rFonts w:ascii="Wingdings 2" w:hAnsi="Wingdings 2"/>
@@ -2232,7 +2232,7 @@
 												</w14:textFill>
 											</w:rPr>
 										</w:pPr>
-										<#if list.cough != true>
+										<#if list.cough == true>
 											<w:r>
 												<w:rPr>
 													<w:rFonts w:ascii="Wingdings 2" w:hAnsi="Wingdings 2"/>
@@ -2382,7 +2382,7 @@
 												</w14:textFill>
 											</w:rPr>
 										</w:pPr>
-										<#if list.weak != true>
+										<#if list.weak == true>
 											<w:r>
 												<w:rPr>
 													<w:rFonts w:ascii="Wingdings 2" w:hAnsi="Wingdings 2"/>

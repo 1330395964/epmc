@@ -140,7 +140,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">所在城市：</label>
                                                 <div class="col-sm-8">
-                                                    <select type="text" id="cityName" onchange="chooseCity(this)"  class="form-control" name="cityName" th:field="*{province}" placeholder="请选择所在城市">
+                                                    <select type="text" id="cityName" onchange="chooseCity(this)"  class="form-control" name="cityName" th:field="*{cityName}" placeholder="请选择所在城市">
                                                         <option value="1">---请选择省---</option>
                                                     </select>
                                                 </div>
@@ -361,7 +361,7 @@
             var province = provinceList[i];
             var provinceName = province.name;
             provinceArray[i]=provinceName;
-            provinceTag.add(new Option(provinceName,i));
+            provinceTag.add(new Option(provinceName,provinceName));
         }
 
         //选择省
@@ -379,7 +379,7 @@
                         var city = cityList[c];
                         var cityName = city.name;
                         cityArray[c] = cityName;
-                        cityTag.add(new Option(cityName,c));
+                        cityTag.add(new Option(cityName,cityName));
                     }
                 }
             }
@@ -403,7 +403,7 @@
                     areaTag.innerHTML="";
                     for(var a=0; a<areaList.length; a++){
                         var area = areaList[a];
-                        areaTag.add(new Option(area,a));
+                        areaTag.add(new Option(area,area));
                     }
                 }
             }

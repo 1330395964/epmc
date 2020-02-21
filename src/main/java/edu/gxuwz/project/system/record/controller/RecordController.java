@@ -137,6 +137,8 @@ public class RecordController extends BaseController
                 int size = 0;
                 if(list.size()>=14){
                     size = 14;
+                }else{
+                    size = list.size();
                 }
                 for (int i = 0; i < size; i++) {
                     Map<String, Object> map = new HashMap<String, Object>();

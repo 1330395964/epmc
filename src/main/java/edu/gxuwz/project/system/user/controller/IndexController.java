@@ -54,18 +54,18 @@ public class IndexController extends BaseController
     public Map<String,Object> wanshanXinxi(){
         HashMap<String, Object> map = new HashMap<>();
         User sysUser = getSysUser();
-        if(StringUtils.isEmpty(sysUser.getAddress())
-            || StringUtils.isEmpty(sysUser.getCollegeId()+"")){
-            map.put("code", -1);
-        }else{
-            map.put("code", 0);
-        }
         if(!sysUser.isAdmin()){
             map.put("code", -1);
         }else{
             map.put("code", 0);
         }
         if(sysUser.getStudent()){
+            if(StringUtils.isEmpty(sysUser.getAddress())
+                    || StringUtils.isEmpty(sysUser.getCollegeId()+"")){
+                map.put("code", -1);
+            }else{
+                map.put("code", 0);
+            }
             map.put("student", true);
         }else{
             map.put("student", false);
