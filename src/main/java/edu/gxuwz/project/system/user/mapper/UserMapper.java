@@ -128,4 +128,11 @@ public interface UserMapper
      * @return 结果
      */
     public User checkEmailUnique(String email);
+
+    /**
+     * 检索领导人邮箱
+     * @param deptId
+     * @return
+     */
+    List<String> selectEmailByDeptIdAndStudent(Long deptId);
 }

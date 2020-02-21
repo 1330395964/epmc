@@ -169,9 +169,7 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-record-add').serialize(),function(){
-                    reload();
-                });
+                $.operate.save(prefix + "/add", $('#form-record-add').serialize());
             }
         }
 

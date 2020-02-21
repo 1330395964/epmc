@@ -194,6 +194,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where u.user_id = #{userId}
 	</select>
 	
+	
+	<select id="selectEmailByDeptIdAndStudent" parameterType="Long" resultType="String">
+	SELECT
+		DISTINCT
+		a.email
+	FROM
+		(SELECT s_u.dept_id, s_u.user_id, s_u.email FRom sys_user s_u where s_u.dept_id = #{deptId} and s_u.student = 0) a, sys_user_role s_u_r
+	WHERE a.user_id = s_u_r.user_id and s_u_r.role_id in (103,104,105)
+	</select>
+	
 	<delete id="deleteUserById" parameterType="Long">
  		delete from sys_user where user_id = #{userId}
  	</delete>

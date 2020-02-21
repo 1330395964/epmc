@@ -395,78 +395,93 @@ public class RecordController extends BaseController
     {
         record.setRecordNumber(getLoginName());
         Record record1 = recordService.selectRecordByDateAndId(new Date(System.currentTimeMillis()), getSysUser().getLoginName());
-        if(!StringUtils.isEmpty(record.getTempMorning())){
+        if(record1 == null && !StringUtils.isEmpty(record.getTempMorning())){
             double t = Double.valueOf(record.getTempMorning());
             if(t > 37.3){
                 record.setFever(true);
                 // ==== 邮件上报上午数据
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            User user = getSysUser();
-                            //College college = collegeService.selectCollegeById(user.getCollegeId());
-                            Dept dept = deptService.selectDeptById(user.getDeptId());
-                            StringBuilder content = new StringBuilder();
-                            content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
-                                    .append("身份证号：" + user.getCardNu() + "\r\n")
-                                    .append("证件号：" + user.getLoginName() + "\r\n")
-                                    .append("姓名：" + user.getUserName() + "\r\n");
-                            if(dept != null){
-                                content.append("所在学院(部门)：" + dept.getDeptName() + "\r\n");
-                            }
-                            if (!StringUtils.isEmpty(user.getGradeId())) {
-                                content.append("所在班级：" + user.getGradeId() + "\r\n");
-                            }
-                            content.append("温度：" + record.getTempMorning() + "\r\n")
-                                    .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
-                                    .append((record.getFever() ? "目前有发热症状" : "目前无发热症状") + "\r\n")
-                                    .append((record.getCough() ? "目前有干咳症状" : "目前无干咳症状") + "\r\n")
-                                    .append((record.getWeak() ? "目前有乏力症状" : "目前无乏力症状") + "\r\n")
-                                    .append("备注：" + record.getRemark() + "\r\n");
-                            mqMailService.sendSimpleMail("429829320@qq.com", "梧州学院疫情管理系统", content.toString());
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+                try {
+                    User user = getSysUser();
+                    //College college = collegeService.selectCollegeById(user.getCollegeId());
+                    Dept dept = deptService.selectDeptById(user.getDeptId());
+                    StringBuilder content = new StringBuilder();
+                    content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
+                            .append("身份证号：" + user.getCardNu() + "\r\n")
+                            .append("证件号：" + user.getLoginName() + "\r\n")
+                            .append("姓名：" + user.getUserName() + "\r\n");
+                    if(dept != null){
+                        content.append("所在学院(部门)：" + dept.getDeptName() + "\r\n");
                     }
-                }.start();
+                    if (!StringUtils.isEmpty(user.getGradeId())) {
+                        content.append("所在班级：" + user.getGradeId() + "\r\n");
+                    }
+                    content.append("温度：" + record.getTempMorning() + "\r\n")
+                            .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
+                            .append((record.getFever() ? "目前有发热症状" : "目前无发热症状") + "\r\n")
+                            .append((record.getCough() ? "目前有干咳症状" : "目前无干咳症状") + "\r\n")
+                            .append((record.getWeak() ? "目前有乏力症状" : "目前无乏力症状") + "\r\n")
+                            .append("备注：" + record.getRemark() + "\r\n");
+                    List<String> mails = userService.selectEmailByDeptIdAndStudent(user.getDeptId());
+                    if(mails != null && mails.size() > 0){
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                for (String mail : mails) {
+                                    if (!StringUtils.isEmpty(mail)) {
+                                        mqMailService.sendSimpleMail(mail, "梧州学院疫情管理系统", content.toString());
+                                    }
+                                }
+                            }
+                        }.start();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }else{
             double t = Double.valueOf(record.getTempMorning());
             if(t > 37.3){
                 record.setFever(true);
                 // ==== 邮件上报下午数据
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            User user = getSysUser();
-                            //College college = collegeService.selectCollegeById(user.getCollegeId());
-                            Dept dept = deptService.selectDeptById(user.getDeptId());
-                            StringBuilder content = new StringBuilder();
-                            content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
-                                    .append("身份证号：" + user.getCardNu() + "\r\n")
-                                    .append("证件号：" + user.getLoginName() + "\r\n")
-                                    .append("姓名：" + user.getUserName() + "\r\n");
-                            if(dept != null){
-                                content.append("所在学院（部门）：" + dept.getDeptName() + "\r\n");
-                            }
-                            if (!StringUtils.isEmpty(user.getGradeId())) {
-                                content.append("所在班级：" + user.getGradeId() + "\r\n");
-                            }
-                            content.append("温度：" + record.getTempMorning() + "\r\n")
-                                    .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
-                                    .append((record.getFever() ? "目前有发热症状" : "目前无发热症状") + "\r\n")
-                                    .append((record.getCough() ? "目前有干咳症状" : "目前无干咳症状") + "\r\n")
-                                    .append((record.getWeak() ? "目前有乏力症状" : "目前无乏力症状") + "\r\n")
-                                    .append("备注：" + record.getRemark() + "\r\n");
-                            mqMailService.sendSimpleMail("429829320@qq.com", "梧州学院疫情管理系统", content.toString());
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+                try {
+                    User user = getSysUser();
+                    //College college = collegeService.selectCollegeById(user.getCollegeId());
+                    Dept dept = deptService.selectDeptById(user.getDeptId());
+                    StringBuilder content = new StringBuilder();
+                    content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
+                            .append("身份证号：" + user.getCardNu() + "\r\n")
+                            .append("证件号：" + user.getLoginName() + "\r\n")
+                            .append("姓名：" + user.getUserName() + "\r\n");
+                    if(dept != null){
+                        content.append("所在学院（部门）：" + dept.getDeptName() + "\r\n");
                     }
-                }.start();
+                    if (!StringUtils.isEmpty(user.getGradeId())) {
+                        content.append("所在班级：" + user.getGradeId() + "\r\n");
+                    }
+                    content.append("温度：" + record.getTempMorning() + "\r\n")
+                            .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
+                            .append((record.getFever() ? "目前有发热症状" : "目前无发热症状") + "\r\n")
+                            .append((record.getCough() ? "目前有干咳症状" : "目前无干咳症状") + "\r\n")
+                            .append((record.getWeak() ? "目前有乏力症状" : "目前无乏力症状") + "\r\n")
+                            .append("备注：" + record.getRemark() + "\r\n");
+                    List<String> mails = userService.selectEmailByDeptIdAndStudent(user.getDeptId());
+                    if(mails != null && mails.size() > 0){
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                for(String mail:mails){
+                                    if(!StringUtils.isEmpty(mail)){
+                                        mqMailService.sendSimpleMail(mail, "梧州学院疫情管理系统", content.toString());
+                                    }
+                                }
+                            }
+                        }.start();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
+
         }
         if(record1 == null){
             record.setTempAfternoon(null);
