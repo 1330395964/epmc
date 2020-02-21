@@ -106,6 +106,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
 	</select>
+
+	<select id="xuesheng" parameterType="User" resultMap="UserResult">
+		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,
+		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
+		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
+		u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
+		u.grade_id, u.college_id, u.card_nu from sys_user u
+		left join sys_user_role r on u.user_id = r.user_id
+		where r.role_id = 100
+	</select>
+
+	<select id="jiaozhigong" parameterType="User" resultMap="UserResult">
+		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,
+		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
+		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
+		u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
+		u.grade_id, u.college_id, u.card_nu,
+		d.dept_name, d.leader from sys_user u
+		left join sys_user_role r on u.user_id = r.user_id
+		where r.role_id = 103
+	</select>
 	
 	<select id="selectAllocatedList" parameterType="User" resultMap="UserResult">
 	    select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber, u.status, u.create_time

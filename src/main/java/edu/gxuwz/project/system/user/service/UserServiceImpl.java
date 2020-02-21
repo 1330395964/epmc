@@ -72,6 +72,22 @@ public class UserServiceImpl implements IUserService
         return userMapper.selectUserList(user);
     }
 
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<User> xuesheng(User user)
+    {
+        // 生成数据权限过滤条件
+        return userMapper.xuesheng(user);
+    }
+
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<User> jiaozhigong(User user)
+    {
+        // 生成数据权限过滤条件
+        return userMapper.jiaozhigong(user);
+    }
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 

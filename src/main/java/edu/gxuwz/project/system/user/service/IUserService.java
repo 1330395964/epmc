@@ -19,6 +19,11 @@ public interface IUserService
      */
     public List<User> selectUserList(User user);
 
+    public List<User> xuesheng(User user);
+
+    public List<User> jiaozhigong(User user);
+
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 

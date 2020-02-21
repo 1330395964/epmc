@@ -49,6 +49,20 @@ public class UserController extends BaseController
         return prefix + "/user";
     }
 
+    @RequiresPermissions("system:user:view")
+    @GetMapping("xuesheng")
+    public String xuesheng()
+    {
+        return prefix + "/xuesheng";
+    }
+
+    @RequiresPermissions("system:user:view")
+    @GetMapping("jiaozhigong")
+    public String jiaozhigong()
+    {
+        return prefix + "/jiaozhigong";
+    }
+
     @RequiresPermissions("system:user:list")
     @PostMapping("/list")
     @ResponseBody
@@ -56,6 +70,26 @@ public class UserController extends BaseController
     {
         startPage();
         List<User> list = userService.selectUserList(user);
+        return getDataTable(list);
+    }
+
+    @RequiresPermissions("system:user:list")
+    @PostMapping("/xueshengs")
+    @ResponseBody
+    public TableDataInfo xueshengs(User user)
+    {
+        startPage();
+        List<User> list = userService.xuesheng(user);
+        return getDataTable(list);
+    }
+
+    @RequiresPermissions("system:user:list")
+    @PostMapping("/jiaozhigongs")
+    @ResponseBody
+    public TableDataInfo jiaozhigongs(User user)
+    {
+        startPage();
+        List<User> list = userService.jiaozhigong(user);
         return getDataTable(list);
     }
 
