@@ -6,7 +6,7 @@
 <body class="gray-bg">
      <div class="container-div">
         <div class="row">
-            <div class="col-sm-12 search-collapse">
+            <div class="col-sm-12 search-collapse" th:if="${m_phone} == false">
                 <form id="formId">
                     <input type="hidden" name="recordNumber" th:value="${recordNumber}" />
                     <div class="select-list">
@@ -66,7 +66,7 @@
                 </form>
             </div>
 
-            <div class="btn-group-sm" id="toolbar" role="group">
+            <div class="btn-group-sm" id="toolbar" th:if="${m_phone} == false" role="group">
                 <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:record:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
@@ -77,6 +77,14 @@
                     <i class="fa fa-download"></i> 导出Excel
                  </a>
                 <a class="btn btn-warning" onclick="$.table.exportWord()" shiro:hasPermission="system:record:export">
+                    <i class="fa fa-download"></i> 导出Word
+                </a>
+            </div>
+            <div class="btn-group-sm" id="toolbar" th:if="${m_phone} == true" role="group">
+                <a class="btn btn-warning" onclick="$.table.exportExcel1('system/record/exportSelf')" shiro:hasPermission="system:record:export">
+                    <i class="fa fa-download"></i> 导出Excel
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportWord1('system/record/exportSelf?type=word')" shiro:hasPermission="system:record:export">
                     <i class="fa fa-download"></i> 导出Word
                 </a>
             </div>

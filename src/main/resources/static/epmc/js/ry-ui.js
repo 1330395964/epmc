@@ -385,6 +385,39 @@ var table = {
 					});
 				});
 			},
+			// 导出数据
+			exportExcel1: function(url) {
+				$.modal.confirm("确定导出所有吗？", function() {
+					$.modal.loading("正在导出数据，请稍后...");
+					$.post(ctx + url, function(result) {
+						if (result.code == web_status.SUCCESS) {
+							window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+						} else if (result.code == web_status.WARNING) {
+							$.modal.alertWarning(result.msg)
+						} else {
+							$.modal.alertError(result.msg);
+						}
+						$.modal.closeLoading();
+					});
+				});
+			},
+			// 导出数据
+			exportWord1: function(url) {
+				$.modal.confirm("确定导出所有吗？", function() {
+					$.modal.loading("正在导出数据，请稍后...");
+					$.post(ctx + url, function(result) {
+						if (result.code == web_status.SUCCESS) {
+							window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+						} else if (result.code == web_status.WARNING) {
+							$.modal.alertWarning(result.msg)
+						} else {
+							$.modal.alertError(result.msg);
+						}
+						$.modal.closeLoading();
+					});
+				});
+			},
+
     		// 下载模板
     		importTemplate: function() {
     			table.set();
