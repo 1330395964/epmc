@@ -1,6 +1,8 @@
 package edu.gxuwz.project.system.record.service;
 
 import edu.gxuwz.project.system.record.domain.Record;
+
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -58,4 +60,12 @@ public interface IRecordService
      * @return 结果
      */
     public int deleteRecordById(Long recordId);
+
+    /**
+     * 查询当天记录
+     * @param recordDate
+     * @param recordNumber
+     * @return
+     */
+    Record selectRecordByDateAndId(Date recordDate, String recordNumber);
 }

@@ -82,9 +82,6 @@
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:record:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
-                <a class="btn btn-warning" onclick="$.table.exportWord()" shiro:hasPermission="system:record:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -104,7 +101,6 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                exportWordUrl: prefix + "/export?type=word",
                 modalName: "记录",
                 columns: [{
                     checkbox: true

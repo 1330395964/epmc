@@ -1,13 +1,22 @@
 package edu.gxuwz.project.system.record.controller;
 
+import edu.gxuwz.common.utils.DateUtils;
+import edu.gxuwz.common.utils.DocumentHandler;
+import edu.gxuwz.common.utils.StringUtils;
 import edu.gxuwz.common.utils.poi.ExcelUtil;
 import edu.gxuwz.framework.aspectj.lang.annotation.Log;
 import edu.gxuwz.framework.aspectj.lang.enums.BusinessType;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
+import edu.gxuwz.project.system.college.domain.College;
+import edu.gxuwz.project.system.college.service.ICollegeService;
+import edu.gxuwz.project.system.grade.domain.Grade;
+import edu.gxuwz.project.system.grade.service.IGradeService;
 import edu.gxuwz.project.system.record.domain.Record;
 import edu.gxuwz.project.system.record.service.IRecordService;
+import edu.gxuwz.project.system.user.domain.User;
+import edu.gxuwz.project.system.user.service.IUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +24,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 记录Controller
@@ -31,6 +45,15 @@ public class RecordController extends BaseController
 
     @Autowired
     private IRecordService recordService;
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private ICollegeService collegeService;
+
+    @Autowired
+    private IGradeService gradeService;
 
     @RequiresPermissions("system:record:view")
     @GetMapping()
@@ -52,6 +75,25 @@ public class RecordController extends BaseController
         return getDataTable(list);
     }
 
+    @GetMapping("/list_list")
+    public String listListView(){
+        return prefix + "/list_list";
+    }
+
+    /**
+     * 查询自己的记录列表
+     */
+    @RequiresPermissions("system:record:list_list")
+    @PostMapping("/list_list")
+    @ResponseBody
+    public TableDataInfo listList(Record record)
+    {
+        startPage();
+        record.setRecordNumber(getLoginName());
+        List<Record> list = recordService.selectRecordList(record);
+        return getDataTable(list);
+    }
+
     /**
      * 导出记录列表
      */
@@ -59,19 +101,73 @@ public class RecordController extends BaseController
     @Log(title = "记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(Record record)
+    public AjaxResult export(Record record, HttpServletRequest request)
     {
+        String type = request.getParameter("type");
         List<Record> list = recordService.selectRecordList(record);
-        ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
-        return util.exportExcel(list, "record");
+        if(StringUtils.isEmpty(type)){
+            ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
+            return util.exportExcel(list, "record");
+        }else{
+            Map<String, Object> dataMap = new HashMap<>();
+            String name = "1";
+            try {
+                Record record1 = list.get(0);
+                User user = userService.selectUserByLoginName(record1.getRecordNumber());
+                College college = collegeService.selectCollegeById(user.getCollegeId());
+                Grade grade = gradeService.selectGradeById(user.getGradeId());
+                String institute = "";
+                if(college != null){
+                    institute = college.getCollegeName();
+                }
+                if(grade != null){
+                    institute += grade.getGrade()+grade.getGradeName();
+                }
+                name = user.getLoginName() + user.getUserName();
+                dataMap.put("userName", StringUtils.isEmpty(user.getUserName())? "" : user.getUserName());
+                dataMap.put("sex", StringUtils.isEmpty(user.getSex()) ? "" : user.getSex());
+                dataMap.put("institute", StringUtils.isEmpty(institute)?"":institute);
+                dataMap.put("phone", StringUtils.isEmpty(user.getPhonenumber())?"":user.getPhonenumber());
+                dataMap.put("cardNu", StringUtils.isEmpty(user.getCardNu()) ? "" : user.getCardNu());
+                dataMap.put("province", StringUtils.isEmpty(user.getProvince())? "":user.getProvince());
+                dataMap.put("city", StringUtils.isEmpty(user.getCityName())?"":user.getCityName());
+                dataMap.put("county", StringUtils.isEmpty(user.getCounty())?"":user.getCounty());
+                dataMap.put("address", StringUtils.isEmpty(user.getAddress())?"":user.getAddress());
+                List<Map<String, Object>> newsList = new ArrayList<Map<String, Object>>();
+                int size = 0;
+                if(list.size()>=14){
+                    size = 14;
+                }
+                for (int i = 0; i < size; i++) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    Record r = list.get(i);
+                    map.put("month",  DateUtils.parseDateToStr("M", r.getRecordDate()));
+                    map.put("day", DateUtils.parseDateToStr("d", r.getRecordDate()));
+                    map.put("mor", StringUtils.isEmpty(r.getTempMorning())?"":r.getTempMorning());
+                    map.put("aft", StringUtils.isEmpty(r.getTempAfternoon())?"":r.getTempAfternoon());
+                    map.put("health", r.getHealth());
+                    map.put("fever", r.getFever());
+                    map.put("cough", r.getCough());
+                    map.put("weak", r.getWeak());
+                    map.put("remark", StringUtils.isEmpty(r.getRemark())?"":r.getRemark());
+                    newsList.add(map);
+                }
+                dataMap.put("listData", newsList); //注意list 的名字
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            DocumentHandler documentHandler = new DocumentHandler();
+            return documentHandler.export(dataMap, name);
+        }
     }
 
     /**
      * 新增记录
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap map)
     {
+        map.put("date", DateUtils.getDate());
         return prefix + "/add";
     }
 
@@ -84,7 +180,19 @@ public class RecordController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated Record record)
     {
-        return toAjax(recordService.insertRecord(record));
+        record.setRecordNumber(getLoginName());
+        Record record1 = recordService.selectRecordByDateAndId(new Date(System.currentTimeMillis()), getSysUser().getLoginName());
+        if(record1 == null){
+            return toAjax(recordService.insertRecord(record));
+        }else{
+            record1.setTempAfternoon(record.getTempAfternoon());
+            record1.setTempMorning(record.getTempMorning());
+            record1.setCough(record.getCough());
+            record1.setFever(record.getFever());
+            record1.setHealth(record.getHealth());
+            record1.setWeak(record.getWeak());
+            return toAjax(recordService.updateRecord(record1));
+        }
     }
 
     /**

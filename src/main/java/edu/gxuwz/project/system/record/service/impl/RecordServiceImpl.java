@@ -7,6 +7,7 @@ import edu.gxuwz.project.system.record.service.IRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -91,5 +92,10 @@ public class RecordServiceImpl implements IRecordService
     public int deleteRecordById(Long recordId)
     {
         return recordMapper.deleteRecordById(recordId);
+    }
+
+    @Override
+    public Record selectRecordByDateAndId(Date recordDate, String recordNumber) {
+        return recordMapper.selectRecordByDateAndId(recordDate, recordNumber);
     }
 }

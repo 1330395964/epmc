@@ -64,20 +64,20 @@ public class Record extends BaseEntity
     @Excel(name = "离开事由")
     private String outsideReason;
 
-    /** 是否健康：Y是 N否*/
-    @Excel(name = "是否健康", readConverterExp = "Y=是,N=否")
+    /** 是否健康：0是 1否*/
+    @Excel(name = "是否健康", readConverterExp = "0=是,1=否")
     private Boolean health;
 
-    /** 是否发热：Y是 N否 */
-    @Excel(name = "是否发热", readConverterExp = "Y=是,N=否")
+    /** 是否发热：1是 0否 */
+    @Excel(name = "是否发热", readConverterExp = "1=是,0=否")
     private Boolean fever;
 
-    /** 是否干咳：Y是 N否*/
-    @Excel(name = "是否干咳", readConverterExp = "Y=是,N=否")
+    /** 是否干咳：1是 0否*/
+    @Excel(name = "是否干咳", readConverterExp = "1=是,0=否")
     private Boolean cough;
 
-    /** 是否乏力：Y是 N否*/
-    @Excel(name = "是否乏力", readConverterExp = "Y=是,N=否")
+    /** 是否乏力：1是 0否*/
+    @Excel(name = "是否乏力", readConverterExp = "1=是,0=否")
     private Boolean weak;
 
     /** 其他 */

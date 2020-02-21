@@ -7,66 +7,91 @@
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-record-add">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">记录者工号学号：</label>
-                <div class="col-sm-8">
-                    <input name="recordNumber" class="form-control" type="text" required>
-                </div>
-            </div>
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label is-required">记录者工号学号：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="recordNumber" class="form-control" type="text" required>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="form-group">    
                 <label class="col-sm-3 control-label">记录日期：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="recordDate" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="recordDate" class="form-control" placeholder="yyyy-MM-dd" th:value="${date}" type="text" required>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">上午温度：</label>
                 <div class="col-sm-8">
-                    <input name="tempMorning" class="form-control" type="text">
+                    <input name="tempMorning" class="form-control" type="text" placeholder="如37.1">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">下午温度：</label>
                 <div class="col-sm-8">
-                    <input name="tempAfternoon" class="form-control" type="text">
+                    <input name="tempAfternoon" class="form-control" type="text" placeholder="如37">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">是否健康：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_yes_no')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="health" th:value="${dict.dictValue}" th:checked="${dict.default}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    <div class="radio-box">
+                        <label>
+                            <input type="radio"  name="health" value="0" checked>
+                            健康</label>
                     </div>
+                    <div class="radio-box">
+                        <label >
+                            <input type="radio" name="health" value="1">
+                            不健康</label>
+                    </div>
+                    <span>超过37.3°即为不健康</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">是否发热：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_yes_no')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="fever" th:value="${dict.dictValue}" th:checked="${dict.default}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    <div class="radio-box">
+                        <label>
+                            <input type="radio"  name="fever" value="0" checked>
+                            否</label>
+                    </div>
+                    <div class="radio-box">
+                        <label >
+                            <input type="radio" name="fever" value="1">
+                            是</label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">是否干咳：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_yes_no')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="cough" th:value="${dict.dictValue}" th:checked="${dict.default}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    <div class="radio-box">
+                        <label>
+                            <input type="radio"  name="cough" value="0" checked>
+                            否</label>
+                    </div>
+                    <div class="radio-box">
+                        <label >
+                            <input type="radio" name="cough" value="1">
+                            是</label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">是否乏力：</label>
                 <div class="col-sm-8">
-                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_yes_no')}">
-                        <input type="radio" th:id="${dict.dictCode}" name="weak" th:value="${dict.dictValue}" th:checked="${dict.default}">
-                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    <div class="radio-box">
+                        <label>
+                            <input type="radio"  name="weak" value="0" checked>
+                            否</label>
+                    </div>
+                    <div class="radio-box">
+                        <label >
+                            <input type="radio" name="weak" value="1">
+                            是</label>
                     </div>
                 </div>
             </div>

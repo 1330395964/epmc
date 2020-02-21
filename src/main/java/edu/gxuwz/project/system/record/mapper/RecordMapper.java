@@ -1,6 +1,8 @@
 package edu.gxuwz.project.system.record.mapper;
 
 import edu.gxuwz.project.system.record.domain.Record;
+
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -58,4 +60,13 @@ public interface RecordMapper
      * @return 结果
      */
     public int deleteRecordByIds(String[] recordIds);
+
+    /**
+     * 查询当天记录
+     * @param recordDate
+     * @param recordNumber
+     * @return
+     */
+    Record selectRecordByDateAndId(Date recordDate, String recordNumber);
+
 }
