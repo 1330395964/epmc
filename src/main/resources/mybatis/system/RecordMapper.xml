@@ -66,6 +66,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where r.record_number = #{recordNumber}
     </select>
 
+    <select id="xuesheng" parameterType="Record" resultMap="RecordResult">
+        select record_id, record_number, record_date, temp_morning, temp_afternoon,
+        record_cough, references_name, other_cough, other_name, other_situation,
+        outside_life, outside_reason ,health, fever,cough,weak ,remark from sys_record r
+        where r.record_number in (
+        select u.login_name from sys_user u
+        left join sys_user_role r on u.user_id = r.user_id
+        where r.role_id = 100
+        )
+    </select>
+
+    <select id="jiaozhigong" parameterType="Record" resultMap="RecordResult">
+        select record_id, record_number, record_date, temp_morning, temp_afternoon,
+        record_cough, references_name, other_cough, other_name, other_situation,
+        outside_life, outside_reason ,health, fever,cough,weak ,remark from sys_record r
+        where r.record_number in (
+        select u.login_name from sys_user u
+        left join sys_user_role r on u.user_id = r.user_id
+        where r.role_id = 101
+        )
+    </select>
+
 
     <select id="selectRecordById" parameterType="Long" resultMap="RecordResult">
         <include refid="selectRecordVo"/>

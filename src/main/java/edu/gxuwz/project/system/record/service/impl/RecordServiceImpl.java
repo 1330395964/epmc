@@ -56,6 +56,16 @@ public class RecordServiceImpl implements IRecordService
     {
         return recordMapper.geren(record);
     }
+    @Override
+    public List<Record> xuesheng(Record record)
+    {
+        return recordMapper.xuesheng(record);
+    }
+    @Override
+    public List<Record> jiaozhigong(Record record)
+    {
+        return recordMapper.jiaozhigong(record);
+    }
 
     /**
      * 新增记录

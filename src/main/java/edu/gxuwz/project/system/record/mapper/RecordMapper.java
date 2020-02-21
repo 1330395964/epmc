@@ -31,6 +31,8 @@ public interface RecordMapper
 
     public List<Record> bumen(Record record);
     public List<Record> geren(Record record);
+    public List<Record> xuesheng(Record record);
+    public List<Record> jiaozhigong(Record record);
 
     /**
      * 新增记录

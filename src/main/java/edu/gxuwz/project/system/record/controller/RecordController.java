@@ -80,7 +80,6 @@ public class RecordController extends BaseController
         List<Record> list = recordService.selectRecordList(record);
         return getDataTable(list);
     }
-
     @GetMapping("bumen")
     public String bumen()
     {
@@ -91,6 +90,18 @@ public class RecordController extends BaseController
     public String geren()
     {
         return prefix + "/gerenRecord";
+    }
+
+    @GetMapping("xuesheng")
+    public String xuesheng()
+    {
+        return prefix + "/xuesheng";
+    }
+
+    @GetMapping("jiaozhigong")
+    public String jiaozhigong()
+    {
+        return prefix + "/jiaozhigong";
     }
 
     /**
@@ -106,6 +117,24 @@ public class RecordController extends BaseController
         User user = ShiroUtils.getSysUser();
         record.setDeptId(user.getDeptId());
         List<Record> list = recordService.bumen(record);
+        return getDataTable(list);
+    }
+
+    @PostMapping("/xueshengs")
+    @ResponseBody
+    public TableDataInfo xueshengs(Record record)
+    {
+        startPage();
+        List<Record> list = recordService.xuesheng(record);
+        return getDataTable(list);
+    }
+
+    @PostMapping("/jiaozhigongs")
+    @ResponseBody
+    public TableDataInfo jiaozhigongs(Record record)
+    {
+        startPage();
+        List<Record> list = recordService.jiaozhigong(record);
         return getDataTable(list);
     }
 
