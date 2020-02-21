@@ -8,12 +8,9 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
+                    <input type="hidden" name="recordNumber" th:value="${recordNumber}" />
                     <div class="select-list">
                         <ul>
-                            <li>
-                                <p>工号学号：</p>
-                                <input type="text" name="recordNumber"/>
-                            </li>
                             <li class="select-time">
                                 <p>记录日期：</p>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRecordDate]"/>
@@ -76,43 +73,77 @@
                 <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:record:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:record:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:record:export">
-                    <i class="fa fa-download"></i> 导出
+                    <i class="fa fa-download"></i> 导出Excel
                  </a>
+                <a class="btn btn-warning" onclick="$.table.exportWord()" shiro:hasPermission="system:record:export">
+                    <i class="fa fa-download"></i> 导出Word
+                </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
-                <table id="bootstrap-table"></table>
+                <table id="bootstrap-table" th:if="${m_phone} == false" ></table>
+                <div class="row animated fadeInRight" th:if="${m_phone} == true">
+                    <div class="ibox float-e-margins">
+                        <div id="ibox-content" th:each="list:${dataList}">
+                            <div id="vertical-timeline" class="vertical-container light-timeline">
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon blue-bg">
+                                        <i class="fa fa-file-text"></i>
+                                    </div>
+
+                                    <div class="vertical-timeline-content">
+                                        <h2>
+                                            <span th:text="${list.recordDate}"></span>体温
+                                            <span th:if="${list.health} == false">正常</span>
+                                            <span th:if="${list.health} == true">不正常</span>
+                                        </h2>
+                                        <p>上午温度：<span th:text="${list.tempMorning}"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            下午温度：<span th:text="${list.tempAfternoon}"></span>
+                                        </p>
+                                        <p>
+                                            <span th:if="${list.fever} == true">有发热现象</span>
+                                            <span th:if="${list.fever} == false">无发热现象</span>
+                                            <span th:if="${list.cough} == true">有干咳现象</span>
+                                            <span th:if="${list.cough} == false">无干咳现象</span>
+                                            <span th:if="${list.weak} == true">有乏力现象</span>
+                                            <span th:if="${list.weak} == false">无乏力现象</span>
+                                        </p>
+                                        <span class="vertical-date">
+                                             <small th:text="${recordDate}"></small>
+                                         </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <th:block th:include="include :: footer" />
-    <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:record:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:record:remove')}]];
+    <script th:inline="javascript" th:value="${m_phone} == false" >
         var prefix = ctx + "system/record";
-
         $(function() {
             var options = {
-                url: prefix + "/list",
+                url: prefix + "/list_list",
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
-                exportUrl: prefix + "/export",
+                exportUrl: prefix + "/exportSelf",
+                exportWordUrl: prefix + "/exportSelf?type=word",
                 modalName: "记录",
                 columns: [{
                     checkbox: true
                 },
                 {
-                    field : 'recordId', 
+                    field : 'recordId',
                     title : '记录编号',
                     visible: false
                 },
                 {
                     field : 'recordNumber', 
-                    title : '记录者工号学号'
+                    title : '证件号'
                 },
                 {
                     field : 'recordDate', 
@@ -163,8 +194,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.recordId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.recordId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.recordId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]

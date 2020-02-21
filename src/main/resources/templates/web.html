@@ -18,6 +18,7 @@
 </head>
 <body>
     <div class="main-content">
+        <input type="hidden" id="student" th:value="${student} " />
         <div style="display: none;" class="container">
             <div class="jumbotron">
                 <h1 style="font-size: 26px;">梧州学院疫情管理平台</h1>
@@ -46,7 +47,7 @@
         <!-- 正文内容 -->
         <div class="row mainContent" id="content-main">
             <iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" data-id="/system/main"
-                    th:src="@{/system/main}" frameborder="0" seamless></iframe>
+                    th:src="@{/system/user/profile/profile1}" frameborder="0" seamless></iframe>
         </div>
         <!-- 正文内容 -->
 
@@ -97,7 +98,7 @@
     <script th:src="@{/epmc/index.js}"></script>
     <script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
 	<script>
-	    var prefix = ctx + "register";
+	    var prefix = ctx + "system/webh5";
         function changeBtn(d){
             $('.bottomMenu .submenuItems').each(function() {
                 $(this).hide();
@@ -109,15 +110,24 @@
         };
         function loadData(t){
             console.log(t);
-        }
-        $(window).resize(function() {
-            if ($("body").width() < 640) {
-                var bottomHeight = $(".bottomMenu").height();
-                $("body").css("padding-bottom", bottomHeight + "px");
-            } else {
-                $("body").css("padding-bottom", "0px");
+            var tag = ctx ;
+            if(t == 0){
+                tag += 'system/user/profile/profile1';
+            }else if(t == 1){
+                tag += 'system/record/add?S_type=true';
+            }else if(t == 2){
+                tag += 'system/record/list_list?M_phone=true';
             }
-        });
+            window.open( tag, 'iframe0');
+        }
+        $(window).resize(changeHeight);
+
+        function changeHeight() {
+            var bottomHeight = $(".bottomMenu").height();
+            $("body").css("padding-bottom", bottomHeight + "px");
+            $("#content-main").css("height", $("body").height() - bottomHeight + "px");
+        }
+        changeHeight();
     </script>
 </body>
 </html>

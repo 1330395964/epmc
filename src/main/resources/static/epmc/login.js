@@ -31,7 +31,16 @@ function login() {
         },
         success: function(r) {
             if (r.code == 0) {
-                location.href = ctx + 'index';
+                var ua = navigator.userAgent;
+                var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+                    isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+                    isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+                    isMobile = isIphone || isAndroid;
+                if (isMobile) {
+                    location.href = ctx + 'system/webh5';
+                }else{
+                    location.href = ctx + 'index';
+                }
             } else {
             	$.modal.closeLoading();
             	$('.imgcode').click();

@@ -76,8 +76,20 @@ public class RecordController extends BaseController
     }
 
     @GetMapping("/list_list")
-    public String listListView(){
-        return prefix + "/list_list";
+    public String listListView(ModelMap modelMap, HttpServletRequest request){
+        List<Record> list = new ArrayList<>();
+        String m_phone = request.getParameter("M_phone");
+        if(!StringUtils.isEmpty(m_phone)){
+            modelMap.put("m_phone", true);
+            Record record = new Record();
+            record.setRecordNumber(getLoginName());
+            list = recordService.selectRecordList(record);
+            modelMap.put("dataList", list);
+        }else{
+            modelMap.put("m_phone", false);
+        }
+        modelMap.put("recordNumber", getSysUser().getLoginName());
+        return prefix + "/record_list";
     }
 
     /**
@@ -125,7 +137,95 @@ public class RecordController extends BaseController
                 }
                 name = user.getLoginName() + user.getUserName();
                 dataMap.put("userName", StringUtils.isEmpty(user.getUserName())? "" : user.getUserName());
-                dataMap.put("sex", StringUtils.isEmpty(user.getSex()) ? "" : user.getSex());
+                String sex = "";
+                if(StringUtils.isEmpty(user.getSex())){
+                    sex = "未知";
+                }else {
+                    if("0".equals(user.getSex())){
+                        sex = "男";
+                    }else {
+                        sex = "女";
+                    }
+                }
+                dataMap.put("sex", sex);
+                dataMap.put("institute", StringUtils.isEmpty(institute)?"":institute);
+                dataMap.put("phone", StringUtils.isEmpty(user.getPhonenumber())?"":user.getPhonenumber());
+                dataMap.put("cardNu", StringUtils.isEmpty(user.getCardNu()) ? "" : user.getCardNu());
+                dataMap.put("province", StringUtils.isEmpty(user.getProvince())? "":user.getProvince());
+                dataMap.put("city", StringUtils.isEmpty(user.getCityName())?"":user.getCityName());
+                dataMap.put("county", StringUtils.isEmpty(user.getCounty())?"":user.getCounty());
+                dataMap.put("address", StringUtils.isEmpty(user.getAddress())?"":user.getAddress());
+                List<Map<String, Object>> newsList = new ArrayList<Map<String, Object>>();
+                int size = 0;
+                if(list.size()>=14){
+                    size = 14;
+                }else{
+                    size = list.size();
+                }
+                for (int i = 0; i < size; i++) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    Record r = list.get(i);
+                    map.put("month",  DateUtils.parseDateToStr("M", r.getRecordDate()));
+                    map.put("day", DateUtils.parseDateToStr("d", r.getRecordDate()));
+                    map.put("mor", StringUtils.isEmpty(r.getTempMorning())?"":r.getTempMorning());
+                    map.put("aft", StringUtils.isEmpty(r.getTempAfternoon())?"":r.getTempAfternoon());
+                    map.put("health", r.getHealth());
+                    map.put("fever", r.getFever());
+                    map.put("cough", r.getCough());
+                    map.put("weak", r.getWeak());
+                    map.put("remark", StringUtils.isEmpty(r.getRemark())?"":r.getRemark());
+                    newsList.add(map);
+                }
+                dataMap.put("listData", newsList); //注意list 的名字
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            DocumentHandler documentHandler = new DocumentHandler();
+            return documentHandler.export(dataMap, name);
+        }
+    }
+
+    /**
+     * 导出自己的记录列表
+     */
+    @Log(title = "记录", businessType = BusinessType.EXPORT)
+    @PostMapping("/exportSelf")
+    @ResponseBody
+    public AjaxResult exportSelf(Record record, HttpServletRequest request)
+    {
+        String type = request.getParameter("type");
+        record.setRecordNumber(getLoginName());
+        List<Record> list = recordService.selectRecordList(record);
+        if(StringUtils.isEmpty(type)){
+            ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
+            return util.exportExcel(list, "record");
+        }else{
+            Map<String, Object> dataMap = new HashMap<>();
+            String name = "1";
+            try {
+                String institute = "";
+                User user = getSysUser();
+                Grade grade = gradeService.selectGradeById(user.getGradeId());
+                College college = collegeService.selectCollegeById(user.getCollegeId());
+                if(college != null){
+                    institute = college.getCollegeName();
+                }
+                name = user.getLoginName() + user.getUserName();
+                if(grade != null){
+                    institute += grade.getGrade()+grade.getGradeName();
+                }
+                dataMap.put("userName", StringUtils.isEmpty(user.getUserName())? "" : user.getUserName());
+                String sex = "";
+                if(StringUtils.isEmpty(user.getSex())){
+                    sex = "未知";
+                }else {
+                    if("0".equals(user.getSex())){
+                        sex = "男";
+                    }else {
+                        sex = "女";
+                    }
+                }
+                dataMap.put("sex", sex);
                 dataMap.put("institute", StringUtils.isEmpty(institute)?"":institute);
                 dataMap.put("phone", StringUtils.isEmpty(user.getPhonenumber())?"":user.getPhonenumber());
                 dataMap.put("cardNu", StringUtils.isEmpty(user.getCardNu()) ? "" : user.getCardNu());
@@ -167,8 +267,14 @@ public class RecordController extends BaseController
      * 新增记录
      */
     @GetMapping("/add")
-    public String add(ModelMap map)
+    public String add(ModelMap map, HttpServletRequest request)
     {
+        String s_type = request.getParameter("S_type");
+        if(!StringUtils.isEmpty(s_type)){
+            map.put("show_btn", true);
+        }else{
+            map.put("show_btn", false);
+        }
         map.put("date", DateUtils.getDate());
         return prefix + "/add";
     }
@@ -184,11 +290,19 @@ public class RecordController extends BaseController
     {
         record.setRecordNumber(getLoginName());
         Record record1 = recordService.selectRecordByDateAndId(new Date(System.currentTimeMillis()), getSysUser().getLoginName());
+        if(!StringUtils.isEmpty(record.getTempMorning())){
+            double t = Double.valueOf(record.getTempMorning());
+            if(t > 37.3){
+                record.setFever(true);
+                // ==== 邮件上报
+            }
+        }
         if(record1 == null){
+            record.setTempAfternoon(null);
             return toAjax(recordService.insertRecord(record));
         }else{
-            record1.setTempAfternoon(record.getTempAfternoon());
-            record1.setTempMorning(record.getTempMorning());
+            record1.setTempAfternoon(record.getTempMorning());
+            //record1.setTempMorning(record.getTempMorning());
             record1.setCough(record.getCough());
             record1.setFever(record.getFever());
             record1.setHealth(record.getHealth());

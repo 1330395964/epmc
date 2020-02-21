@@ -1,9 +1,7 @@
 package edu.gxuwz.project.system.webh5;
 
 import edu.gxuwz.framework.web.controller.BaseController;
-import edu.gxuwz.project.system.college.domain.College;
 import edu.gxuwz.project.system.college.service.ICollegeService;
-import edu.gxuwz.project.system.grade.domain.Grade;
 import edu.gxuwz.project.system.grade.service.IGradeService;
 import edu.gxuwz.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +29,11 @@ public class Webh5Controller extends BaseController {
     public String web(ModelMap modelMap){
         User sysUser = getSysUser();
         modelMap.put("user", sysUser);
-        College college = collegeService.selectCollegeById(sysUser.getCollegeId());
-        modelMap.put("college", college);
-        Grade grade = gradeService.selectGradeById(sysUser.getGradeId());
-        modelMap.put("grade", grade);
+        modelMap.put("student", sysUser.getStudent());
+//        College college = collegeService.selectCollegeById(sysUser.getCollegeId());
+//        modelMap.put("college", college);
+//        Grade grade = gradeService.selectGradeById(sysUser.getGradeId());
+//        modelMap.put("grade", grade);
         return "web";
     }
 
