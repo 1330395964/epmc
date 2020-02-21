@@ -81,14 +81,12 @@ public class RecordController extends BaseController
         return getDataTable(list);
     }
 
-    @RequiresPermissions("system:record:view")
     @GetMapping("bumen")
     public String bumen()
     {
         return prefix + "/bumenRecord";
     }
 
-    @RequiresPermissions("system:record:view")
     @GetMapping("geren")
     public String geren()
     {
@@ -100,7 +98,6 @@ public class RecordController extends BaseController
      * @param
      * @return
      */
-    @RequiresPermissions("bumen")
     @PostMapping("/bumens")
     @ResponseBody
     public TableDataInfo bumen(Record record)
@@ -117,7 +114,6 @@ public class RecordController extends BaseController
      * @param
      * @return
      */
-    @RequiresPermissions("geren")
     @PostMapping("/gerens")
     @ResponseBody
     public TableDataInfo geren(Record record)
