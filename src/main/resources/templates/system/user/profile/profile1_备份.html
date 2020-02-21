@@ -27,6 +27,18 @@
                             <b  class="font-noraml">手机号码：</b>
                             <p class="pull-right">[[${user.phonenumber}]]</p>
                         </li>
+                        <li class="list-group-item"><i class="fa fa-group"></i>
+                            <b  class="font-noraml">所属部门：</b>
+                            <p class="pull-right" >[[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'无岗位')}]]</p>
+                        </li>
+                        <li class="list-group-item"><i class="fa fa-envelope-o"></i>
+                            <b  class="font-noraml">邮箱地址：</b>
+                            <p class="pull-right" >[[${user.email}]]</p>
+                        </li>
+                        <li class="list-group-item"><i class="fa fa-calendar"></i>
+                            <b  class="font-noraml">创建时间：</b>
+                            <p class="pull-right" >[[${#dates.format(user.createTime, 'yyyy-MM-dd')}]]</p>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -97,6 +109,25 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
+                                                <label class="col-sm-4 control-label">家长或联系人：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="parentsName" th:field="*{parentsName}" placeholder="请输入家长或联系人">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">家长或联系人电话：</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="parentsPhnu" th:field="*{parentsPhnu}" placeholder="请输入家长或联系人电话">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
                                                 <label class="col-sm-4 control-label">所在省份：</label>
                                                 <div class="col-sm-8">
                                                     <select type="text" id="province" onchange="chooseProvince(this)" class="form-control" name="province" placeholder="请选择所在省份">
@@ -144,6 +175,93 @@
                                                 <label class="col-sm-4 control-label">身份证号：</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" name="cardNu" th:field="*{cardNu}" placeholder="请输入身份证号">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">是否毕业生：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="radio-box">
+                                                        <label>
+                                                            <input type="radio" th:field="*{graduates}" name="graduates" value="0">
+                                                            非毕业生</label>
+                                                    </div>
+                                                    <div class="radio-box">
+                                                        <label >
+                                                            <input type="radio" th:field="*{graduates}" name="graduates" value="1">
+                                                            毕业生</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" th:if="*{student} == true">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">是否在岗：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="radio-box">
+                                                        <label>
+                                                            <input type="radio" th:field="*{onJob}" name="onJob" value="0">
+                                                        在校生</label>
+                                                    </div>
+                                                    <div class="radio-box">
+                                                        <label >
+                                                            <input type="radio" th:field="*{onJob}" name="onJob" value="1">
+                                                        在岗生</label>
+                                                    </div>
+                                                    <div class="radio-box">
+                                                        <label >
+                                                            <input type="radio" th:field="*{onJob}" name="onJob" value="2">
+                                                        离岗生</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">实习岗位：</label>
+                                                <div class="col-sm-8">
+                                                    <textarea type="text" class="form-control" name="workplace" th:field="*{workplace}" placeholder="请输入实习岗位地址及电话"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">近期去武汉：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="radio-box">
+                                                        <label>
+                                                            <input type="radio" th:field="*{afterWuhan}" name="afterWuhan" value="0">
+                                                            未去过</label>
+                                                    </div>
+                                                    <div class="radio-box">
+                                                        <label >
+                                                            <input type="radio" th:field="*{afterWuhan}" name="afterWuhan" value="1">
+                                                            去过</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">接触过感染者：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="radio-box">
+                                                        <label>
+                                                            <input type="radio" th:field="*{contactWuhan}" name="contactWuhan" value="0">
+                                                            未接触</label>
+                                                    </div>
+                                                    <div class="radio-box">
+                                                        <label >
+                                                            <input type="radio" th:field="*{contactWuhan}" name="contactWuhan" value="1">
+                                                            有接触</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
