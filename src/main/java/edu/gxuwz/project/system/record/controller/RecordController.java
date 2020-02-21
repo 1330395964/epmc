@@ -6,6 +6,7 @@ import edu.gxuwz.common.utils.StringUtils;
 import edu.gxuwz.common.utils.poi.ExcelUtil;
 import edu.gxuwz.framework.aspectj.lang.annotation.Log;
 import edu.gxuwz.framework.aspectj.lang.enums.BusinessType;
+import edu.gxuwz.framework.mq.MqMailService;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
@@ -54,6 +55,9 @@ public class RecordController extends BaseController
 
     @Autowired
     private IGradeService gradeService;
+
+    @Autowired
+    private MqMailService mqMailService;
 
     @RequiresPermissions("system:record:view")
     @GetMapping()
@@ -294,7 +298,73 @@ public class RecordController extends BaseController
             double t = Double.valueOf(record.getTempMorning());
             if(t > 37.3){
                 record.setFever(true);
-                // ==== 邮件上报
+                // ==== 邮件上报上午数据
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            User user = getSysUser();
+                            College college = collegeService.selectCollegeById(user.getCollegeId());
+                            Grade grade = gradeService.selectGradeById(user.getGradeId());
+                            StringBuilder content = new StringBuilder();
+                            content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
+                                    .append("身份证号：" + user.getCardNu() + "\r\n")
+                                    .append("证件号：" + user.getLoginName() + "\r\n")
+                                    .append("姓名：" + user.getUserName() + "\r\n");
+                            if(college != null){
+                                content.append("所在学院：" + college.getCollegeName() + "\r\n");
+                            }
+                            if (grade != null) {
+                                content.append("所在班级：" + grade.getGrade() + grade.getGradeName() + "\r\n");
+                            }
+                            content.append("温度：" + record.getTempMorning() + "\r\n")
+                                    .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
+                                    .append((record.getFever() ? "目前有发热症状" : "目前无发热症状") + "\r\n")
+                                    .append((record.getCough() ? "目前有干咳症状" : "目前无干咳症状") + "\r\n")
+                                    .append((record.getWeak() ? "目前有乏力症状" : "目前无乏力症状") + "\r\n")
+                                    .append("备注：" + record.getRemark() + "\r\n");
+                            mqMailService.sendSimpleMail("429829320@qq.com", "梧州学院疫情管理系统", content.toString());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+            }
+        }else{
+            double t = Double.valueOf(record.getTempMorning());
+            if(t > 37.3){
+                record.setFever(true);
+                // ==== 邮件上报下午数据
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            User user = getSysUser();
+                            College college = collegeService.selectCollegeById(user.getCollegeId());
+                            Grade grade = gradeService.selectGradeById(user.getGradeId());
+                            StringBuilder content = new StringBuilder();
+                            content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
+                                    .append("身份证号：" + user.getCardNu() + "\r\n")
+                                    .append("证件号：" + user.getLoginName() + "\r\n")
+                                    .append("姓名：" + user.getUserName() + "\r\n");
+                            if(college != null){
+                                content.append("所在学院：" + college.getCollegeName() + "\r\n");
+                            }
+                            if (grade != null) {
+                                content.append("所在班级：" + grade.getGrade() + grade.getGradeName() + "\r\n");
+                            }
+                            content.append("温度：" + record.getTempMorning() + "\r\n")
+                                    .append("目前健康与否：" + (record.getHealth() ? "待观察" : "健康") + "\r\n")
+                                    .append((record.getFever() ? "目前有发热症状" : "目前无发热症状") + "\r\n")
+                                    .append((record.getCough() ? "目前有干咳症状" : "目前无干咳症状") + "\r\n")
+                                    .append((record.getWeak() ? "目前有乏力症状" : "目前无乏力症状") + "\r\n")
+                                    .append("备注：" + record.getRemark() + "\r\n");
+                            mqMailService.sendSimpleMail("429829320@qq.com", "梧州学院疫情管理系统", content.toString());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
         }
         if(record1 == null){
