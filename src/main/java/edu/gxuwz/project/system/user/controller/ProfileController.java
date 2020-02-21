@@ -8,6 +8,10 @@ import edu.gxuwz.framework.config.RuoYiConfig;
 import edu.gxuwz.framework.shiro.service.PasswordService;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
+import edu.gxuwz.project.system.college.domain.College;
+import edu.gxuwz.project.system.college.service.ICollegeService;
+import edu.gxuwz.project.system.grade.domain.Grade;
+import edu.gxuwz.project.system.grade.service.IGradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import edu.gxuwz.project.system.user.domain.User;
 import edu.gxuwz.project.system.user.service.IUserService;
+
+import java.util.List;
 
 /**
  * 个人信息 业务处理
@@ -41,6 +47,12 @@ public class ProfileController extends BaseController
     @Autowired
     private PasswordService passwordService;
 
+    @Autowired
+    private ICollegeService collegeService;
+
+    @Autowired
+    private IGradeService gradeService;
+
     /**
      * 个人信息
      */
@@ -52,6 +64,21 @@ public class ProfileController extends BaseController
         mmap.put("roleGroup", userService.selectUserRoleGroup(user.getUserId()));
         mmap.put("postGroup", userService.selectUserPostGroup(user.getUserId()));
         return prefix + "/profile";
+    }
+
+    /**
+     * 个人信息
+     */
+    @GetMapping("/profile1")
+    public String profile1(ModelMap mmap)
+    {
+        User user = getSysUser();
+        mmap.put("user", user);
+        List<College> colleges = collegeService.selectCollegeList(new College());
+        List<Grade> grades = gradeService.selectGradeList(new Grade());
+        mmap.put("colleges", colleges);
+        mmap.put("grades", grades);
+        return prefix + "/profile1";
     }
 
     @GetMapping("/checkPassword")
@@ -132,6 +159,21 @@ public class ProfileController extends BaseController
         currentUser.setEmail(user.getEmail());
         currentUser.setPhonenumber(user.getPhonenumber());
         currentUser.setSex(user.getSex());
+        currentUser.setCardNu(user.getCardNu());
+        currentUser.setCollegeId(user.getCollegeId());
+        currentUser.setGradeId(user.getGradeId());
+        currentUser.setContactWuhan(user.getContactWuhan());
+        currentUser.setAfterWuhan(user.getAfterWuhan());
+        currentUser.setWorkplace(user.getWorkplace());
+        currentUser.setOnJob(user.getOnJob());
+        currentUser.setGraduates(user.getGraduates());
+        currentUser.setAddress(user.getAddress());
+        currentUser.setCounty(user.getCounty());
+        currentUser.setCityName(user.getCityName());
+        currentUser.setProvince(user.getProvince());
+        currentUser.setParentsPhnu(user.getParentsPhnu());
+        currentUser.setParentsName(user.getParentsName());
+
         if (userService.updateUserInfo(currentUser) > 0)
         {
             setSysUser(userService.selectUserById(currentUser.getUserId()));

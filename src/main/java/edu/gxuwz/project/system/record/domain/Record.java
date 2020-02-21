@@ -5,11 +5,11 @@ import edu.gxuwz.framework.web.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * 记录对象 sys_record
- * 
+ *
  * @author epmc
  * @date 2020-02-20
  */
@@ -38,7 +38,7 @@ public class Record extends BaseEntity
 
     /** 0无咳嗽1有咳嗽 */
     @Excel(name = "0无咳嗽1有咳嗽")
-    private String recordCough;
+    private Boolean recordCough;
 
     /** 证明人 */
     @Excel(name = "证明人")
@@ -46,7 +46,7 @@ public class Record extends BaseEntity
 
     /** 同居0无咳嗽1有咳嗽 */
     @Excel(name = "同居0无咳嗽1有咳嗽")
-    private String otherCough;
+    private Boolean otherCough;
 
     /** 同居人姓名 */
     @Excel(name = "同居人姓名")
@@ -58,7 +58,7 @@ public class Record extends BaseEntity
 
     /** 0无离开1有离开 */
     @Excel(name = "0无离开1有离开")
-    private String outsideLife;
+    private Boolean outsideLife;
 
     /** 离开事由 */
     @Excel(name = "离开事由")
@@ -66,162 +66,162 @@ public class Record extends BaseEntity
 
     /** 是否健康：Y是 N否*/
     @Excel(name = "是否健康", readConverterExp = "Y=是,N=否")
-    private String health;
+    private Boolean health;
 
     /** 是否发热：Y是 N否 */
     @Excel(name = "是否发热", readConverterExp = "Y=是,N=否")
-    private String fever;
+    private Boolean fever;
 
     /** 是否干咳：Y是 N否*/
     @Excel(name = "是否干咳", readConverterExp = "Y=是,N=否")
-    private String cough;
+    private Boolean cough;
 
     /** 是否乏力：Y是 N否*/
     @Excel(name = "是否乏力", readConverterExp = "Y=是,N=否")
-    private String weak;
+    private Boolean weak;
 
     /** 其他 */
     @Excel(name = "其他")
     private String remark;
 
-    public void setRecordId(Long recordId) 
+    public void setRecordId(Long recordId)
     {
         this.recordId = recordId;
     }
 
-    public Long getRecordId() 
+    public Long getRecordId()
     {
         return recordId;
     }
-    public void setRecordNumber(String recordNumber) 
+    public void setRecordNumber(String recordNumber)
     {
         this.recordNumber = recordNumber;
     }
 
-    public String getRecordNumber() 
+    public String getRecordNumber()
     {
         return recordNumber;
     }
-    public void setRecordDate(Date recordDate) 
+    public void setRecordDate(Date recordDate)
     {
         this.recordDate = recordDate;
     }
 
-    public Date getRecordDate() 
+    public Date getRecordDate()
     {
         return recordDate;
     }
-    public void setTempMorning(String tempMorning) 
+    public void setTempMorning(String tempMorning)
     {
         this.tempMorning = tempMorning;
     }
 
-    public String getTempMorning() 
+    public String getTempMorning()
     {
         return tempMorning;
     }
-    public void setTempAfternoon(String tempAfternoon) 
+    public void setTempAfternoon(String tempAfternoon)
     {
         this.tempAfternoon = tempAfternoon;
     }
 
-    public String getTempAfternoon() 
+    public String getTempAfternoon()
     {
         return tempAfternoon;
     }
-    public void setRecordCough(String recordCough) 
+    public void setRecordCough(Boolean recordCough)
     {
         this.recordCough = recordCough;
     }
 
-    public String getRecordCough() 
+    public Boolean getRecordCough()
     {
         return recordCough;
     }
-    public void setReferencesName(String referencesName) 
+    public void setReferencesName(String referencesName)
     {
         this.referencesName = referencesName;
     }
 
-    public String getReferencesName() 
+    public String getReferencesName()
     {
         return referencesName;
     }
-    public void setOtherCough(String otherCough) 
+    public void setOtherCough(Boolean otherCough)
     {
         this.otherCough = otherCough;
     }
 
-    public String getOtherCough() 
+    public Boolean getOtherCough()
     {
         return otherCough;
     }
-    public void setOtherName(String otherName) 
+    public void setOtherName(String otherName)
     {
         this.otherName = otherName;
     }
 
-    public String getOtherName() 
+    public String getOtherName()
     {
         return otherName;
     }
-    public void setOtherSituation(String otherSituation) 
+    public void setOtherSituation(String otherSituation)
     {
         this.otherSituation = otherSituation;
     }
 
-    public String getOtherSituation() 
+    public String getOtherSituation()
     {
         return otherSituation;
     }
-    public void setOutsideLife(String outsideLife) 
+    public void setOutsideLife(Boolean outsideLife)
     {
         this.outsideLife = outsideLife;
     }
 
-    public String getOutsideLife() 
+    public Boolean getOutsideLife()
     {
         return outsideLife;
     }
-    public void setOutsideReason(String outsideReason) 
+    public void setOutsideReason(String outsideReason)
     {
         this.outsideReason = outsideReason;
     }
 
-    public String getOutsideReason() 
+    public String getOutsideReason()
     {
         return outsideReason;
     }
 
-    public String getHealth() {
+    public Boolean getHealth() {
         return health;
     }
 
-    public void setHealth(String health) {
+    public void setHealth(Boolean health) {
         this.health = health;
     }
 
-    public String getFever() {
+    public Boolean getFever() {
         return fever;
     }
 
-    public void setFever(String fever) {
+    public void setFever(Boolean fever) {
         this.fever = fever;
     }
 
-    public String getWeak() {
+    public Boolean getWeak() {
         return weak;
     }
 
-    public void setWeak(String weak) {
+    public void setWeak(Boolean weak) {
         this.weak = weak;
     }
 
-    public String getCough() {
+    public Boolean getCough() {
         return cough;
     }
 
-    public void setCough(String cough) {
+    public void setCough(Boolean cough) {
         this.cough = cough;
     }
 

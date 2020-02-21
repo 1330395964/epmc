@@ -216,6 +216,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="contactWuhan != null">contact_wuhan = #{contactWuhan},</if>
 			<if test="gradeId != null">grade_id = #{gradeId},</if>
 			<if test="collegeId != null">college_id = #{collegeId},</if>
+		    <if test="cardNu != null and cardNu != ''">card_nu = #{cardNu},</if>
  			update_time = sysdate()
  		</set>
  		where user_id = #{userId}
@@ -250,6 +251,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="contactWuhan != null">contact_wuhan,</if>
 			<if test="gradeId != null">grade_id,</if>
 			<if test="collegeId != null">college_id,</if>
+	   		 <if test="cardNu != null and cardNu != ''">card_nu,</if>
  			create_time
  		)values(
  			<if test="userId != null and userId != ''">#{userId},</if>
@@ -279,6 +281,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="contactWuhan != null">#{contactWuhan},</if>
 			<if test="gradeId != null">#{gradeId},</if>
 			<if test="collegeId != null">#{collegeId},</if>
+	    	<if test="cardNu != null and cardNu != ''">#{cardNu},</if>
  			sysdate()
  		)
 	</insert>

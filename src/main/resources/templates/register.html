@@ -13,7 +13,7 @@
             <div class="row">
             	<div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label is-required">用户名称：</label>
+                        <label class="col-sm-4 control-label is-required">姓名：</label>
                         <div class="col-sm-8">
                             <input name="userName" placeholder="学生名称或教职工名称" class="form-control" type="text" maxlength="30" required>
                         </div>
@@ -41,27 +41,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">学号&工号：</label>
                         <div class="col-sm-8">
-                            <input id="loginName" name="loginName" placeholder="请输入学号或工号" class="form-control" type="text" maxlength="30" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label is-required">登录密码：</label>
-                        <div class="col-sm-8">
-                            <input name="password" placeholder="请输入登录密码" class="form-control" type="password" th:value="${@config.getKey('sys.user.initPassword')}" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户性别：</label>
-                        <div class="col-sm-8">
-                            <select name="sex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
-				                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-				            </select>
+                            <input id="loginName" name="loginName" placeholder="请输入学号或工号" class="form-control" type="text" maxlength="30">
                         </div>
                     </div>
                 </div>
@@ -87,6 +67,17 @@
                                 <input name="deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">身份证：</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="cardNu" placeholder="请输入身份证" class="form-control" required>
+                            <span></span>
                         </div>
                     </div>
                 </div>
@@ -190,7 +181,6 @@
         });
 
         $("#status").on('click', function(){
-            console.log('改变了', $(this).is(':checked'))
             if($(this).is(':checked')){
                 $("#status-tip").text("注册教职工身份");
                 $("#a_dept").show();
@@ -201,6 +191,14 @@
         });
         
         function submitHandler() {
+            if(!$("input[id='status']").is(':checked')){
+                $("#loginName").attr("required","required");
+            }else{
+                $("#loginName").removeAttrs("required");
+            }
+            if($.trim($("#loginName").val()).length <= 0){
+                $("#loginName").val($("input[name='cardNu']").val());
+            }
 	        if ($.validate.form()) {
 	        	var data = $("#form-user-add").serializeArray();
 	        	var student = $("input[id='status']").is(':checked') == true ? false : true;
@@ -248,68 +246,6 @@
             });
         })
 
-        //保存省
-        var provinceArray = new Array();
-        //保存市
-        var cityArray = new Array();
-        var cityList;
-
-
-        var provinceTag = document.getElementById("province");
-        var cityTag = document.getElementById("city");
-        var areaTag = document.getElementById("area");
-
-        for(var i=0; i<provinceList.length; i++){
-            var province = provinceList[i];
-            var provinceName = province.name;
-            provinceArray[i]=provinceName;
-            provinceTag.add(new Option(provinceName,i));
-        }
-
-        //选择省
-        function chooseProvince(th){
-            var index = th.selectedIndex-1;
-            var provinceName = provinceArray[index];
-
-
-            for(var n=0; n<provinceList.length; n++){
-                var provice = provinceList[n];
-                if (provice.name == provinceName){
-                    cityList = provice.cityList;
-                    cityTag.innerHTML="";
-                    for(var c=0; c<cityList.length; c++){
-                        var city = cityList[c];
-                        var cityName = city.name;
-                        cityArray[c] = cityName;
-                        cityTag.add(new Option(cityName,c));
-                    }
-                }
-            }
-            var cityName = cityArray[0];
-            var city1 = cityList[0];
-            var areaList = city1.areaList;
-            areaTag.innerHTML="";
-            for(var a=0; a<areaList.length; a++){
-                var area = areaList[a];
-                areaTag.add(new Option(area,a));
-            }
-        }
-        //选择市
-        function chooseCity(tag){
-            var index2 = tag.selectedIndex;
-            var cityName = cityArray[index2];
-            for(var m=0; m<cityList.length; m++){
-                var city1 = cityList[m];
-                if (city1.name == cityName){
-                    var areaList = city1.areaList;
-                    areaTag.innerHTML="";
-                    for(var a=0; a<areaList.length; a++){
-                        var area = areaList[a];
-                        areaTag.add(new Option(area,a));
-                    }
-                }
-            }
-        }
     </script>
 </body>
 </html>

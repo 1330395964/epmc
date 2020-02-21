@@ -1,6 +1,7 @@
 package edu.gxuwz.project.system.user.controller;
 
 import edu.gxuwz.common.constant.UserConstants;
+import edu.gxuwz.common.utils.StringUtils;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.domain.Ztree;
@@ -90,6 +91,9 @@ public class RegisterController extends BaseController {
     @ResponseBody
     public AjaxResult addSave(@Validated User user)
     {
+        if(StringUtils.isEmpty(user.getLoginName())){
+            user.setLoginName(user.getCardNu());
+        }
         if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
         {
             return error("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
@@ -102,6 +106,8 @@ public class RegisterController extends BaseController {
         {
             return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
+        //user.setCardNu(user.getLoginName());
+        user.setPassword(user.getCardNu().substring(user.getCardNu().length()-8));
         if(user.getStudent()){
            user.setRoleIds(new Long[]{100L});
         }else{

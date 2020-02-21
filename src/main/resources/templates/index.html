@@ -183,7 +183,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li class="mt5">
-								<a th:href="(${user.student} == false) ? @{/system/user/profile} : @{/register}" class="menuItem">
+								<a th:href="(${user.student} == false) ? @{/system/user/profile} : @{/system/user/profile/profile1}" class="menuItem">
 								<i class="fa fa-user"></i> 个人中心</a>
 							</li>
 							<li>
@@ -308,10 +308,8 @@ $(function(){
 	$.get(ctx+'wanshanXinxi', function(data){
 		if(data.code == -1){
 			$.modal.confirm("你的信息未完善，是否完善", function() {
-				if(data.student){
-					$.modal.open("个人信息", ctx + 'system/user/profile');
-				}else{
-					$.modal.open("个人信息", ctx + 'system/user/profile');
+				if(data.student) {
+					$.modal.open("个人信息", ctx + 'system/user/profile/profile1');
 				}
 			});
 		}
