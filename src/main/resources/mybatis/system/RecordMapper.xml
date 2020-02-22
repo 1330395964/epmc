@@ -61,6 +61,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         outside_life, outside_reason ,health, fever,cough,weak ,r.remark from sys_record r
         left join sys_user u on r.record_number = u.login_name
         where u.dept_id = #{deptId}
+        <if test="tempAfternoon != null  and tempAfternoon != ''"> and r.temp_afternoon = #{tempAfternoon}</if>
+        <if test="recordCough != null  and recordCough != ''"> and r.record_cough = #{recordCough}</if>
+        <if test="referencesName != null  and referencesName != ''"> and r.references_name like concat('%', #{referencesName}, '%')</if>
+        <if test="otherCough != null  and otherCough != ''"> and r.other_cough = #{otherCough}</if>
+        <if test="otherName != null  and otherName != ''"> and r.other_name like concat('%', #{otherName}, '%')</if>
+        <if test="otherSituation != null  and otherSituation != ''"> and r.other_situation = #{otherSituation}</if>
+        <if test="outsideLife != null  and outsideLife != ''"> and r.outside_life = #{outsideLife}</if>
+        <if test="outsideReason != null  and outsideReason != ''"> and r.outside_reason = #{outsideReason}</if>
+        <if test="health != null ">and r.health = #{health}</if>
+        <if test="fever != null">and r.fever = #{fever}</if>
+        <if test="cough != null">and r.cough = #{cough}</if>
+        <if test="weak != null">and r.weak = #{weak}</if>
     </select>
 
     <select id="geren" parameterType="Record" resultMap="RecordResult">

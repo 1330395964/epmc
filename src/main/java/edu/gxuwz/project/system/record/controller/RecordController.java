@@ -83,8 +83,10 @@ public class RecordController extends BaseController
         return getDataTable(list);
     }
     @GetMapping("bumen")
-    public String bumen()
+    public String bumen(ModelMap map)
     {
+        User user = ShiroUtils.getSysUser();
+        map.put("user", user);
         return prefix + "/bumenRecord";
     }
 
@@ -120,8 +122,10 @@ public class RecordController extends BaseController
     public TableDataInfo bumen(Record record)
     {
         startPage();
-        User user = ShiroUtils.getSysUser();
-        record.setDeptId(user.getDeptId());
+        if(record.getDeptId() == null){
+            User user = ShiroUtils.getSysUser();
+            record.setDeptId(user.getDeptId());
+        }
         List<Record> list = recordService.bumen(record);
         return getDataTable(list);
     }
