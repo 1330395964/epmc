@@ -427,7 +427,8 @@ public class RecordController extends BaseController
                     content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
                             .append("身份证号：" + user.getCardNu() + "\r\n")
                             .append("证件号：" + user.getLoginName() + "\r\n")
-                            .append("姓名：" + user.getUserName() + "\r\n");
+                            .append("姓名：" + user.getUserName() + "\r\n")
+                            .append("电话号码：" + user.getPhonenumber() + "\r\n");
                     if(dept != null){
                         content.append("所在学院(部门)：" + dept.getDeptName() + "\r\n");
                     }
@@ -470,7 +471,8 @@ public class RecordController extends BaseController
                     content.append("梧州学院疫情管理系统检测到上报数据可能存在问题，上报人信息（学生/教职工）:\r\n")
                             .append("身份证号：" + user.getCardNu() + "\r\n")
                             .append("证件号：" + user.getLoginName() + "\r\n")
-                            .append("姓名：" + user.getUserName() + "\r\n");
+                            .append("姓名：" + user.getUserName() + "\r\n")
+                            .append("电话号码：" + user.getPhonenumber() + "\r\n");
                     if(dept != null){
                         content.append("所在学院（部门）：" + dept.getDeptName() + "\r\n");
                     }

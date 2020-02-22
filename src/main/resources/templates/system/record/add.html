@@ -168,12 +168,13 @@
         });
 
         function submitHandler() {
-            if($.trim($("input[name='tempMorning']").val())<=0){
-                $.modal.alertWarning("警告提示:请认真填写数据");
-                return false;
-            }
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-record-add').serialize());
+            var _d = parseFloat($.trim($("input[name='tempMorning']").val()));
+            if(_d<=0 || _d >= 50){
+                alert("警告提示:请认真填写数据");
+            }else{
+                if ($.validate.form()) {
+                    $.operate.save(prefix + "/add", $('#form-record-add').serialize());
+                }
             }
         }
 
