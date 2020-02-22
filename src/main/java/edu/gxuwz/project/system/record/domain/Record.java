@@ -118,23 +118,23 @@ public class Record extends BaseEntity
     private String outsideReason;
 
     /** 是否健康：0是 1否*/
-    @Excel(name = "是否健康", readConverterExp = "0=是,1=否")
+    @Excel(name = "(true:不健康)(false:健康)", readConverterExp = "0=是,1=否")
     private Boolean health;
 
     /** 是否发热：1是 0否 */
-    @Excel(name = "是否发热", readConverterExp = "1=是,0=否")
+    @Excel(name = "(true:发热)(false:不发热)", readConverterExp = "1=是,0=否")
     private Boolean fever;
 
     /** 是否干咳：1是 0否*/
-    @Excel(name = "是否干咳", readConverterExp = "1=是,0=否")
+    @Excel(name = "(true:干咳)(false:不干咳)", readConverterExp = "1=是,0=否")
     private Boolean cough;
 
     /** 是否乏力：1是 0否*/
-    @Excel(name = "是否乏力", readConverterExp = "1=是,0=否")
+    @Excel(name = "(true:乏力)(false:不乏力)", readConverterExp = "1=是,0=否")
     private Boolean weak;
 
     /** 其他 */
-    @Excel(name = "其他")
+    @Excel(name = "所在地")
     private String remark;
 
     private Long deptId;
