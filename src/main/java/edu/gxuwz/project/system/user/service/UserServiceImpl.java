@@ -188,6 +188,8 @@ public class UserServiceImpl implements IUserService
         Long[] userIds = Convert.toLongArray(ids);
         for (Long userId : userIds)
         {
+            // 删除用户与角色关联
+            userRoleMapper.deleteUserRoleByUserId(userId);
             checkUserAllowed(new User(userId));
         }
         return userMapper.deleteUserByIds(userIds);
