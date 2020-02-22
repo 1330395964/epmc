@@ -115,8 +115,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
         )
         <choose>
+            <when test="tempMorning = null  and tempMorning = ''"></when>
             <when test="tempMorning != null  and tempMorning = '0'">and temp_morning >37.3 or temp_afternoon >37.3</when>
-            <when test="tempMorning != null  and tempMorning = '1'">and temp_morning &lt;= 37.3 or temp_afternoon &lt;= 37.3</when>
+            <when test="tempMorning != null  and tempMorning = '1'">and temp_moring &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
             <otherwise>and temp_morning = #{tempMorning}</otherwise>
         </choose>
     </select>
