@@ -63,6 +63,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where u.dept_id = #{deptId} and u.student = false
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
         <if test="tempAfternoon != null  and tempAfternoon != ''"> and r.temp_afternoon = #{tempAfternoon}</if>
         <if test="recordCough != null  and recordCough != ''"> and r.record_cough = #{recordCough}</if>
         <if test="referencesName != null  and referencesName != ''"> and r.references_name like concat('%', #{referencesName}, '%')</if>
@@ -104,6 +110,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         )
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
         <choose>
             <when test="tempMorning == null  or tempMorning == '' "></when>
             <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
@@ -136,6 +148,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         )
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
         <choose>
             <when test="tempMorning == null  or tempMorning == '' "></when>
             <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
