@@ -136,6 +136,7 @@ public class RecordController extends BaseController
     {
         startPage();
         List<Record> list = recordService.xuesheng(record);
+        System.out.println("是否超温："+record.getTempMorning());
         return getDataTable(list);
     }
 

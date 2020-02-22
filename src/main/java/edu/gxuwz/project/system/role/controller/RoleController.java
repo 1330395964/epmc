@@ -282,6 +282,7 @@ public class RoleController extends BaseController
     public TableDataInfo unallocatedList(User user)
     {
         startPage();
+        System.out.println("user擦:"+user);
         List<User> list = userService.selectUnallocatedList(user);
         return getDataTable(list);
     }
