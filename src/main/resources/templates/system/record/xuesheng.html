@@ -38,6 +38,20 @@
                                 </select>
                             </li>
                             <li>
+                                <p>所属专业：</p>
+                                <select name="user.zyName">
+                                    <option value="">--请选择--</option>
+                                    <option th:each="zy:${zyNames}" th:value="${zy}" th:text="${zy}">--请选择--</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>所属班级：</p>
+                                <select name="user.gradeId" >
+                                    <option value="">--请选择--</option>
+                                    <option th:each="grade:${grades}" th:value="${grade}" th:text="${grade}">--请选择--</option>
+                                </select>
+                            </li>
+                            <li>
                                 <p>其他：</p>
                                 <input type="text" name="remark"/>
                             </li>

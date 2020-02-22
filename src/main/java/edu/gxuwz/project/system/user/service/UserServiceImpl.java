@@ -515,4 +515,14 @@ public class UserServiceImpl implements IUserService
     public List<String> selectEmailByDeptIdAndStudent(Long deptId) {
         return userMapper.selectEmailByDeptIdAndStudent(deptId);
     }
+
+    @Override
+    public List<String> selectZy() {
+        return userMapper.selectZy();
+    }
+
+    @Override
+    public List<String> selectGrades() {
+        return userMapper.selectGrades();
+    }
 }

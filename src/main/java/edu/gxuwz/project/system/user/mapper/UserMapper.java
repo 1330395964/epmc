@@ -135,4 +135,18 @@ public interface UserMapper
      * @return
      */
     List<String> selectEmailByDeptIdAndStudent(Long deptId);
+
+    /**
+     * 检索所有专业
+     * @param
+     * @return
+     */
+    List<String> selectZy();
+
+    /**
+     * 检索班级
+     * @param
+     * @return
+     */
+    List<String> selectGrades();
 }

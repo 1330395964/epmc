@@ -122,6 +122,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where u.login_name = #{userName}
 	</select>
 	
+	<select id="selectZy" resultType="String">
+		select
+			distinct
+			zy_name
+		from
+			sys_user
+		where
+			student = 1
+	</select>
+	
+	<select id="selectGrades" resultType="String">
+		select
+			distinct
+			grade_id
+		from
+			sys_user
+		where
+			student = 1
+	</select>
+	
 	<select id="selectUserList" parameterType="User" resultMap="UserResult">
 		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,
 		 u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,

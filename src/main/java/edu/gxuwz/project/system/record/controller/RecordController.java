@@ -95,8 +95,12 @@ public class RecordController extends BaseController
     }
 
     @GetMapping("xuesheng")
-    public String xuesheng()
+    public String xuesheng(ModelMap map)
     {
+        List<String> grades = userService.selectGrades();
+        List<String> zyNames = userService.selectZy();
+        map.put("grades", grades);
+        map.put("zyNames", zyNames );
         return prefix + "/xuesheng";
     }
 

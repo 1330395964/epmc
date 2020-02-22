@@ -2,6 +2,7 @@ package edu.gxuwz.project.system.user.controller;
 
 import edu.gxuwz.common.constant.UserConstants;
 import edu.gxuwz.common.utils.StringUtils;
+import edu.gxuwz.framework.shiro.service.PasswordService;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.domain.Ztree;
@@ -26,6 +27,9 @@ public class RegisterController extends BaseController {
 
     @Autowired
     private IDeptService deptService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     @GetMapping()
     public String register(){
@@ -114,6 +118,24 @@ public class RegisterController extends BaseController {
             user.setRoleIds(new Long[]{102L});
         }
         return toAjax(userService.insertUser(user));
+    }
+
+
+    @GetMapping("/init")
+    @ResponseBody
+    public String initUserPwd(){
+        List<User> users = userService.selectUserList(new User());
+        for(User u:users){
+            if(StringUtils.isEmpty(u.getPassword())){
+                u.randomSalt();
+                u.setPassword("123456");
+                u.setPassword(passwordService.encryptPassword(u.getLoginName(), u.getPassword(), u.getSalt()));
+                String by = u.getUserName();
+                u.setCreateBy(by);
+                userService.updateUserInfo(u);
+            }
+        }
+        return "可以";
     }
 
 }
