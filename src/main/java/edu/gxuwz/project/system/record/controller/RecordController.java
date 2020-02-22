@@ -224,7 +224,7 @@ public class RecordController extends BaseController
         }else if("jiaozhigong".equals(excelType)){
             list = recordService.jiaozhigong(record);
         }else{
-            list = recordService.selectRecordList(record);
+            list = recordService.selectRecordList1(record);
         }
         if(StringUtils.isEmpty(type)){
             ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
@@ -317,7 +317,7 @@ public class RecordController extends BaseController
         }else{
             record.setRecordNumber(getLoginName());
         }
-        List<Record> list = recordService.selectRecordList(record);
+        List<Record> list = recordService.selectRecordList1(record);
         if(StringUtils.isEmpty(type)){
             ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
             return util.exportExcel(list, "record");
