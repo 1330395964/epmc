@@ -159,6 +159,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		u.grade_id, u.card_nu from sys_user u
 		left join sys_user_role r on u.user_id = r.user_id
 		where r.role_id = 100
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
 	</select>
 
 	<select id="jiaozhigong" parameterType="User" resultMap="UserResult">
@@ -171,6 +174,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left join sys_dept d on u.dept_id = d.dept_id
 		left join sys_user_role r on u.user_id = r.user_id
 		where r.role_id = 103
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
 	</select>
 	
 	<select id="selectAllocatedList" parameterType="User" resultMap="UserResult">
