@@ -132,6 +132,13 @@ public class RegisterController extends BaseController {
                 u.setPassword(passwordService.encryptPassword(u.getLoginName(), u.getPassword(), u.getSalt()));
                 String by = u.getUserName();
                 u.setCreateBy(by);
+                if(u.getStudent()){
+                    u.setRoleIds(new Long[]{100L});
+                }else{
+                    u.setRoleIds(new Long[]{102L});
+                }
+                // 新增用户与角色管理
+                userService.insertUserRole(u);
                 userService.updateUserInfo(u);
             }
         }

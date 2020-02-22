@@ -208,4 +208,6 @@ public interface IUserService
     List<String> selectGrades();
 
 
+    void insertUserRole(User user);
+
 }
