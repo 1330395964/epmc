@@ -75,6 +75,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="fever != null">and r.fever = #{fever}</if>
         <if test="cough != null">and r.cough = #{cough}</if>
         <if test="weak != null">and r.weak = #{weak}</if>
+        <choose>
+            <when test="tempMorning == null  or tempMorning == '' "></when>
+            <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
+            <when test="tempMorning != null  and tempMorning == 0 ">and temp_morning &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
+            <otherwise>and temp_morning = #{tempMorning}</otherwise>
+        </choose>
     </select>
 
     <select id="geren" parameterType="Record" resultMap="RecordResult">
@@ -99,9 +105,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
         <choose>
-            <when test="tempMorning = null  and tempMorning = ''"></when>
-            <when test="tempMorning != null  and tempMorning = '0'">and temp_morning >37.3 or temp_afternoon >37.3</when>
-            <when test="tempMorning != null  and tempMorning = '1'">and temp_moring &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
+            <when test="tempMorning == null  or tempMorning == '' "></when>
+            <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
+            <when test="tempMorning != null  and tempMorning == 0 ">and temp_morning &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
             <otherwise>and temp_morning = #{tempMorning}</otherwise>
         </choose>
         <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>
@@ -128,14 +134,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where r.role_id = 102 and u.student = false
         <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
         )
+        <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
+        <if test="recordDate != null "> and record_date = #{recordDate}</if>
         <choose>
-            <when test="tempMorning = null  and tempMorning = ''"></when>
-            <when test="tempMorning != null  and tempMorning = '0'">and temp_morning >37.3 or temp_afternoon >37.3</when>
-            <when test="tempMorning != null  and tempMorning = '1'">and temp_moring &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
+            <when test="tempMorning == null  or tempMorning == '' "></when>
+            <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
+            <when test="tempMorning != null  and tempMorning == 0 ">and temp_morning &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
             <otherwise>and temp_morning = #{tempMorning}</otherwise>
         </choose>
+        <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>
+        <if test="recordCough != null  and recordCough != ''"> and record_cough = #{recordCough}</if>
+        <if test="referencesName != null  and referencesName != ''"> and references_name like concat('%', #{referencesName}, '%')</if>
+        <if test="otherCough != null  and otherCough != ''"> and other_cough = #{otherCough}</if>
+        <if test="otherName != null  and otherName != ''"> and other_name like concat('%', #{otherName}, '%')</if>
+        <if test="otherSituation != null  and otherSituation != ''"> and other_situation = #{otherSituation}</if>
+        <if test="outsideLife != null  and outsideLife != ''"> and outside_life = #{outsideLife}</if>
+        <if test="outsideReason != null  and outsideReason != ''"> and outside_reason = #{outsideReason}</if>
+        <if test="health != null ">and health = #{health}</if>
+        <if test="fever != null">and fever = #{fever}</if>
+        <if test="cough != null">and cough = #{cough}</if>
+        <if test="weak != null">and weak = #{weak}</if>
     </select>
-
 
     <select id="selectRecordById" parameterType="Long" resultMap="RecordResult">
         <include refid="selectRecordVo"/>
