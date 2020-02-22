@@ -175,7 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		${params.dataScope}
 	</select>
 
-	<select id="xuesheng" parameterType="User" resultMap="UserResult">
+	<select id="xuesheng" parameterType="User" resultMap="UserResult1">
 		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,
 		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
 		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
@@ -186,9 +186,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="deptId != null and deptId != 0">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
+		<if test="userName != null and userName != ''">
+			AND u.user_name like concat('%', #{userName}, '%')
+		</if>
 	</select>
 
-	<select id="jiaozhigong" parameterType="User" resultMap="UserResult">
+	<select id="jiaozhigong" parameterType="User" resultMap="UserResult1">
 		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,
 		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
 		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
@@ -200,6 +203,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where r.role_id = 103
 		<if test="deptId != null and deptId != 0">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
+		<if test="userName != null and userName != ''">
+			AND u.user_name like concat('%', #{userName}, '%')
 		</if>
 	</select>
 	
