@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectRecordList1" parameterType="Record" resultMap="RecordResult">
         <include refid="selectRecordVo"/>
         <where>
-            <if test="recordNumber != null  and recordNumber != ''"> and record_number #{recordNumber}</if>
+            <if test="recordNumber != null  and recordNumber != ''"> and record_number = #{recordNumber}</if>
             <if test="recordDate != null "> and record_date = #{recordDate}</if>
             <if test="tempMorning != null  and tempMorning != ''"> and temp_morning = #{tempMorning}</if>
             <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>

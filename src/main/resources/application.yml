@@ -32,14 +32,14 @@ server:
 # 日志配置
 logging:
   level:
-    edu.gxuwz: debug
+    edu.gxuwz: info
     org.springframework: warn
 
 # 用户配置
 user:
   password:
     # 密码错误{maxRetryCount}次锁定10分钟
-    maxRetryCount: 5
+    maxRetryCount: 20
 
 # Spring配置
 spring:
