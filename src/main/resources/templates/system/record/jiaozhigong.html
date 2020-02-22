@@ -8,11 +8,19 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
+                    <input name="dept.deptId" type="hidden" id="treeId"/>
                     <div class="select-list">
                         <ul>
                             <li>
                                 <p>工号学号：</p>
                                 <input type="text" name="recordNumber"/>
+                            </li>
+                            <li>
+                                <p style="width: 94px;">学院（部门）：</p>
+                                <div class="input-group" style="width: 170px;">
+                                    <input name="dept.deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                </div>
                             </li>
                             <li class="select-time">
                                 <p>记录日期：</p>
@@ -185,6 +193,30 @@
             };
             $.table.init(options);
         });
+
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+            var treeId = $("#treeId").val();
+            var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
+            var url = ctx + "register/selectDeptTree/" + deptId;
+            var options = {
+                title: '选择部门',
+                width: "380",
+                url: url,
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero){
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            if ($.tree.notAllowParents(tree)) {
+                var body = layer.getChildFrame('body', index);
+                $("#treeId").val(body.find('#treeId').val());
+                $("#treeName").val(body.find('#treeName').val());
+                layer.close(index);
+            }
+        }
     </script>
 </body>
 </html>

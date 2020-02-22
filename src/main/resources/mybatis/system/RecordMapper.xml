@@ -78,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select u.login_name from sys_user u
         left join sys_user_role r on u.user_id = r.user_id
         where r.role_id = 100
+            <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
         )
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
@@ -104,6 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select u.login_name from sys_user u
         left join sys_user_role r on u.user_id = r.user_id
         where r.role_id = 101
+        <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
         )
     </select>
 
