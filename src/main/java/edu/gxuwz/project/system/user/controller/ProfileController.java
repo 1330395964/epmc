@@ -74,12 +74,12 @@ public class ProfileController extends BaseController
     public String profile1(ModelMap mmap)
     {
         User user = getSysUser();
-        mmap.put("user", user);
         Dept dept = deptService.selectDeptById(user.getDeptId());
         if(dept == null){
             dept = new Dept();
         }
         user.setDept(dept);
+        mmap.put("user", user);
         //List<College> colleges = collegeService.selectCollegeList(new College());
         List<Grade> grades = gradeService.selectGradeList(new Grade());
         //mmap.put("colleges", colleges);

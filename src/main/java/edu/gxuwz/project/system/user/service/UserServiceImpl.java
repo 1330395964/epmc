@@ -232,7 +232,11 @@ public class UserServiceImpl implements IUserService
     public int updateUser(User user)
     {
         Long userId = user.getUserId();
-        user.setUpdateBy(ShiroUtils.getLoginName());
+        try {
+            user.setUpdateBy(ShiroUtils.getLoginName());
+        }catch (Exception e) {
+
+        }
         // 删除用户与角色关联
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 新增用户与角色管理

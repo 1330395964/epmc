@@ -29,7 +29,11 @@
                         </li>
                         <li class="list-group-item"><i class="fa fa-user"></i>
                             <b  class="font-noraml">部门：</b>
-                            <p class="pull-right" th:value="${user.dept.deptName}"></p>
+                            <p class="pull-right" th:text="${user.dept.deptName}"></p>
+                        </li>
+                        <li class="list-group-item"><i class="fa fa-user"></i>
+                            <b  class="font-noraml">切换用户：</b>
+                            <p class="pull-right" > <a class="tn btn-info" th:href="@{logout}">退出登录</a></p>
                         </li>
                     </ul>
                 </div>
@@ -143,7 +147,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" th:if="*{student} == true">
+                                    <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">身份证号：</label>
@@ -159,9 +163,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">专业：</label>
                                                 <div class="col-sm-8">
-                                                    <div class="input-group">
-                                                        <input name="zyName" type="text" placeholder="请输入专业" class="form-control" required>
-                                                    </div>
+                                                    <input name="zyName" type="text" placeholder="请输入专业" class="form-control" th:field="*{zyName}" required>
                                                 </div>
                                             </div>
                                         </div>

@@ -39,6 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="contactWuhan"       column="contact_wuhan"       />
 		<result property="gradeId"   column="grade_id"  />
 		<result property="cardNu"       column="card_nu"       />
+		<result property="collegeId"       column="college_id"       />
+		<result property="zyName"       column="zy_name"       />
 		<association property="dept"    column="dept_id" javaType="Dept" resultMap="deptResult" />
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
 	</resultMap>
