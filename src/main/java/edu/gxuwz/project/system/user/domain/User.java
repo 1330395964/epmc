@@ -125,31 +125,31 @@ public class User extends BaseEntity
     /**
      * 0非毕业生1毕业生
      */
-    @Excel(name = "是否毕业生", readConverterExp = "0=非毕业生,1=毕业生")
+    //@Excel(name = "是否毕业生", readConverterExp = "0=非毕业生,1=毕业生")
     private String graduates;
 
     /**
      * 0在校1在岗位2离岗
      */
-    @Excel(name = "是否在工作岗位", readConverterExp = "0=在校,1=在岗位,2=离岗")
+    //@Excel(name = "是否在工作岗位", readConverterExp = "0=在校,1=在岗位,2=离岗")
     private String onJob;
 
     /**
      * 岗位实习岗位
      */
-    @Excel(name = "岗位实习地点")
+    //@Excel(name = "岗位实习地点")
     private String workplace;
 
     /**
      * 0近期未去过武汉1去过
      */
-    @Excel(name = "是否近期去过武汉", readConverterExp = "0=未去过,1=有去过")
+    //@Excel(name = "是否近期去过武汉", readConverterExp = "0=未去过,1=有去过")
     private String afterWuhan;
 
     /**
      * 0未接触感染或确诊人员1接触过
      */
-    @Excel(name = "是否有感染接触", readConverterExp = "0=未接触,1=有接触")
+    //@Excel(name = "是否有感染接触", readConverterExp = "0=未接触,1=有接触")
     private String contactWuhan;
 
     /**

@@ -61,6 +61,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="status"       column="role_status"    />
 	</resultMap>
 	
+	<resultMap type="User" id="UserResult1">
+		<id     property="userId"       column="user_id"      />
+		<result property="deptId"       column="dept_id"      />
+		<result property="loginName"    column="login_name"   />
+		<result property="userName"     column="user_name"    />
+		<result property="email"        column="email"        />
+		<result property="phonenumber"  column="phonenumber"  />
+		<result property="sex"          column="sex"          />
+		<result property="avatar"       column="avatar"       />
+		<result property="password"     column="password"     />
+		<result property="salt"         column="salt"         />
+		<result property="status"       column="status"       />
+		<result property="delFlag"      column="del_flag"     />
+		<result property="loginIp"      column="login_ip"     />
+		<result property="loginDate"    column="login_date"   />
+		<result property="createBy"     column="create_by"    />
+		<result property="createTime"   column="create_time"  />
+		<result property="updateBy"     column="update_by"    />
+		<result property="updateTime"   column="update_time"  />
+		<result property="remark"       column="remark"       />
+		
+		<result property="student"   column="student"  />
+		<result property="parentsName"       column="parents_name"       />
+		<result property="parentsPhnu"   column="parents_phnu"  />
+		<result property="province"       column="province"       />
+		<result property="cityName"   column="city_name"  />
+		<result property="county"       column="county"       />
+		<result property="address"   column="address"  />
+		<result property="graduates"       column="graduates"       />
+		<result property="onJob"   column="on_job"  />
+		<result property="workplace"       column="workplace"       />
+		<result property="afterWuhan"   column="after_wuhan"  />
+		<result property="contactWuhan"       column="contact_wuhan"       />
+		<result property="gradeId"   column="grade_id"  />
+		<result property="cardNu"       column="card_nu"       />
+		<association property="dept"    column="dept_id"
+		             javaType="Dept"
+		             select="edu.gxuwz.project.system.dept.mapper.DeptMapper.selectDeptById" />
+	</resultMap>
+	
 	<sql id="selectUserVo">
         select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
         		u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
@@ -74,6 +114,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 left join sys_user_role ur on u.user_id = ur.user_id
 			 left join sys_role r on r.role_id = ur.role_id
     </sql>
+	
+	<select id="selectUserByLoginNameOther" parameterType="String" resultMap="UserResult1">
+		<include refid="selectUserVo"/>
+		where u.login_name = #{userName}
+	</select>
 	
 	<select id="selectUserList" parameterType="User" resultMap="UserResult">
 		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,

@@ -1,9 +1,10 @@
 package edu.gxuwz.project.system.record.domain;
 
 import edu.gxuwz.framework.aspectj.lang.annotation.Excel;
+import edu.gxuwz.framework.aspectj.lang.annotation.Excels;
 import edu.gxuwz.framework.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import edu.gxuwz.project.system.dept.domain.Dept;
+import edu.gxuwz.project.system.user.domain.User;
 
 import java.sql.Date;
 
@@ -16,6 +17,58 @@ import java.sql.Date;
 public class Record extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
+
+    //@Excel(name = "学院（部门）", targetAttr = "deptName")
+    private Dept dept;
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "dept=" + dept +
+                ", user=" + user +
+                ", recordId=" + recordId +
+                ", recordNumber='" + recordNumber + '\'' +
+                ", recordDate=" + recordDate +
+                ", tempMorning='" + tempMorning + '\'' +
+                ", tempAfternoon='" + tempAfternoon + '\'' +
+                ", recordCough=" + recordCough +
+                ", referencesName='" + referencesName + '\'' +
+                ", otherCough=" + otherCough +
+                ", otherName='" + otherName + '\'' +
+                ", otherSituation='" + otherSituation + '\'' +
+                ", outsideLife=" + outsideLife +
+                ", outsideReason='" + outsideReason + '\'' +
+                ", health=" + health +
+                ", fever=" + fever +
+                ", cough=" + cough +
+                ", weak=" + weak +
+                ", remark='" + remark + '\'' +
+                ", deptId=" + deptId +
+                '}';
+    }
+
+    public Dept getDept() {
+        return dept;
+    }
+
+    public void setDept(Dept dept) {
+        this.dept = dept;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Excels({
+            @Excel(name = "姓名", targetAttr = "userName"),
+            @Excel(name = "班级", targetAttr = "gradeId"),
+            @Excel(name = "学院（部门）", targetAttr = "dept.deptName")
+    })
+    private User user;
 
     /** 记录编号 */
     private Long recordId;
@@ -37,31 +90,31 @@ public class Record extends BaseEntity
     private String tempAfternoon;
 
     /** 0无咳嗽1有咳嗽 */
-    @Excel(name = "0无咳嗽1有咳嗽")
+    //@Excel(name = "0无咳嗽1有咳嗽")
     private Boolean recordCough;
 
     /** 证明人 */
-    @Excel(name = "证明人")
+    //@Excel(name = "证明人")
     private String referencesName;
 
     /** 同居0无咳嗽1有咳嗽 */
-    @Excel(name = "同居0无咳嗽1有咳嗽")
+    //@Excel(name = "同居0无咳嗽1有咳嗽")
     private Boolean otherCough;
 
     /** 同居人姓名 */
-    @Excel(name = "同居人姓名")
+    //@Excel(name = "同居人姓名")
     private String otherName;
 
     /** 同居人情况 */
-    @Excel(name = "同居人情况")
+    //@Excel(name = "同居人情况")
     private String otherSituation;
 
     /** 0无离开1有离开 */
-    @Excel(name = "0无离开1有离开")
+    //@Excel(name = "0无离开1有离开")
     private Boolean outsideLife;
 
     /** 离开事由 */
-    @Excel(name = "离开事由")
+    //@Excel(name = "离开事由")
     private String outsideReason;
 
     /** 是否健康：0是 1否*/
@@ -243,21 +296,4 @@ public class Record extends BaseEntity
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-            .append("recordId", getRecordId())
-            .append("recordNumber", getRecordNumber())
-            .append("recordDate", getRecordDate())
-            .append("tempMorning", getTempMorning())
-            .append("tempAfternoon", getTempAfternoon())
-            .append("recordCough", getRecordCough())
-            .append("referencesName", getReferencesName())
-            .append("otherCough", getOtherCough())
-            .append("otherName", getOtherName())
-            .append("otherSituation", getOtherSituation())
-            .append("outsideLife", getOutsideLife())
-            .append("outsideReason", getOutsideReason())
-            .toString();
-    }
 }

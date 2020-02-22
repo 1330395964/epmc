@@ -22,6 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="cough"    column="cough"    />
         <result property="weak"    column="weak"    />
         <result property="remark"    column="remark"    />
+        <association property="user" column="record_number"
+                     javaType="User"
+                     select="edu.gxuwz.project.system.user.mapper.UserMapper.selectUserByLoginName"
+                     />
     </resultMap>
 
     <sql id="selectRecordVo">
