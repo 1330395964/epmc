@@ -192,7 +192,7 @@ public class RecordController extends BaseController
     {
         startPage();
         record.setRecordNumber(getLoginName());
-        List<Record> list = recordService.selectRecordList(record);
+        List<Record> list = recordService.selectRecordList1(record);
         return getDataTable(list);
     }
 
