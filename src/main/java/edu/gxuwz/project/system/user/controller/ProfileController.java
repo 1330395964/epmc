@@ -9,6 +9,8 @@ import edu.gxuwz.framework.shiro.service.PasswordService;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.project.system.college.service.ICollegeService;
+import edu.gxuwz.project.system.dept.domain.Dept;
+import edu.gxuwz.project.system.dept.service.IDeptService;
 import edu.gxuwz.project.system.grade.domain.Grade;
 import edu.gxuwz.project.system.grade.service.IGradeService;
 import edu.gxuwz.project.system.user.domain.User;
@@ -21,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +51,9 @@ public class ProfileController extends BaseController
     @Autowired
     private IGradeService gradeService;
 
+    @Autowired
+    private IDeptService deptService;
+
     /**
      * 个人信息
      */
@@ -69,6 +75,11 @@ public class ProfileController extends BaseController
     {
         User user = getSysUser();
         mmap.put("user", user);
+        Dept dept = deptService.selectDeptById(user.getDeptId());
+        if(dept == null){
+            dept = new Dept();
+        }
+        user.setDept(dept);
         //List<College> colleges = collegeService.selectCollegeList(new College());
         List<Grade> grades = gradeService.selectGradeList(new Grade());
         //mmap.put("colleges", colleges);
@@ -169,6 +180,7 @@ public class ProfileController extends BaseController
         currentUser.setParentsName(user.getParentsName());
         currentUser.setDeptId(user.getDeptId());
         currentUser.setGradeId(user.getGradeId());
+        currentUser.setUpdateTime(new Date());
         if (userService.updateUserInfo(currentUser) > 0)
         {
             setSysUser(userService.selectUserById(currentUser.getUserId()));

@@ -158,6 +158,30 @@ public class User extends BaseEntity
     @Excel(name = "班级")
     private String gradeId;
 
+    @Excel(name = "专业")
+    private String zyName;
+
+    @Excel(name = "年级")
+    private String collegeId;
+
+    @Excel(name = "身份证号")
+    private String cardNu;
+
+    /** 部门对象 */
+    @Excels({
+            @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT),
+            @Excel(name = "部门负责人", targetAttr = "leader", type = Excel.Type.EXPORT)
+    })
+    private Dept dept;
+
+    private List<Role> roles;
+
+    /** 角色组 */
+    private Long[] roleIds;
+
+    /** 岗位组 */
+    private Long[] postIds;
+
     public String getGradeId() {
         return gradeId;
     }
@@ -262,9 +286,6 @@ public class User extends BaseEntity
         this.contactWuhan = contactWuhan;
     }
 
-    @Excel(name = "身份证号")
-    private String cardNu;
-
     public String getCardNu() {
         return cardNu;
     }
@@ -272,61 +293,6 @@ public class User extends BaseEntity
     public void setCardNu(String cardNu) {
         this.cardNu = cardNu;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", deptId=" + deptId +
-                ", parentId=" + parentId +
-                ", roleId=" + roleId +
-                ", loginName='" + loginName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", phonenumber='" + phonenumber + '\'' +
-                ", sex='" + sex + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", status='" + status + '\'' +
-                ", delFlag='" + delFlag + '\'' +
-                ", loginIp='" + loginIp + '\'' +
-                ", loginDate=" + loginDate +
-                ", student=" + student +
-                ", parentsName='" + parentsName + '\'' +
-                ", parentsPhnu='" + parentsPhnu + '\'' +
-                ", province='" + province + '\'' +
-                ", cityName='" + cityName + '\'' +
-                ", county='" + county + '\'' +
-                ", address='" + address + '\'' +
-                ", graduates='" + graduates + '\'' +
-                ", onJob='" + onJob + '\'' +
-                ", workplace='" + workplace + '\'' +
-                ", afterWuhan='" + afterWuhan + '\'' +
-                ", contactWuhan='" + contactWuhan + '\'' +
-                ", gradeId=" + gradeId +
-                ", cardNu='" + cardNu + '\'' +
-                ", dept=" + dept +
-                ", roles=" + roles +
-                ", roleIds=" + Arrays.toString(roleIds) +
-                ", postIds=" + Arrays.toString(postIds) +
-                '}';
-    }
-
-    /** 部门对象 */
-    @Excels({
-        @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT),
-        @Excel(name = "部门负责人", targetAttr = "leader", type = Excel.Type.EXPORT)
-    })
-    private Dept dept;
-
-    private List<Role> roles;
-
-    /** 角色组 */
-    private Long[] roleIds;
-
-    /** 岗位组 */
-    private Long[] postIds;
 
     public User()
     {
@@ -569,4 +535,61 @@ public class User extends BaseEntity
         this.postIds = postIds;
     }
 
+    public String getZyName() {
+        return zyName;
+    }
+
+    public void setZyName(String zyName) {
+        this.zyName = zyName;
+    }
+
+    public String getCollegeId() {
+        return collegeId;
+    }
+
+    public void setCollegeId(String collegeId) {
+        this.collegeId = collegeId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", deptId=" + deptId +
+                ", parentId=" + parentId +
+                ", roleId=" + roleId +
+                ", loginName='" + loginName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
+                ", sex='" + sex + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", status='" + status + '\'' +
+                ", delFlag='" + delFlag + '\'' +
+                ", loginIp='" + loginIp + '\'' +
+                ", loginDate=" + loginDate +
+                ", student=" + student +
+                ", parentsName='" + parentsName + '\'' +
+                ", parentsPhnu='" + parentsPhnu + '\'' +
+                ", province='" + province + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", county='" + county + '\'' +
+                ", address='" + address + '\'' +
+                ", graduates='" + graduates + '\'' +
+                ", onJob='" + onJob + '\'' +
+                ", workplace='" + workplace + '\'' +
+                ", afterWuhan='" + afterWuhan + '\'' +
+                ", contactWuhan='" + contactWuhan + '\'' +
+                ", gradeId='" + gradeId + '\'' +
+                ", zyName='" + zyName + '\'' +
+                ", collegeId='" + collegeId + '\'' +
+                ", cardNu='" + cardNu + '\'' +
+                ", dept=" + dept +
+                ", roles=" + roles +
+                ", roleIds=" + Arrays.toString(roleIds) +
+                ", postIds=" + Arrays.toString(postIds) +
+                '}';
+    }
 }

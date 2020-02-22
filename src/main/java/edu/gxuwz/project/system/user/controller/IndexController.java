@@ -59,14 +59,8 @@ public class IndexController extends BaseController
         }else{
             map.put("code", 0);
         }
-        if(sysUser.getStudent()){
-            if(StringUtils.isEmpty(sysUser.getAddress())
-                    || StringUtils.isEmpty(sysUser.getGradeId())
-                    || StringUtils.isEmpty(sysUser.getDeptId()+"")){
-                map.put("code", -1);
-            }else{
-                map.put("code", 0);
-            }
+        if(StringUtils.isEmpty(sysUser.getUpdateTime()+"")){
+            map.put("code", -1);
             map.put("student", true);
         }else{
             map.put("student", false);
