@@ -63,6 +63,7 @@ public class IndexController extends BaseController
             map.put("code", -1);
             map.put("student", true);
         }else{
+            map.put("code", 0);
             map.put("student", false);
         }
         return map;

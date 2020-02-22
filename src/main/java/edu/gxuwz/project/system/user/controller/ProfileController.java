@@ -181,6 +181,9 @@ public class ProfileController extends BaseController
         currentUser.setDeptId(user.getDeptId());
         currentUser.setGradeId(user.getGradeId());
         currentUser.setUpdateTime(new Date());
+        currentUser.setCollegeId(user.getCollegeId());
+        currentUser.setUpdateTime(new Date());
+        currentUser.setZyName(user.getZyName());
         if (userService.updateUserInfo(currentUser) > 0)
         {
             setSysUser(userService.selectUserById(currentUser.getUserId()));

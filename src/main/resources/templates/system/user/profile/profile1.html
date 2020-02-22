@@ -33,7 +33,7 @@
                         </li>
                         <li class="list-group-item"><i class="fa fa-user"></i>
                             <b  class="font-noraml">切换用户：</b>
-                            <p class="pull-right" > <a class="tn btn-info" th:href="@{logout}">退出登录</a></p>
+                            <p class="pull-right" > <a class="tn btn-info" th:href="@{/logout}">退出登录</a></p>
                         </li>
                     </ul>
                 </div>
@@ -55,7 +55,7 @@
                             <!--用户信息-->
                             <div class="tab-pane active" id="user_info" th:object="${user}">
                                 <form class="form-horizontal" id="form-user-edit">
-                                    <input id="dateFlag" type="hidden" th:value="${user.updateTime}" />
+                                    <input id="dateFlag" type="hidden" th:field="*{updateTime}" />
                                     <!--隐藏ID-->
                                     <input name="id" id="id" type="hidden">
                                     <div class="row">
@@ -262,8 +262,12 @@
 	    }
         var t_ = [[${user.userId}]];
 
-	    if($.trim($("#dateFlag").val()) <= 0 && t_ != 1){
-            $.modal.confirm("请在当前完善信息", function() {});
+	    if(t_ != 1){
+            $.get(ctx+'wanshanXinxi', function(data){
+                if(data.code == -1){
+                    $.modal.confirm("你的信息未完善，是否完善");
+                }
+            });
         }
 
         //保存省
