@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where r.record_number in (
         select u.login_name from sys_user u
         left join sys_user_role r on u.user_id = r.user_id
-        where r.role_id = 101
+        where r.role_id = 102
         <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
         )
     </select>
