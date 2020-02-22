@@ -154,6 +154,27 @@
                                         </div>
                                     </div>
 
+                                    <div class="row" th:if="*{student} == true">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">专业：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input name="zyName" type="text" placeholder="请输入专业" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group" >
+                                                <label class="col-sm-4 control-label">所在年级：</label>
+                                                <div class="col-sm-8">
+                                                    <input name="collegeId" type="text" class="form-control m-b" required th:field="*{collegeId}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
