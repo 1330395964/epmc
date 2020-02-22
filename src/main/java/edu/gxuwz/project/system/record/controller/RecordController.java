@@ -207,6 +207,7 @@ public class RecordController extends BaseController
         String type = request.getParameter("type");
         String userSelf = request.getParameter("userSelf");
         String other = request.getParameter("other");
+        String excelType = request.getParameter("excelType");
         if(!StringUtils.isEmpty(userSelf)){
             User sysUser = getSysUser();
             record.setRecordNumber(sysUser.getLoginName());
@@ -214,7 +215,16 @@ public class RecordController extends BaseController
         if(!StringUtils.isEmpty(other)){
             record.setRecordNumber(other);
         }
-        List<Record> list = recordService.selectRecordList(record);
+        List<Record> list = new ArrayList<>();
+        if("bumen".equals(excelType)){
+            list = recordService.bumen(record);
+        }else if("xuesheng".equals(excelType)){
+            list = recordService.xuesheng(record);
+        }else if("jiaozhigong".equals(excelType)){
+            list = recordService.jiaozhigong(record);
+        }else{
+            list = recordService.selectRecordList(record);
+        }
         if(StringUtils.isEmpty(type)){
             ExcelUtil<Record> util = new ExcelUtil<Record>(Record.class);
             return util.exportExcel(list, "record");

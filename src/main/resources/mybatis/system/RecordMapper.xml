@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         record_cough, references_name, other_cough, other_name, other_situation,
         outside_life, outside_reason ,health, fever,cough,weak ,r.remark from sys_record r
         left join sys_user u on r.record_number = u.login_name
-        where u.dept_id = #{deptId}
+        where u.dept_id = #{deptId} and u.student = false
         <if test="tempAfternoon != null  and tempAfternoon != ''"> and r.temp_afternoon = #{tempAfternoon}</if>
         <if test="recordCough != null  and recordCough != ''"> and r.record_cough = #{recordCough}</if>
         <if test="referencesName != null  and referencesName != ''"> and r.references_name like concat('%', #{referencesName}, '%')</if>
@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where r.record_number in (
         select u.login_name from sys_user u
         left join sys_user_role r on u.user_id = r.user_id
-        where r.role_id = 102
+        where r.role_id = 102 and u.student = false
         <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
         )
         <choose>
