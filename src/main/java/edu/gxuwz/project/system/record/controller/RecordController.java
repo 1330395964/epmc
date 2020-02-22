@@ -173,7 +173,7 @@ public class RecordController extends BaseController
             modelMap.put("m_phone", true);
             Record record = new Record();
             record.setRecordNumber(getLoginName());
-            list = recordService.selectRecordList(record);
+            list = recordService.selectRecordList1(record);
             modelMap.put("dataList", list);
         }else{
             modelMap.put("m_phone", false);

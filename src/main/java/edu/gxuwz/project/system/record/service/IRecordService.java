@@ -29,6 +29,14 @@ public interface IRecordService
      */
     public List<Record> selectRecordList(Record record);
 
+    /**
+     * 查询记录列表
+     *
+     * @param record 记录
+     * @return 记录集合
+     */
+    public List<Record> selectRecordList1(Record record);
+
     public List<Record> bumen(Record record);
     public List<Record> geren(Record record);
     public List<Record> xuesheng(Record record);

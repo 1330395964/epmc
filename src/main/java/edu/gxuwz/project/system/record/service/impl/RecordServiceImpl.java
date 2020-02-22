@@ -47,6 +47,11 @@ public class RecordServiceImpl implements IRecordService
     }
 
     @Override
+    public List<Record> selectRecordList1(Record record) {
+        return recordMapper.selectRecordList1(record);
+    }
+
+    @Override
     public List<Record> bumen(Record record)
     {
         return recordMapper.bumen(record);
