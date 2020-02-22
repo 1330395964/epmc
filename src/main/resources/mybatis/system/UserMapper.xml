@@ -200,7 +200,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		d.dept_name, d.leader from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
 		left join sys_user_role r on u.user_id = r.user_id
-		where r.role_id = 103
+		where r.role_id = 101 or r.role_id = 102
 		<if test="deptId != null and deptId != 0">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
@@ -291,7 +291,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</delete>
  	
  	<delete id="deleteUserByIds" parameterType="Long">
- 		update sys_user set del_flag = '2' where user_id in
+ 		delete from sys_user where user_id in
  		<foreach collection="array" item="userId" open="(" separator="," close=")">
  			#{userId}
         </foreach> 
