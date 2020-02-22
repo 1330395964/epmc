@@ -85,10 +85,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
         <choose>
-            <when test="tempMorning != null  and tempMorning != ''">and temp_morning = #{tempMorning}</when>
             <when test="tempMorning = null  and tempMorning = ''"></when>
             <when test="tempMorning != null  and tempMorning = '0'">and temp_morning >37.3 or temp_afternoon >37.3</when>
             <when test="tempMorning != null  and tempMorning = '1'">and temp_moring &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
+            <otherwise>and temp_morning = #{tempMorning}</otherwise>
         </choose>
         <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>
         <if test="recordCough != null  and recordCough != ''"> and record_cough = #{recordCough}</if>
