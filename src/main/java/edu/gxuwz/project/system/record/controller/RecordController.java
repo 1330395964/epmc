@@ -99,6 +99,8 @@ public class RecordController extends BaseController
     @GetMapping("xuesheng")
     public String xuesheng(ModelMap map)
     {
+        User user = ShiroUtils.getSysUser();
+        map.put("user", user);
         List<String> grades = userService.selectGrades();
         List<String> zyNames = userService.selectZy();
         map.put("grades", grades);
@@ -107,8 +109,10 @@ public class RecordController extends BaseController
     }
 
     @GetMapping("jiaozhigong")
-    public String jiaozhigong()
+    public String jiaozhigong(ModelMap map)
     {
+        User user = ShiroUtils.getSysUser();
+        map.put("user", user);
         return prefix + "/jiaozhigong";
     }
 
