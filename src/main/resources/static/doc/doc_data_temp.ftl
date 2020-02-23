@@ -57,7 +57,7 @@
 									</w14:solidFill>
 								</w14:textFill>
 							</w:rPr>
-							<w:t>梧州学院学生返校前居家观察身体健康</w:t>
+							<w:t>梧州学院返校前居家观察身体健康</w:t>
 						</w:r>
 					</w:p>
 					<w:p>
@@ -1713,7 +1713,7 @@
 												</w14:solidFill>
 											</w14:textFill>
 										</w:rPr>
-										<w:t>其他</w:t>
+										<w:t>地址</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
