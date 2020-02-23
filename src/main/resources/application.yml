@@ -7,17 +7,17 @@ epmc:
   # 版权年份
   copyrightYear: 2020
   # 实例演示开关
-  demoEnabled: true
+  demoEnabled: false
   # 文件路径 示例（ Windows配置D:/epmc/uploadPath，Linux配置 /home/epmc/uploadPath）
-  #profile: D:/epmc/uploadPath
-  profile: /Users/mac/uploadPath
+  profile: D:/epmc/uploadPath
+  #profile: /Users/mac/uploadPath
   # 获取ip地址开关
   addressEnabled: true
 
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 88
+  port: 8899
   servlet:
     # 应用的访问路径
     context-path: /
@@ -39,7 +39,7 @@ logging:
 user:
   password:
     # 密码错误{maxRetryCount}次锁定10分钟
-    maxRetryCount: 30
+    maxRetryCount: 20
 
 # Spring配置
 spring:

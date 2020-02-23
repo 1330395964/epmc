@@ -62,7 +62,8 @@ public class GlobalExceptionHandler
     public AjaxResult notFount(RuntimeException e)
     {
         log.error("运行时异常:", e);
-        return AjaxResult.error("运行时异常:" + e.getMessage());
+        //return AjaxResult.error("请检查信息是否填写完整！");
+        return AjaxResult.error("运行时异常" + e.getMessage());
     }
 
     /**
