@@ -282,6 +282,8 @@ public class RecordController extends BaseController
             list = recordService.xuesheng(record);
         }else if("jiaozhigong".equals(excelType)){
             list = recordService.jiaozhigong(record);
+        }else if("yichang".equals(excelType)){
+            list = recordService.selectYichang(record);
         }else{
             list = recordService.selectRecordList1(record);
         }
