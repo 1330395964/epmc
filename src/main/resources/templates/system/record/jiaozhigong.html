@@ -7,6 +7,7 @@
      <div class="container-div">
         <div class="row">
             <div class="col-sm-12 search-collapse">
+                <input type="hidden" th:value="${user.deptId}" id="tempDeptId"/>
                 <form id="formId">
                     <input name="dept.deptId" type="hidden" th:value="${user.deptId}" id="treeId"/>
                     <div class="select-list">
@@ -42,8 +43,8 @@
                                 <input type="text" name="remark"/>
                             </li>
                             <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="searchs()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="resets()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
                         </ul>
                     </div>
@@ -74,6 +75,18 @@
         var editFlag = [[${@permission.hasPermi('system:record:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:record:remove')}]];
         var prefix = ctx + "system/record";
+
+        function searchs(){
+            if($.trim($("#treeName").val()).length <=0 ){
+                $("#treeId").val(0);
+            }
+            $.table.search();
+        }
+
+        function resets(){
+            $("#treeId").val($.trim($("#tempDeptId").val()));
+            $.form.reset();
+        }
 
         $(function() {
             var options = {
