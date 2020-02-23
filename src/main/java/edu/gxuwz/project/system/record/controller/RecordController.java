@@ -101,11 +101,47 @@ public class RecordController extends BaseController
     {
         User user = ShiroUtils.getSysUser();
         map.put("user", user);
-        List<String> grades = userService.selectGrades();
-        List<String> zyNames = userService.selectZy();
-        map.put("grades", grades);
-        map.put("zyNames", zyNames );
+        //List<String> grades = userService.selectGrades();
+        //List<String> zyNames = userService.selectZy();
+        //map.put("grades", grades);
+        //map.put("zyNames", zyNames );
         return prefix + "/xuesheng";
+    }
+
+    /**
+     * 检索班级
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("selectGrades")
+    public List<String> selectGrades(User user){
+        List<String> strings = userService.selectGrades(user);
+        return strings;
+    }
+
+    /**
+     * 检索所有专业
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("selectZy")
+    public List<String> selectZy(User user){
+        List<String> strings = userService.selectZy(user);
+        return strings;
+    }
+
+    /**
+     * 检索年级
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("selectColleges")
+    public List<String> selectColleges(User user){
+        List<String> strings = userService.selectColleges(user);
+        return strings;
     }
 
     @GetMapping("jiaozhigong")
@@ -140,7 +176,7 @@ public class RecordController extends BaseController
     {
         startPage();
         List<Record> list = recordService.xuesheng(record);
-        System.out.println("是否超温："+record.getTempMorning());
+       // System.out.println("是否超温："+record.getTempMorning());
         return getDataTable(list);
     }
 
@@ -509,10 +545,28 @@ public class RecordController extends BaseController
 
         }
         if(record1 == null){
-            record.setTempAfternoon(null);
+            if("1".equals(record.getTempAfternoon())){ // 下午
+                record.setTempAfternoon(record.getTempMorning());
+            }else{
+                record.setTempAfternoon(null);
+            }
             return toAjax(recordService.insertRecord(record));
         }else{
-            record1.setTempAfternoon(record.getTempMorning());
+            if("1".equals(record.getTempAfternoon())){ // 修改下午
+                record1.setTempAfternoon(record.getTempMorning());
+                if(record1.getTempMorning() != null) {
+                    record1.setTempMorning(null);
+                }
+            }else{// 修改上午
+                record1.setTempMorning(record.getTempMorning());
+                if(record1.getTempAfternoon() != null){
+                    record1.setTempAfternoon(null);
+                }
+            }
+            if (record.getRemark() != null){
+                record1.setRemark(record.getRemark());
+            }
+            //record1.setTempAfternoon(record.getTempMorning());
             //record1.setTempMorning(record.getTempMorning());
             record1.setCough(record.getCough());
             record1.setFever(record.getFever());

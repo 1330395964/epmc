@@ -12,8 +12,8 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>工号学号：</p>
-                                <input type="text" name="recordNumber"/>
+                                <p>姓名：</p>
+                                <input type="text" name="user.userName"/>
                             </li>
                             <li>
                                 <p style="width: 94px;">学院（部门）：</p>
@@ -38,14 +38,21 @@
                             </li>
                             <li>
                                 <p>所属专业：</p>
-                                <select name="user.zyName">
+                                <select id="zyName" name="user.zyName" onchange="selectColleges();">
                                     <option value="">--请选择--</option>
                                     <option th:each="zy:${zyNames}" th:value="${zy}" th:text="${zy}">--请选择--</option>
                                 </select>
                             </li>
                             <li>
+                                <p>所属年级：</p>
+                                <select id="collegeId" name="user.collegeId" onchange="selectGrades();">
+                                    <option value="">--请选择--</option>
+                                    <option th:each="grade:${grades}" th:value="${grade}" th:text="${grade}">--请选择--</option>
+                                </select>
+                            </li>
+                            <li>
                                 <p>所属班级：</p>
-                                <select name="user.gradeId" >
+                                <select id="gradeId" name="user.gradeId" >
                                     <option value="">--请选择--</option>
                                     <option th:each="grade:${grades}" th:value="${grade}" th:text="${grade}">--请选择--</option>
                                 </select>
@@ -180,6 +187,54 @@
             $.table.init(options);
         });
 
+        // 专业
+        function changeZyName(){
+            $.get(prefix + '/selectZy?deptId='+$.trim($("#treeId").val()), function(data){
+                //console.log(data);
+                var html = '<option value="" selected>--请选择--</option>';
+                if(data){
+                    for(var k in data){
+                        //console.log(k)
+                        html += '<option value="'+data[k]+'">'+data[k]+'</option>';
+                    }
+                    $("#zyName").html(html);
+                }
+            });
+        }
+
+        // 年级
+        function selectColleges(){
+            var _v = $.trim($("#zyName").val());
+            $.get(prefix + '/selectColleges?deptId='+$.trim($("#treeId").val()) + "&zyName="+_v, function(data){
+                //console.log(data);
+                var html = '<option value="" selected>--请选择--</option>';
+                if(data){
+                    for(var k in data){
+                        //console.log(k)
+                        html += '<option value="'+data[k]+'">'+data[k]+'</option>';
+                    }
+                    $("#collegeId").html(html);
+                }
+            });
+        }
+
+        // 班级
+        function selectGrades(){
+            var _v = $.trim($("#zyName").val());
+            var _N = $.trim($("#collegeId").val());
+            $.get(prefix + '/selectGrades?deptId='+$.trim($("#treeId").val())+ "&zyName="+_v + "&collegeId="+_N, function(data){
+                //console.log(data);
+                var html = '<option value="" selected>--请选择--</option>';
+                if(data){
+                    for(var k in data){
+                        //console.log(k)
+                        html += '<option value="'+data[k]+'">'+data[k]+'</option>';
+                    }
+                    $("#gradeId").html(html);
+                }
+            });
+        }
+
         /*用户管理-新增-选择部门树*/
         function selectDeptTree() {
             var treeId = $("#treeId").val();
@@ -201,8 +256,11 @@
                 $("#treeId").val(body.find('#treeId').val());
                 $("#treeName").val(body.find('#treeName').val());
                 layer.close(index);
+                changeZyName();
             }
         }
+
+        changeZyName();
     </script>
 </body>
 </html>

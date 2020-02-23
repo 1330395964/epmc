@@ -1,13 +1,14 @@
 package edu.gxuwz.project.system.role.controller;
 
-import java.util.List;
-
+import edu.gxuwz.common.constant.UserConstants;
 import edu.gxuwz.common.utils.poi.ExcelUtil;
 import edu.gxuwz.framework.aspectj.lang.annotation.Log;
 import edu.gxuwz.framework.aspectj.lang.enums.BusinessType;
 import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
+import edu.gxuwz.project.system.role.domain.Role;
+import edu.gxuwz.project.system.role.service.IRoleService;
 import edu.gxuwz.project.system.user.domain.User;
 import edu.gxuwz.project.system.user.domain.UserRole;
 import edu.gxuwz.project.system.user.service.IUserService;
@@ -16,14 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import edu.gxuwz.common.constant.UserConstants;
-import edu.gxuwz.project.system.role.domain.Role;
-import edu.gxuwz.project.system.role.service.IRoleService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 角色信息
@@ -225,6 +221,7 @@ public class RoleController extends BaseController
     public String authUser(@PathVariable("roleId") Long roleId, ModelMap mmap)
     {
         mmap.put("role", roleService.selectRoleById(roleId));
+        mmap.put("deptId", getSysUser().getDeptId());
         return prefix + "/authUser";
     }
 

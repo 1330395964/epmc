@@ -198,14 +198,21 @@ public interface IUserService
      * @param
      * @return
      */
-    List<String> selectZy();
+    List<String> selectZy(User user);
 
     /**
      * 检索班级
      * @param
      * @return
      */
-    List<String> selectGrades();
+    List<String> selectGrades(User user);
+
+    /**
+     * 检索年级
+     * @param user
+     * @return
+     */
+    List<String> selectColleges(User user);
 
 
     void insertUserRole(User user);

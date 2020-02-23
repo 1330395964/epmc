@@ -39,6 +39,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
             <if test="recordDate != null "> and record_date = #{recordDate}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(record_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
             <if test="tempMorning != null  and tempMorning != ''"> and temp_morning = #{tempMorning}</if>
             <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>
             <if test="recordCough != null  and recordCough != ''"> and record_cough = #{recordCough}</if>
@@ -60,6 +66,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="recordNumber != null  and recordNumber != ''"> and record_number = #{recordNumber}</if>
             <if test="recordDate != null "> and record_date = #{recordDate}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(record_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
             <if test="tempMorning != null  and tempMorning != ''"> and temp_morning = #{tempMorning}</if>
             <if test="tempAfternoon != null  and tempAfternoon != ''"> and temp_afternoon = #{tempAfternoon}</if>
             <if test="recordCough != null  and recordCough != ''"> and record_cough = #{recordCough}</if>
@@ -81,7 +93,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         record_cough, references_name, other_cough, other_name, other_situation,
         outside_life, outside_reason ,health, fever,cough,weak ,r.remark from sys_record r
         left join sys_user u on r.record_number = u.login_name
-        where u.dept_id = #{deptId} and u.student = false
+        where u.dept_id = #{deptId}
+        <if test="user.student != null">and u.student = #{user.student}</if>
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
@@ -128,6 +141,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dept.deptId != null and dept.deptId != 0">and u.dept_id = #{dept.deptId}</if>
             <if test="user.zyName != null and user.zyName != ''">and u.zy_name = #{user.zyName}</if>
             <if test="user.gradeId != null and user.gradeId != ''">and u.grade_id = #{user.gradeId}</if>
+            <if test="user.collegeId != null and user.collegeId != ''">and u.college_id = #{user.collegeId}</if>
+            <if test="user.userName != null  and user.userName != ''"> and u.user_name like concat('%', #{user.userName}, '%')</if>
         )
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>

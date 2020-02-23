@@ -44,8 +44,9 @@ public class UserController extends BaseController
 
     @RequiresPermissions("system:user:view")
     @GetMapping()
-    public String user()
+    public String user(ModelMap map)
     {
+        map.put("deptId",getSysUser().getDeptId());
         return prefix + "/user";
     }
 

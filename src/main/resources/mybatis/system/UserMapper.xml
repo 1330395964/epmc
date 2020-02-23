@@ -124,24 +124,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where u.login_name = #{userName}
 	</select>
 	
-	<select id="selectZy" resultType="String">
+	<select id="selectZy" parameterType="User" resultType="String">
 		select
 			distinct
-			zy_name
+			u.zy_name
 		from
-			sys_user
+			sys_user u
 		where
-			student = 1
+			u.student = 1 and u.zy_name is not null
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
 	</select>
 	
-	<select id="selectGrades" resultType="String">
+	<select id="selectColleges" parameterType="User" resultType="String">
+		select
+		distinct
+		u.college_id
+		from
+		sys_user u
+		where
+		u.student = 1 and u.college_id is not null
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
+		<if test="zyName != null and zyName != ''"> and u.zy_name = #{zyName}</if>
+	</select>
+	
+	<select id="selectGrades" parameterType="User" resultType="String">
 		select
 			distinct
-			grade_id
+			u.grade_id
 		from
-			sys_user
+			sys_user u
 		where
-			student = 1
+		u.student = 1 and u.grade_id is not null
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
+		<if test="zyName != null and zyName != ''"> and u.zy_name = #{zyName}</if>
+		<if test="collegeId != null and collegeId != ''"> and u.college_id = #{collegeId}</if>
 	</select>
 	
 	<select id="selectUserList" parameterType="User" resultMap="UserResult">
@@ -158,6 +180,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<if test="status != null and status != ''">
 			AND u.status = #{status}
+		</if>
+		<if test="student != null">
+			AND u.student = #{student}
 		</if>
 		<if test="userName != null and userName != ''">
 			AND u.user_name like concat('%', #{userName}, '%')

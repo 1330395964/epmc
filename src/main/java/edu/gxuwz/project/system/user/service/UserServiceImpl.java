@@ -523,12 +523,17 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public List<String> selectZy() {
-        return userMapper.selectZy();
+    public List<String> selectZy(User user) {
+        return userMapper.selectZy(user);
     }
 
     @Override
-    public List<String> selectGrades() {
-        return userMapper.selectGrades();
+    public List<String> selectGrades(User user) {
+        return userMapper.selectGrades(user);
+    }
+
+    @Override
+    public List<String> selectColleges(User user) {
+        return userMapper.selectColleges(user);
     }
 }
