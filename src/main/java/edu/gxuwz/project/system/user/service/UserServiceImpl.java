@@ -74,6 +74,14 @@ public class UserServiceImpl implements IUserService
 
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
+    public List<User> selectWeitianbao(User user)
+    {
+        // 生成数据权限过滤条件
+        return userMapper.weitianbao(user);
+    }
+
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<User> xuesheng(User user)
     {
         // 生成数据权限过滤条件

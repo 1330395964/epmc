@@ -1,5 +1,6 @@
 package edu.gxuwz.project.system.user.mapper;
 
+import edu.gxuwz.project.system.record.domain.Record;
 import edu.gxuwz.project.system.user.domain.User;
 
 import java.util.List;
@@ -23,6 +24,13 @@ public interface UserMapper
 
 
     public List<User> jiaozhigong(User user);
+
+    /**
+     * 异常统计
+     * @param user
+     * @return
+     */
+    List<Record> selectWeitianbao(User user);
 
 
     /**
@@ -156,4 +164,11 @@ public interface UserMapper
      * @return
      */
     List<String> selectGrades(User user);
+
+    /**
+     * 未填报记录
+     * @param
+     * @return
+     */
+    List<User> weitianbao(User user);
 }

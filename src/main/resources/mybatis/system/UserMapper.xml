@@ -132,7 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			sys_user u
 		where
 			u.student = 1 and u.zy_name is not null
-		<if test="deptId != null and deptId != 0">
+		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 	</select>
@@ -145,7 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		sys_user u
 		where
 		u.student = 1 and u.college_id is not null
-		<if test="deptId != null and deptId != 0">
+		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 		<if test="zyName != null and zyName != ''"> and u.zy_name = #{zyName}</if>
@@ -159,7 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			sys_user u
 		where
 		u.student = 1 and u.grade_id is not null
-		<if test="deptId != null and deptId != 0">
+		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 		<if test="zyName != null and zyName != ''"> and u.zy_name = #{zyName}</if>
@@ -196,11 +196,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
 			AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
 		</if>
-		<if test="deptId != null and deptId != 0">
+		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
+	</select>
+
+	<select id="weitianbao" parameterType="User" resultMap="UserResult1">
+		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber,
+		u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by,
+		u.create_time, u.remark, u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
+		u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
+		u.grade_id, u.card_nu, u.zy_name, u.college_id from sys_user u
+		where 1=1
+		<if test="userName != null and userName != ''">
+			AND u.user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="student != null">
+			AND u.student = #{student}
+		</if>
+		<if test="deptId != null and deptId != 100">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
+		and u.login_name not in
+		(
+		SELECT record_number FROM sys_record WHERE 1=1
+		<if test="params.beginTime != null and params.beginTime != ''"><!-- 时间检索 -->
+			AND date_format(record_date,'%y%m%d') = date_format(#{params.beginTime},'%y%m%d')
+		</if>
+		)
 	</select>
 
 	<select id="xuesheng" parameterType="User" resultMap="UserResult1">
@@ -211,7 +236,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		u.grade_id, u.card_nu, u.zy_name, u.college_id from sys_user u
 		left join sys_user_role r on u.user_id = r.user_id
 		where r.role_id = 100
-		<if test="deptId != null and deptId != 0">
+		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 		<if test="userName != null and userName != ''">
@@ -229,7 +254,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left join sys_dept d on u.dept_id = d.dept_id
 		left join sys_user_role r on u.user_id = r.user_id
 		where r.role_id = 101 or r.role_id = 102
-		<if test="deptId != null and deptId != 0">
+		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 		<if test="userName != null and userName != ''">

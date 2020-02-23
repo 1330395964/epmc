@@ -23,6 +23,13 @@ public interface IUserService
 
     public List<User> jiaozhigong(User user);
 
+    /**
+     * 未填报记录
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<User> selectWeitianbao(User user);
 
     /**
      * 根据条件分页查询已分配用户角色列表

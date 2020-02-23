@@ -129,4 +129,5 @@ public class RecordServiceImpl implements IRecordService
     public List<Record> selectYichang(Record record) {
         return recordMapper.selectYichang(record);
     }
+
 }

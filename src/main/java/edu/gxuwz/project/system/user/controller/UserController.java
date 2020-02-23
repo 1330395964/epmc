@@ -9,6 +9,7 @@ import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
 import edu.gxuwz.project.system.post.service.IPostService;
+import edu.gxuwz.project.system.record.domain.Record;
 import edu.gxuwz.project.system.role.domain.Role;
 import edu.gxuwz.project.system.role.service.IRoleService;
 import edu.gxuwz.project.system.user.domain.User;
@@ -50,6 +51,26 @@ public class UserController extends BaseController
     {
         map.put("deptId",getSysUser().getDeptId());
         return prefix + "/user";
+    }
+
+    /**
+     * 未填报记录统计
+     * @return
+     */
+    @GetMapping("/weitianbao")
+    public String weitianbao(ModelMap map){
+        map.put("deptId", getSysUser().getDeptId());
+        return "system/record/weitianbao";
+    }
+
+    @RequiresPermissions("system:user:list")
+    @PostMapping("/weitianbao")
+    @ResponseBody
+    public TableDataInfo weitianbao(User user)
+    {
+        startPage();
+        List<User> list = userService.selectWeitianbao(user);
+        return getDataTable(list);
     }
 
     @RequiresPermissions("system:user:view")

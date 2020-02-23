@@ -83,7 +83,6 @@ public class RecordController extends BaseController
         return getDataTable(list);
     }
 
-
     /**
      * 异常记录统计
      * @return

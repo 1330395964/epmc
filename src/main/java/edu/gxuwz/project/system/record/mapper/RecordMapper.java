@@ -88,4 +88,5 @@ public interface RecordMapper
      * @return
      */
     List<Record> selectYichang(Record record);
+
 }

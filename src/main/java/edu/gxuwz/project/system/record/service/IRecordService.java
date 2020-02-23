@@ -88,4 +88,5 @@ public interface IRecordService
      * @return
      */
     List<Record> selectYichang(Record record);
+
 }

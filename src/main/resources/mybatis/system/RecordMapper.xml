@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         outside_life, outside_reason ,health, fever,cough,weak ,r.remark from sys_record r
         left join sys_user u on r.record_number = u.login_name
         where 1=1
-        <if test="dept.deptId != null">
+        <if test="dept.deptId != null and dept.deptId != 100">
             AND (u.dept_id = #{dept.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{dept.deptId},ancestors) ))
         </if>
         <if test="user.student != null">and u.student = #{user.student}</if>
@@ -126,8 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <otherwise>and temp_morning = #{tempMorning}</otherwise>
         </choose>
     </select>
-    
-    
+
     <select id="bumen" parameterType="Record" resultMap="RecordResult">
         select record_id, record_number, record_date, temp_morning, temp_afternoon,
         record_cough, references_name, other_cough, other_name, other_situation,
