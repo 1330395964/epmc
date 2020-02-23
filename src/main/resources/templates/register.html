@@ -59,9 +59,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group" id="a_dept">
-                        <label class="col-sm-4 control-label is-required">归属部门：</label>
+                <div class="col-sm-6" >
+                    <div class="form-group" id="a_dept_student">
+                        <label class="col-sm-4 control-label is-required">所在学院：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <select id="changeXy" class="form-control" onchange="changeStudentXueyuan()">
+                                    <option value=101>大数据学院</option>
+                                    <option value=102>外国语学院</option>
+                                    <option value=217>宝艺学院</option>
+                                    <option value=218>商学院</option>
+                                    <option value=219>机化学院</option>
+                                    <option value=220>教师教育学院</option>
+                                    <option value=221>电信学院</option>
+                                    <option value=222>文传学院</option>
+                                    <option value=223>法管学院</option>
+                                    <option value=224>马克思主义学院</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="a_dept" style="display: none;">
+                        <label class="col-sm-4 control-label is-required">所属部门：</label>
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <input name="deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
@@ -183,12 +202,19 @@
         $("#status").on('click', function(){
             if($(this).is(':checked')){
                 $("#status-tip").text("我将注册教职工身份");
-                //$("#a_dept").show();
+                $("#a_dept").show();
+                $("#a_dept_student").hide();
             }else{
                 $("#status-tip").text("我将注册学生身份");
-                //$("#a_dept").hide();
+                $("#a_dept").hide();
+                $("#a_dept_student").show();
             }
         });
+
+        function changeStudentXueyuan(){
+            $("#treeId").val($('#changeXy').val());
+            console.log($("#treeId").val());
+        };
         
         function submitHandler() {
             if(!$("input[id='status']").is(':checked')){
@@ -219,7 +245,7 @@
         function selectDeptTree() {
         	var treeId = $("#treeId").val();
         	var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
-        	var url = prefix + "/selectDeptTree/" + deptId;
+        	var url = prefix + "/selectDeptTree/" + deptId + "?";
 			var options = {
 				title: '选择部门',
 				width: "380",
