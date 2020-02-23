@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-group" id="a_dept" style="display: none;">
+                    <div class="form-group" id="a_dept">
                         <label class="col-sm-4 control-label is-required">归属部门：</label>
                         <div class="col-sm-8">
                             <div class="input-group">
@@ -183,10 +183,10 @@
         $("#status").on('click', function(){
             if($(this).is(':checked')){
                 $("#status-tip").text("我将注册教职工身份");
-                $("#a_dept").show();
+                //$("#a_dept").show();
             }else{
                 $("#status-tip").text("我将注册学生身份");
-                $("#a_dept").hide();
+                //$("#a_dept").hide();
             }
         });
         
