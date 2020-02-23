@@ -87,7 +87,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="weak != null">and weak = #{weak}</if>
         </where>
     </select>
-
+    
+    <select id="selectYichang" parameterType="Record" resultMap="RecordResult">
+        select record_id, record_number, record_date, temp_morning, temp_afternoon,
+        record_cough, references_name, other_cough, other_name, other_situation,
+        outside_life, outside_reason ,health, fever,cough,weak ,r.remark from sys_record r
+        left join sys_user u on r.record_number = u.login_name
+        where 1=1
+        <if test="dept.deptId != null">
+            AND (u.dept_id = #{dept.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{dept.deptId},ancestors) ))
+        </if>
+        <if test="user.student != null">and u.student = #{user.student}</if>
+        <if test="user.userName != null  and user.userName != ''"> and u.user_name like concat('%', #{user.userName}, '%')</if>
+        <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
+        <if test="recordDate != null "> and record_date = #{recordDate}</if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(r.record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        <if test="tempAfternoon != null  and tempAfternoon != ''"> and r.temp_afternoon = #{tempAfternoon}</if>
+        <if test="recordCough != null  and recordCough != ''"> and r.record_cough = #{recordCough}</if>
+        <if test="referencesName != null  and referencesName != ''"> and r.references_name like concat('%', #{referencesName}, '%')</if>
+        <if test="otherCough != null  and otherCough != ''"> and r.other_cough = #{otherCough}</if>
+        <if test="otherName != null  and otherName != ''"> and r.other_name like concat('%', #{otherName}, '%')</if>
+        <if test="otherSituation != null  and otherSituation != ''"> and r.other_situation = #{otherSituation}</if>
+        <if test="outsideLife != null  and outsideLife != ''"> and r.outside_life = #{outsideLife}</if>
+        <if test="outsideReason != null  and outsideReason != ''"> and r.outside_reason = #{outsideReason}</if>
+        <if test="health != null ">and r.health = #{health}</if>
+        <if test="fever != null">and r.fever = #{fever}</if>
+        <if test="cough != null">and r.cough = #{cough}</if>
+        <if test="weak != null">and r.weak = #{weak}</if>
+        <choose>
+            <when test="tempMorning == null  or tempMorning == '' "></when>
+            <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
+            <when test="tempMorning != null  and tempMorning == 0 ">and temp_morning &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
+            <otherwise>and temp_morning = #{tempMorning}</otherwise>
+        </choose>
+    </select>
+    
+    
     <select id="bumen" parameterType="Record" resultMap="RecordResult">
         select record_id, record_number, record_date, temp_morning, temp_afternoon,
         record_cough, references_name, other_cough, other_name, other_situation,

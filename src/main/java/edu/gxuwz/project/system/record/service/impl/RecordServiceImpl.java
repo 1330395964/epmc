@@ -124,4 +124,9 @@ public class RecordServiceImpl implements IRecordService
     public Record selectRecordByDateAndId(Date recordDate, String recordNumber) {
         return recordMapper.selectRecordByDateAndId(recordDate, recordNumber);
     }
+
+    @Override
+    public List<Record> selectYichang(Record record) {
+        return recordMapper.selectYichang(record);
+    }
 }

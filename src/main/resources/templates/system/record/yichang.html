@@ -7,16 +7,20 @@
      <div class="container-div">
         <div class="row">
             <div class="col-sm-12 search-collapse">
+                <input type="hidden" th:value="${deptId}" id="tempTreeId"/>
                 <form id="formId">
-                    <input name="deptId" type="hidden" th:value="${user.deptId}" id="treeId"/>
+                    <input name="dept.deptId" type="hidden" th:value="${deptId}" id="treeId"/>
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>姓名：</p>
-                                <input type="text" name="user.userName"/>
+                                <p style="width: 72px;">部门/全校：</p>
+                                <select id="changeBnXy" onchange="changeBnXyFn()" >
+                                    <option value="1">全校</option>
+                                    <option value="0" selected>部门</option>
+                                </select>
                             </li>
 
-                            <li>
+                            <li id="bumenSt">
                                 <p style="width: 94px;">学院（部门）：</p>
                                 <div class="input-group" style="width: 170px;">
                                     <input name="dept.deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" required>
@@ -32,16 +36,48 @@
                             <li>
                                 <p>体温高于37.3：</p>
                                 <select name="tempMorning" id="tempMorning">
-                                    <option style='display: none'></option>
-                                    <option value="1" >是</option>
+                                    <option value="1" selected>是</option>
                                     <option value="0">否</option>
                                 </select>
                             </li>
                             <li>
                                 <p>教职工/学生：</p>
                                 <select name="user.student" >
-                                    <option value="0" selected>教职工</option>
+                                    <option value="" selected>全部</option>
+                                    <option value="0" >教职工</option>
                                     <option value="1" >学生</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>是否健康：</p>
+                                <select name="health" id="health">
+                                    <option value="" selected>全部</option>
+                                    <option value="0">健康</option>
+                                    <option value="1">不健康</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>是否发热：</p>
+                                <select name="fever" id="fever">
+                                    <option value="" selected>全部</option>
+                                    <option value="0">否</option>
+                                    <option value="1">是</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>是否干咳：</p>
+                                <select name="cough" id="cough">
+                                    <option value="" selected>全部</option>
+                                    <option value="0" >否</option>
+                                    <option value="1">是</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>是否乏力：</p>
+                                <select name="weak" id="weak">
+                                    <option value="" selected>全部</option>
+                                    <option value="0" >否</option>
+                                    <option value="1">是</option>
                                 </select>
                             </li>
                             <li>
@@ -54,16 +90,7 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:record:add">
-                    <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:record:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:record:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:record:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" >
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -80,10 +107,7 @@
 
         $(function() {
             var options = {
-                url: prefix + "/bumens",
-                createUrl: prefix + "/add",
-                updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
+                url: prefix + "/yichang",
                 exportUrl: prefix + "/export?excelType=bumen",
                 exportWordUrl: prefix + "/export?type=word",
                 modalName: "记录",
@@ -186,6 +210,17 @@
                 $("#treeId").val(body.find('#treeId').val());
                 $("#treeName").val(body.find('#treeName').val());
                 layer.close(index);
+            }
+        }
+
+
+        function changeBnXyFn(){
+            if($.trim($("#changeBnXy").val()) == 1){
+                $("#treeId").val(0);
+                $("#bumenSt").hide();
+            }else{
+                $("#treeId").val($("#tempTreeId").val());
+                $("#bumenSt").show();
             }
         }
     </script>

@@ -81,4 +81,11 @@ public interface IRecordService
      * @return
      */
     Record selectRecordByDateAndId(Date recordDate, String recordNumber);
+
+    /**
+     * 异常统计
+     * @param record
+     * @return
+     */
+    List<Record> selectYichang(Record record);
 }

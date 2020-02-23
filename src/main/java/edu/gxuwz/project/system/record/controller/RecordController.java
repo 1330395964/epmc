@@ -82,6 +82,25 @@ public class RecordController extends BaseController
         List<Record> list = recordService.selectRecordList(record);
         return getDataTable(list);
     }
+
+
+    /**
+     * 异常记录统计
+     * @return
+     */
+    @GetMapping("/yichang")
+    public String yichang(ModelMap map){
+        map.put("deptId", getSysUser().getDeptId());
+        return prefix + "/yichang";
+    }
+
+    @PostMapping("/yichang")
+    @ResponseBody
+    public TableDataInfo yichang(Record record){
+        List<Record> list = recordService.selectYichang(record);
+        return getDataTable(list);
+    }
+
     @GetMapping("bumen")
     public String bumen(ModelMap map)
     {
