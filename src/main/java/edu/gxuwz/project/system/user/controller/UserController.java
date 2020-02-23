@@ -9,6 +9,7 @@ import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
 import edu.gxuwz.project.system.post.service.IPostService;
+import edu.gxuwz.project.system.role.domain.Role;
 import edu.gxuwz.project.system.role.service.IRoleService;
 import edu.gxuwz.project.system.user.domain.User;
 import edu.gxuwz.project.system.user.service.IUserService;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -168,7 +170,34 @@ public class UserController extends BaseController
     public String edit(@PathVariable("userId") Long userId, ModelMap mmap)
     {
         mmap.put("user", userService.selectUserById(userId));
-        mmap.put("roles", roleService.selectRolesByUserId(userId));
+        List<Role> roles = roleService.selectRolesByUserId(userId);
+        User sysUser = getSysUser();
+        ArrayList<Role> list = new ArrayList<>();
+        if(roles != null && roles.size() > 0 && !sysUser.isAdmin()){
+            for (int i=0;i<roles.size();i++){ // 103部门信息员, 104校学生信息员, 105校交工信息员
+                Role role = roles.get(i);
+                if(!role.isFlag()){
+                    switch (role.getRoleId().intValue()){
+                        case 103:{
+                            list.add(role);
+                            break;
+                        }
+                        case 104:{
+                            list.add(role);
+                            break;
+                        }
+                        case 105:{
+                            list.add(role);
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                }
+            }
+            roles.removeAll(list);
+        }
+        mmap.put("roles", roles);
         mmap.put("posts", postService.selectPostsByUserId(userId));
         return prefix + "/edit";
     }

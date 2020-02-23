@@ -95,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join sys_user u on r.record_number = u.login_name
         where u.dept_id = #{deptId}
         <if test="user.student != null">and u.student = #{user.student}</if>
+        <if test="user.userName != null  and user.userName != ''"> and u.user_name like concat('%', #{user.userName}, '%')</if>
         <if test="recordNumber != null  and recordNumber != ''"> and record_number like concat('%', #{recordNumber}, '%')</if>
         <if test="recordDate != null "> and record_date = #{recordDate}</if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->

@@ -52,15 +52,15 @@
                         <label class="col-sm-4 control-label">我是教职工：</label>
                         <div class="col-sm-8">
                             <label class="toggle-switch switch-solid">
-                                <input type="checkbox" id="status" checked>
+                                <input type="checkbox" id="status">
                                 <span></span>
                             </label>
-                            <span id="status-tip">注册教职工身份</span>
+                            <span id="status-tip">我将注册学生身份</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-group" id="a_dept">
+                    <div class="form-group" id="a_dept" style="display: none;">
                         <label class="col-sm-4 control-label is-required">归属部门：</label>
                         <div class="col-sm-8">
                             <div class="input-group">
@@ -182,10 +182,10 @@
 
         $("#status").on('click', function(){
             if($(this).is(':checked')){
-                $("#status-tip").text("注册教职工身份");
+                $("#status-tip").text("我将注册教职工身份");
                 $("#a_dept").show();
             }else{
-                $("#status-tip").text("注册学生身份");
+                $("#status-tip").text("我将注册学生身份");
                 $("#a_dept").hide();
             }
         });
