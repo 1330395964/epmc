@@ -247,6 +247,15 @@ public class UserServiceImpl implements IUserService
         userPostMapper.deleteUserPostByUserId(userId);
         // 新增用户与岗位管理
         insertUserPost(user);
+        Long[] roleIds = user.getRoleIds();
+        if(roleIds != null){
+            for (Long r:roleIds){
+                if(r.longValue() == 100){
+                    user.setStudent(true);
+                    break;
+                }
+            }
+        }
         return userMapper.updateUser(user);
     }
 

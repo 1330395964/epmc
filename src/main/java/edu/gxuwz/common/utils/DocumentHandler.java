@@ -29,8 +29,8 @@ public class DocumentHandler {
         // 要填入模本的数据文件
         Map dataMap = new HashMap();
         getData(dataMap);
-        File outFile = new File("./"+ UUID.randomUUID() +".docx");  //要与上下文编码一致
-        return createDoc(dataMap,"./"+ UUID.randomUUID(), "docx");
+        File outFile = new File("./"+ UUID.randomUUID() +".doc");  //要与上下文编码一致
+        return createDoc(dataMap,"./"+ UUID.randomUUID(), "doc");
     }
 
     public String createDoc(Map<String, Object> dataMap, String path) {
@@ -163,8 +163,8 @@ public class DocumentHandler {
 
     public AjaxResult export(Map<String, Object> dataMap, String name){
         String filename = encodingFilename(name);
-        String absoluteFile = getAbsoluteFile(filename + ".docx");
+        String absoluteFile = getAbsoluteFile(filename + ".doc");
         createDoc(dataMap, absoluteFile);
-        return AjaxResult.success(filename  + ".docx");
+        return AjaxResult.success(filename  + ".doc");
     }
 }
