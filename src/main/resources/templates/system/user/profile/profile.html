@@ -92,6 +92,63 @@
 											</div>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">所在省份：</label>
+                                        <div class="col-sm-8">
+                                            <select type="text" id="province" onchange="chooseProvince(this)" class="form-control" name="province" placeholder="请选择所在省份">
+                                                <option  th:text="*{province}" >---请选择省---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">所在城市：</label>
+                                        <div class="col-sm-8">
+                                            <select type="text" id="cityName" onchange="chooseCity(this)"  class="form-control" name="cityName" placeholder="请选择所在城市">
+                                                <option  th:text="*{cityName}">---请选择省---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">所在区、县：</label>
+                                        <div class="col-sm-8">
+                                            <select type="text" id="county" class="form-control" name="county" placeholder="请选择所在区、县">
+                                                <option  th:text="*{county}">---请选择省---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">详细住址：</label>
+                                        <div class="col-sm-8">
+                                            <textarea type="text" class="form-control" name="address" th:field="*{address}" placeholder="请输入详细住址"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">身份证号：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="cardNu" th:field="*{cardNu}" placeholder="请输入身份证号">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" th:if="*{dept.deptName} == null">
+                                        <label class="col-sm-4 control-label">归属学院(部门）：</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input name="deptId" type="hidden" id="treeId" th:field="*{deptId}"/>
+                                                <input name="deptName" onclick="selectDeptTree()" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" >
+                                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:if="*{dept.deptName} != null">
+                                        <label class="col-sm-4 control-label">归属学院(部门）：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control m-b" readonly required th:field="*{dept.deptName}" />
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button type="button" class="btn btn-sm btn-primary" onclick="submitUserInfo()"><i class="fa fa-check"></i>保 存</button>&nbsp;
@@ -215,6 +272,93 @@
 	        	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
 	        }
 	    }
+
+        //保存省
+        var provinceArray = new Array();
+        //保存市
+        var cityArray = new Array();
+        var cityList;
+
+
+        var provinceTag = document.getElementById("province");
+        var cityTag = document.getElementById("cityName");
+        var areaTag = document.getElementById("county");
+
+        for(var i=0; i<provinceList.length; i++){
+            var province = provinceList[i];
+            var provinceName = province.name;
+            provinceArray[i]=provinceName;
+            provinceTag.add(new Option(provinceName,provinceName));
+        }
+
+        //选择省
+        function chooseProvince(th){
+            var index = th.selectedIndex-1;
+            var provinceName = provinceArray[index];
+
+
+            for(var n=0; n<provinceList.length; n++){
+                var provice = provinceList[n];
+                if (provice.name == provinceName){
+                    cityList = provice.cityList;
+                    cityTag.innerHTML="";
+                    for(var c=0; c<cityList.length; c++){
+                        var city = cityList[c];
+                        var cityName = city.name;
+                        cityArray[c] = cityName;
+                        cityTag.add(new Option(cityName,cityName));
+                    }
+                }
+            }
+            var cityName = cityArray[0];
+            var city1 = cityList[0];
+            var areaList = city1.areaList;
+            areaTag.innerHTML="";
+            for(var a=0; a<areaList.length; a++){
+                var area = areaList[a];
+                areaTag.add(new Option(area,a));
+            }
+        }
+        //选择市
+        function chooseCity(tag){
+            var index2 = tag.selectedIndex;
+            var cityName = cityArray[index2];
+            for(var m=0; m<cityList.length; m++){
+                var city1 = cityList[m];
+                if (city1.name == cityName){
+                    var areaList = city1.areaList;
+                    areaTag.innerHTML="";
+                    for(var a=0; a<areaList.length; a++){
+                        var area = areaList[a];
+                        areaTag.add(new Option(area,area));
+                    }
+                }
+            }
+        }
+
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+            var treeId = $("#treeId").val();
+            var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
+            var url = ctx + "register/selectDeptTree/" + deptId;
+            var options = {
+                title: '选择部门',
+                width: "380",
+                url: url,
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero){
+            var tree = layero.find("iframe")[0].contentWindow.$._tree;
+            if ($.tree.notAllowParents(tree)) {
+                var body = layer.getChildFrame('body', index);
+                $("#treeId").val(body.find('#treeId').val());
+                $("#treeName").val(body.find('#treeName').val());
+                layer.close(index);
+            }
+        }
 	    
 	    /*用户管理-修改密码*/
 	    $("#form-user-resetPwd").validate({
