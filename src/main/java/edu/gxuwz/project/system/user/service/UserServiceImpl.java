@@ -253,6 +253,8 @@ public class UserServiceImpl implements IUserService
                 if(r.longValue() == 100){
                     user.setStudent(true);
                     break;
+                }else{
+                    user.setStudent(false);
                 }
             }
         }
