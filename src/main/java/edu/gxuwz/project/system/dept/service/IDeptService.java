@@ -92,4 +92,11 @@ public interface IDeptService
      * @return 结果
      */
     public String checkDeptNameUnique(Dept dept);
+
+
+    /**
+     * 没有子节点的部门
+     * @return
+     */
+    List<Dept> selectDeptListNotChails();
 }

@@ -1,8 +1,9 @@
 package edu.gxuwz.project.system.dept.mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 import edu.gxuwz.project.system.dept.domain.Dept;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 部门管理 数据层
@@ -106,4 +107,11 @@ public interface DeptMapper
      * @return 部门列表
      */
     public List<Dept> selectChildrenDeptById(Long deptId);
+
+    /**
+     * 没有子节点的部门
+     * @return
+     */
+    List<Dept> selectDeptListNotChails();
+
 }

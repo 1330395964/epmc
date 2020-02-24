@@ -16,6 +16,7 @@ import edu.gxuwz.project.system.dept.domain.Dept;
 import edu.gxuwz.project.system.dept.service.IDeptService;
 import edu.gxuwz.project.system.grade.service.IGradeService;
 import edu.gxuwz.project.system.record.domain.Record;
+import edu.gxuwz.project.system.record.domain.RecordData;
 import edu.gxuwz.project.system.record.service.IRecordService;
 import edu.gxuwz.project.system.user.domain.User;
 import edu.gxuwz.project.system.user.service.IUserService;
@@ -80,6 +81,28 @@ public class RecordController extends BaseController
     {
         startPage();
         List<Record> list = recordService.selectRecordList(record);
+        return getDataTable(list);
+    }
+
+    /**
+     * 汇总
+     * @return
+     */
+    @GetMapping("/huizong")
+    public String huizong(ModelMap map){
+        map.put("date", DateUtils.getDate());
+        return prefix + "/huizong";
+    }
+
+    /**
+     * 汇总
+     * @return
+     */
+    @PostMapping("/huizong")
+    @ResponseBody
+    public TableDataInfo huizong(Record record){
+        startPage();
+        List<Map<String, Object>> list = recordService.huizong(record);
         return getDataTable(list);
     }
 
@@ -283,7 +306,27 @@ public class RecordController extends BaseController
             list = recordService.jiaozhigong(record);
         }else if("yichang".equals(excelType)){
             list = recordService.selectYichang(record);
-        }else{
+        }else if ("huizong".equals(excelType)){
+            List<Map<String, Object>> huizong = recordService.huizong(record);
+            ArrayList<RecordData> records = new ArrayList<>();
+            int i = 1;
+            if(huizong != null){
+                for(Map<String,Object> map : huizong){
+                    RecordData recordData = new RecordData();
+                    recordData.setDept((Dept) map.get("dept"));
+                    recordData.setIndex(Long.valueOf(i));
+                    recordData.setCountRecordStudent(map.get("countRecordStudent"));
+                    recordData.setCountRecordTeacher(map.get("countRecordTeacher"));
+                    recordData.setCountStudent(map.get("countStudent"));
+                    recordData.setCountTeacher(map.get("countTeacher"));
+                    recordData.setDate((String)map.get("date"));
+                    records.add(recordData);
+                    i++;
+                }
+            }
+            ExcelUtil<RecordData> util = new ExcelUtil<RecordData>(RecordData.class);
+            return util.exportExcel(records, "汇总记录");
+        } else{
             list = recordService.selectRecordList1(record);
         }
         if(StringUtils.isEmpty(type)){

@@ -61,6 +61,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
+    <select id="huizong" parameterType="Record" resultType="java.util.Map">
+        select
+        DISTINCT
+        s_s.count_record_student countRecordStudent,
+        s_t.count_record_teacher countRecordTeacher,
+        s_r_s.count_student countStudent,
+        s_r_t.count_teacher countTeacher
+        from
+                (
+                select
+                DISTINCT
+                    count(*) count_record_student
+                from sys_record r
+                WHERE
+                (r.temp_morning > 37.3 or r.temp_afternoon > 37.3 or r.health = true or r.cough = true or r.fever = true or r.weak = true) and
+        
+                r. record_number in (select u.login_name from sys_user u WHERE u.dept_id = #{deptId} and u.student = 1) and r.record_date = date_format(#{recordDate},'%y%m%d')
+                ) s_s,
+                (
+                select
+                DISTINCT
+                    count(*) count_record_teacher
+                from sys_record r
+                WHERE
+                (r.temp_morning > 37.3 or r.temp_afternoon > 37.3 or r.health = true or r.cough = true or r.fever = true or r.weak = true) and
+        
+                r. record_number in (select u.login_name from sys_user u WHERE u.dept_id = #{deptId} and u.student = 0)  and r.record_date = date_format(#{recordDate},'%y%m%d')
+                ) s_t,
+            (
+            select
+             DISTINCT
+                count(*) count_student
+            from
+                sys_record s_r
+            where
+                s_r.record_number in (select DISTINCT u.login_name from sys_user u where u.dept_id = #{deptId} and u.student = 1)
+                and s_r.record_date = date_format(#{recordDate},'%y%m%d')
+            ) s_r_s,
+            (
+            select
+             DISTINCT
+                count(*) count_teacher
+            from
+                sys_record s_r
+            where
+                s_r.record_number in (select DISTINCT u.login_name from sys_user u where u.dept_id = #{deptId} and u.student = 0)
+                and s_r.record_date = date_format(#{recordDate},'%y%m%d')
+            ) s_r_t
+
+
+    </select>
+    
     <select id="selectRecordList1" parameterType="Record" resultMap="RecordResult">
         <include refid="selectRecordVo"/>
         <where>

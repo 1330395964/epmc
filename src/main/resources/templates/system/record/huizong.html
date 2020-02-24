@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('汇总记录列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li class="select-time">
+                                <label>填报日期： </label>
+                                <input name="recordDate" class="form-control time-input date" placeholder="yyyy-MM-dd" th:value="${date}" type="text" required>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" >
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:record:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:record:remove')}]];
+        var prefix = ctx + "system/record";
+
+        $(function() {
+            var options = {
+                url: prefix + "/huizong",
+                exportUrl: prefix + "/export?excelType=huizong",
+                exportWordUrl: prefix + "/export?type=word",
+                modalName: "记录",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'index',
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'dept.deptName',
+                    title : '部门'
+                },
+                    {
+                        field : 'countRecordTeacher',
+                        title : '教职工异常人数'
+                    },
+                    {
+                        field : 'countRecordStudent',
+                        title : '学生异常人数'
+                    },
+                    {
+                        field : 'countTeacher',
+                        title : '教职工填报人数'
+                    },
+                    {
+                        field : 'countStudent',
+                        title : '学生填报人数'
+                    },
+                {
+                    field : 'date',
+                    title : '记录日期'
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

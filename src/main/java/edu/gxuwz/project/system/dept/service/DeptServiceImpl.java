@@ -291,4 +291,9 @@ public class DeptServiceImpl implements IDeptService
         }
         return UserConstants.DEPT_NAME_UNIQUE;
     }
+
+    @Override
+    public List<Dept> selectDeptListNotChails() {
+        return deptMapper.selectDeptListNotChails();
+    }
 }

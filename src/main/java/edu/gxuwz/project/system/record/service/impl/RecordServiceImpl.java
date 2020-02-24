@@ -1,6 +1,9 @@
 package edu.gxuwz.project.system.record.service.impl;
 
+import edu.gxuwz.common.utils.DateUtils;
 import edu.gxuwz.common.utils.text.Convert;
+import edu.gxuwz.project.system.dept.domain.Dept;
+import edu.gxuwz.project.system.dept.service.IDeptService;
 import edu.gxuwz.project.system.record.domain.Record;
 import edu.gxuwz.project.system.record.mapper.RecordMapper;
 import edu.gxuwz.project.system.record.service.IRecordService;
@@ -8,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 记录Service业务层处理
@@ -21,6 +26,9 @@ public class RecordServiceImpl implements IRecordService
 {
     @Autowired
     private RecordMapper recordMapper;
+
+    @Autowired
+    private IDeptService deptService;
 
     /**
      * 查询记录
@@ -128,6 +136,23 @@ public class RecordServiceImpl implements IRecordService
     @Override
     public List<Record> selectYichang(Record record) {
         return recordMapper.selectYichang(record);
+    }
+
+    @Override
+    public List<Map<String, Object>> huizong(Record record) {
+        ArrayList<Map<String, Object>> maps = new ArrayList<>();
+        List<Dept> depts = deptService.selectDeptListNotChails();
+        if(depts != null){
+            for (int i=0; i<depts.size(); i++){
+                Dept dept = depts.get(i);
+                record.setDeptId(dept.getDeptId());
+                Map<String, Object> huizong = recordMapper.huizong(record);
+                huizong.put("dept", dept);
+                huizong.put("date", DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, record.getRecordDate()));
+                maps.add(huizong);
+            }
+        }
+        return maps;
     }
 
 }

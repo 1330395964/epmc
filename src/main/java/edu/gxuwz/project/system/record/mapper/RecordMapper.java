@@ -4,6 +4,7 @@ import edu.gxuwz.project.system.record.domain.Record;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 记录Mapper接口
@@ -88,5 +89,12 @@ public interface RecordMapper
      * @return
      */
     List<Record> selectYichang(Record record);
+
+    /**
+     * 汇总
+     * @param record
+     * @return
+     */
+    Map<String, Object> huizong(Record record);
 
 }

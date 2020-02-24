@@ -15,35 +15,20 @@ public class RecordData extends BaseEntity {
     @Excel(name = "部门", targetAttr = "deptName")
     private Dept dept;
 
-    @Excel(name = "填报总人数")
-    private Long countNu;
+    @Excel(name = "学生异常人数")
+    private Object countRecordStudent;
 
-    /** 是否健康：0是 1否*/
-    @Excel(name = "(true:不健康)(false:健康)", readConverterExp = "0=是,1=否")
-    private Boolean health;
+    @Excel(name = "教职工异常人数")
+    private Object countRecordTeacher;
 
-    /** 是否发热：1是 0否 */
-    @Excel(name = "(true:发热)(false:不发热)", readConverterExp = "1=是,0=否")
-    private Boolean fever;
+    @Excel(name = "学生填报人数")
+    private Object countStudent;
 
-    /** 是否干咳：1是 0否*/
-    @Excel(name = "(true:干咳)(false:不干咳)", readConverterExp = "1=是,0=否")
-    private Boolean cough;
+    @Excel(name = "教职工填报人数")
+    private Object countTeacher;
 
-    /** 是否乏力：1是 0否*/
-    @Excel(name = "(true:乏力)(false:不乏力)", readConverterExp = "1=是,0=否")
-    private Boolean weak;
-
-    /** 其他 */
-    @Excel(name = "所在地")
-    private String remark;
-
-
-    public RecordData(){}
-
-    public RecordData(Record record){
-
-    }
+    @Excel(name = "统计日期")
+    private String date;
 
     public Long getIndex() {
         return index;
@@ -61,54 +46,44 @@ public class RecordData extends BaseEntity {
         this.dept = dept;
     }
 
-    public Long getCountNu() {
-        return countNu;
+    public Object getCountRecordStudent() {
+        return countRecordStudent;
     }
 
-    public void setCountNu(Long countNu) {
-        this.countNu = countNu;
+    public void setCountRecordStudent(Object countRecordStudent) {
+        this.countRecordStudent = countRecordStudent;
     }
 
-    public Boolean getHealth() {
-        return health;
+    public Object getCountRecordTeacher() {
+        return countRecordTeacher;
     }
 
-    public void setHealth(Boolean health) {
-        this.health = health;
+    public void setCountRecordTeacher(Object countRecordTeacher) {
+        this.countRecordTeacher = countRecordTeacher;
     }
 
-    public Boolean getFever() {
-        return fever;
+    public Object getCountStudent() {
+        return countStudent;
     }
 
-    public void setFever(Boolean fever) {
-        this.fever = fever;
+    public void setCountStudent(Object countStudent) {
+        this.countStudent = countStudent;
     }
 
-    public Boolean getCough() {
-        return cough;
+    public Object getCountTeacher() {
+        return countTeacher;
     }
 
-    public void setCough(Boolean cough) {
-        this.cough = cough;
+    public void setCountTeacher(Object countTeacher) {
+        this.countTeacher = countTeacher;
     }
 
-    public Boolean getWeak() {
-        return weak;
+    public String getDate() {
+        return date;
     }
 
-    public void setWeak(Boolean weak) {
-        this.weak = weak;
-    }
-
-    @Override
-    public String getRemark() {
-        return remark;
-    }
-
-    @Override
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
@@ -116,12 +91,11 @@ public class RecordData extends BaseEntity {
         return "RecordData{" +
                 "index=" + index +
                 ", dept=" + dept +
-                ", countNu=" + countNu +
-                ", health=" + health +
-                ", fever=" + fever +
-                ", cough=" + cough +
-                ", weak=" + weak +
-                ", remark='" + remark + '\'' +
+                ", countRecordStudent=" + countRecordStudent +
+                ", countRecordTeacher=" + countRecordTeacher +
+                ", countStudent=" + countStudent +
+                ", countTeacher=" + countTeacher +
+                ", date='" + date + '\'' +
                 '}';
     }
 }
