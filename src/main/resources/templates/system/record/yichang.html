@@ -34,50 +34,11 @@
                                 <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
                             </li>
                             <li>
-                                <p>体温高于37.3：</p>
-                                <select name="tempMorning" id="tempMorning">
-                                    <option value="1" selected>是</option>
-                                    <option value="0">否</option>
-                                </select>
-                            </li>
-                            <li>
                                 <p>教职工/学生：</p>
                                 <select name="user.student" >
                                     <option value="" selected>全部</option>
                                     <option value="0" >教职工</option>
                                     <option value="1" >学生</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>是否健康：</p>
-                                <select name="health" id="health">
-                                    <option value="" selected>全部</option>
-                                    <option value="0">健康</option>
-                                    <option value="1">不健康</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>是否发热：</p>
-                                <select name="fever" id="fever">
-                                    <option value="" selected>全部</option>
-                                    <option value="0">否</option>
-                                    <option value="1">是</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>是否干咳：</p>
-                                <select name="cough" id="cough">
-                                    <option value="" selected>全部</option>
-                                    <option value="0" >否</option>
-                                    <option value="1">是</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>是否乏力：</p>
-                                <select name="weak" id="weak">
-                                    <option value="" selected>全部</option>
-                                    <option value="0" >否</option>
-                                    <option value="1">是</option>
                                 </select>
                             </li>
                             <li>
@@ -131,6 +92,14 @@
                         field : 'user.dept.deptName',
                         title : '部门'
                     },
+                    {
+                        field : 'user.gradeId',
+                        title : '班级'
+                    },
+                    {
+                        field : 'user.phonenumber',
+                        title : '电话'
+                    },
                 {
                     field : 'recordDate', 
                     title : '记录日期'
@@ -147,28 +116,28 @@
                     field : 'health',
                     title : '是否健康',
                     formatter: function(value, row, index) {
-                        return value == false ? '是' : '否';
+                        return value == false ? '<span class="btn btn-primary btn-xs">是</span>' : '<span class="btn btn-danger btn-xs">否</span>';
                     }
                 },
                 {
                     field : 'fever',
                     title : '是否发热',
                     formatter: function(value, row, index) {
-                        return value == true ? '是' : '否';
+                        return value == true ? '<span class="btn btn-danger btn-xs">是</span>' : '<span class="btn btn-primary btn-xs">否</span>';
                     }
                 },
                 {
                     field : 'cough',
                     title : '是否干咳',
                     formatter: function(value, row, index) {
-                        return value == true ? '是' : '否';
+                        return value == true ? '<span class="btn btn-danger btn-xs">是</span>' : '<span class="btn btn-primary btn-xs">否</span>';
                     }
                 },
                 {
                     field : 'weak',
                     title : '是否乏力',
                     formatter: function(value, row, index) {
-                        return value == true ? '是' : '否';
+                        return value == true ? '<span class="btn btn-danger btn-xs">是</span>' : '<span class="btn btn-success btn-xs">否</span>';
                     }
                 },
                 {

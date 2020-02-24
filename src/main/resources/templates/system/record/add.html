@@ -107,7 +107,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">所在地（如:X省X市X县）：</label>
                 <div class="col-sm-8">
-                    <textarea id="remark" name="remark" class="form-control"></textarea>
+                    <textarea id="remark" name="remark" class="form-control" required></textarea>
                 </div>
             </div>
 <!--            <div class="form-group">    -->
@@ -170,11 +170,15 @@
         function submitHandler() {
             var _d = parseFloat($.trim($("input[name='tempMorning']").val()));
             if(_d<=0 || _d >= 50){
-                alert("警告提示:请认真填写数据");
-            }else{
-                if ($.validate.form()) {
-                    $.operate.save(prefix + "/add", $('#form-record-add').serialize());
-                }
+                alert("警告提示:请认真填写温度数据");
+                return;
+            }
+            if ($.trim($("#remark").val()).length <= 0){
+                alert("警告提示:请认真填写地址数据");
+                return;
+            }
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-record-add').serialize());
             }
         }
 

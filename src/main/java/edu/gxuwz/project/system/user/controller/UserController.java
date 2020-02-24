@@ -9,7 +9,6 @@ import edu.gxuwz.framework.web.controller.BaseController;
 import edu.gxuwz.framework.web.domain.AjaxResult;
 import edu.gxuwz.framework.web.page.TableDataInfo;
 import edu.gxuwz.project.system.post.service.IPostService;
-import edu.gxuwz.project.system.record.domain.Record;
 import edu.gxuwz.project.system.role.domain.Role;
 import edu.gxuwz.project.system.role.service.IRoleService;
 import edu.gxuwz.project.system.user.domain.User;
@@ -22,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,12 +118,18 @@ public class UserController extends BaseController
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
-    @RequiresPermissions("system:user:export")
+   // @RequiresPermissions("system:user:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(User user)
+    public AjaxResult export(User user, HttpServletRequest request)
     {
-        List<User> list = userService.selectUserList(user);
+        List<User> list = new ArrayList<>();
+        String excelType = request.getParameter("excelType");
+        if("weitianbao".equals(excelType)){
+            list = userService.selectWeitianbao(user);
+        }else{
+            list = userService.selectUserList(user);
+        }
         ExcelUtil<User> util = new ExcelUtil<User>(User.class);
         return util.exportExcel(list, "用户数据");
     }

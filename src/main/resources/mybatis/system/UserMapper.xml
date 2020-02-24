@@ -216,7 +216,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="student != null">
 			AND u.student = #{student}
 		</if>
-		<if test="deptId != null and deptId != 100">
+		<if test="deptId != null">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
 		and u.login_name not in

@@ -150,6 +150,17 @@
 		            field: 'phonenumber',
 		            title: '手机'
 		        },
+					{
+						field: 'cardNu',
+						title: '身份证后八位',
+						formatter: function (value, row, index) {
+							if(value){
+								return value.substr(value.length - 8);
+							}else{
+								return value;
+							}
+						}
+					},
 		        {
 		        	visible: editFlag == 'hidden' ? false : true,
 		        	title: '用户状态',

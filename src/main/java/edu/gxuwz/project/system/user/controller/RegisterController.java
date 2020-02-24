@@ -111,6 +111,13 @@ public class RegisterController extends BaseController {
             return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         //user.setCardNu(user.getLoginName());
+        user.setUserName(StringUtils.trim(user.getUserName()));
+        user.setCardNu(StringUtils.trim(user.getCardNu()));
+        user.setLoginName(StringUtils.trim(user.getLoginName()));
+        user.setEmail(StringUtils.trim(user.getEmail()));
+        user.setPhonenumber(StringUtils.trim(user.getPhonenumber()));
+
+
         user.setPassword(user.getCardNu().substring(user.getCardNu().length()-8));
         if(user.getStudent()){
            user.setRoleIds(new Long[]{100L});

@@ -107,24 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
             AND date_format(r.record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
         </if>
-        <if test="tempAfternoon != null  and tempAfternoon != ''"> and r.temp_afternoon = #{tempAfternoon}</if>
-        <if test="recordCough != null  and recordCough != ''"> and r.record_cough = #{recordCough}</if>
-        <if test="referencesName != null  and referencesName != ''"> and r.references_name like concat('%', #{referencesName}, '%')</if>
-        <if test="otherCough != null  and otherCough != ''"> and r.other_cough = #{otherCough}</if>
-        <if test="otherName != null  and otherName != ''"> and r.other_name like concat('%', #{otherName}, '%')</if>
-        <if test="otherSituation != null  and otherSituation != ''"> and r.other_situation = #{otherSituation}</if>
-        <if test="outsideLife != null  and outsideLife != ''"> and r.outside_life = #{outsideLife}</if>
-        <if test="outsideReason != null  and outsideReason != ''"> and r.outside_reason = #{outsideReason}</if>
-        <if test="health != null ">and r.health = #{health}</if>
-        <if test="fever != null">and r.fever = #{fever}</if>
-        <if test="cough != null">and r.cough = #{cough}</if>
-        <if test="weak != null">and r.weak = #{weak}</if>
-        <choose>
-            <when test="tempMorning == null  or tempMorning == '' "></when>
-            <when test="tempMorning != null  and tempMorning == 1 ">and( temp_morning > 37.3 or temp_afternoon > 37.3)</when>
-            <when test="tempMorning != null  and tempMorning == 0 ">and temp_morning &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
-            <otherwise>and temp_morning = #{tempMorning}</otherwise>
-        </choose>
+        and (r.temp_morning > 37.3 or r.temp_afternoon > 37.3 or  r.health = true or r.fever = true  or r.cough = true or r.weak = true)
     </select>
 
     <select id="bumen" parameterType="Record" resultMap="RecordResult">

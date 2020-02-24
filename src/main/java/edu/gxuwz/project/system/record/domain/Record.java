@@ -66,7 +66,9 @@ public class Record extends BaseEntity
     @Excels({
             @Excel(name = "姓名", targetAttr = "userName"),
             @Excel(name = "班级", targetAttr = "gradeId"),
-            @Excel(name = "学院（部门）", targetAttr = "dept.deptName")
+            @Excel(name = "学院（部门）", targetAttr = "dept.deptName"),
+            @Excel(name = "班级", targetAttr = "gradeId"),
+            @Excel(name = "电话", targetAttr = "phonenumber")
     })
     private User user;
 

@@ -52,6 +52,42 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">身份证后八位：</label>
+                        <div class="col-sm-8">
+                            <input id="cardNu" class="form-control" type="text" maxlength="20" th:field="*{cardNu}" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6" th:if="*{student} == true">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">专业：</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" name="zyName" type="text" maxlength="20" th:field="*{zyName}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" th:if="*{student} == true">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">年级：</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" name="collegeId" type="text" maxlength="20" th:field="*{collegeId}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">班级：</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" name="gradeId" type="text" maxlength="20" th:field="*{gradeId}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
                         <label class="col-sm-4 control-label is-required">登录账号：</label>
                         <div class="col-sm-8">
                             <input class="form-control" type="text" readonly="true" th:field="*{loginName}"/>
@@ -223,6 +259,14 @@
                 allowClear: true
             });
         })
+
+        $(function(){
+            if($.trim($("#cardNu").val()).length > 8){
+                var _v= $.trim($("#cardNu").val());
+                $("#cardNu").val(_v.substr(_v.length-8));
+                $("#cardNu").attr("readonly", "readonly");
+            }
+        });
     </script>
 </body>
 </html>
