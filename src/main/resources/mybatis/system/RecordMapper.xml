@@ -63,7 +63,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="huizong" parameterType="Record" resultType="java.util.Map">
         select
-        DISTINCT
         s_s.count_record_student countRecordStudent,
         s_t.count_record_teacher countRecordTeacher,
         s_r_s.count_student countStudent,
@@ -71,42 +70,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from
                 (
                 select
-                DISTINCT
                     count(*) count_record_student
-                from sys_record r
+                from sys_record r, (select u.login_name from sys_user u WHERE u.dept_id = #{deptId} and u.student = 1) t_1
                 WHERE
                 (r.temp_morning > 37.3 or r.temp_afternoon > 37.3 or r.health = true or r.cough = true or r.fever = true or r.weak = true) and
         
-                r. record_number in (select u.login_name from sys_user u WHERE u.dept_id = #{deptId} and u.student = 1) and r.record_date = date_format(#{recordDate},'%y%m%d')
+                r. record_number = t_1.login_name and r.record_date = date_format(#{recordDate},'%y%m%d')
                 ) s_s,
                 (
                 select
-                DISTINCT
                     count(*) count_record_teacher
-                from sys_record r
+                from sys_record r, (select u.login_name from sys_user u WHERE u.dept_id = #{deptId} and u.student = 0) t_2
                 WHERE
                 (r.temp_morning > 37.3 or r.temp_afternoon > 37.3 or r.health = true or r.cough = true or r.fever = true or r.weak = true) and
         
-                r. record_number in (select u.login_name from sys_user u WHERE u.dept_id = #{deptId} and u.student = 0)  and r.record_date = date_format(#{recordDate},'%y%m%d')
+                r. record_number = t_2.login_name  and r.record_date = date_format(#{recordDate},'%y%m%d')
                 ) s_t,
             (
             select
-             DISTINCT
                 count(*) count_student
             from
-                sys_record s_r
+                sys_record s_r, (select DISTINCT u.login_name from sys_user u where u.dept_id = #{deptId} and u.student = 1) t_3
             where
-                s_r.record_number in (select DISTINCT u.login_name from sys_user u where u.dept_id = #{deptId} and u.student = 1)
+                s_r.record_number = t_3.login_name
                 and s_r.record_date = date_format(#{recordDate},'%y%m%d')
             ) s_r_s,
             (
             select
-             DISTINCT
                 count(*) count_teacher
             from
-                sys_record s_r
+                sys_record s_r, (select DISTINCT u.login_name from sys_user u where u.dept_id = #{deptId} and u.student = 0) t_4
             where
-                s_r.record_number in (select DISTINCT u.login_name from sys_user u where u.dept_id = #{deptId} and u.student = 0)
+                s_r.record_number = t_4.login_name
                 and s_r.record_date = date_format(#{recordDate},'%y%m%d')
             ) s_r_t
 
