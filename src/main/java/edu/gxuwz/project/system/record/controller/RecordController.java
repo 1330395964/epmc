@@ -101,7 +101,7 @@ public class RecordController extends BaseController
     @PostMapping("/huizong")
     @ResponseBody
     public TableDataInfo huizong(Record record){
-        startPage();
+        //startPage();
         List<Map<String, Object>> list = recordService.huizong(record);
         return getDataTable(list);
     }
