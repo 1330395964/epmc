@@ -1,6 +1,7 @@
 package edu.gxuwz.project.system.user.controller;
 
 import edu.gxuwz.common.constant.UserConstants;
+import edu.gxuwz.common.utils.DateUtils;
 import edu.gxuwz.common.utils.poi.ExcelUtil;
 import edu.gxuwz.common.utils.security.ShiroUtils;
 import edu.gxuwz.framework.aspectj.lang.annotation.Log;
@@ -60,6 +61,7 @@ public class UserController extends BaseController
     @GetMapping("/weitianbao")
     public String weitianbao(ModelMap map){
         map.put("deptId", getSysUser().getDeptId());
+        map.put("date", DateUtils.getDate());
         return "system/record/weitianbao";
     }
 
@@ -75,15 +77,17 @@ public class UserController extends BaseController
 
     @RequiresPermissions("system:user:view")
     @GetMapping("xuesheng")
-    public String xuesheng()
+    public String xuesheng(ModelMap map)
     {
-        return prefix + "/xuesheng";
+        map.put("date", DateUtils.getDate())
+        ;return prefix + "/xuesheng";
     }
 
     @RequiresPermissions("system:user:view")
     @GetMapping("jiaozhigong")
-    public String jiaozhigong()
+    public String jiaozhigong(ModelMap map)
     {
+        map.put("date", DateUtils.getDate());
         return prefix + "/jiaozhigong";
     }
 

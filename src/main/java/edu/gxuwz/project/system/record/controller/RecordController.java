@@ -113,6 +113,7 @@ public class RecordController extends BaseController
     @GetMapping("/yichang")
     public String yichang(ModelMap map){
         map.put("deptId", getSysUser().getDeptId());
+        map.put("date", DateUtils.getDate());
         return prefix + "/yichang";
     }
 
@@ -129,6 +130,7 @@ public class RecordController extends BaseController
     {
         User user = ShiroUtils.getSysUser();
         map.put("user", user);
+        map.put("date", DateUtils.getDate());
         return prefix + "/bumenRecord";
     }
 
@@ -143,6 +145,7 @@ public class RecordController extends BaseController
     {
         User user = ShiroUtils.getSysUser();
         map.put("user", user);
+        map.put("date", DateUtils.getDate());
         //List<String> grades = userService.selectGrades();
         //List<String> zyNames = userService.selectZy();
         //map.put("grades", grades);
@@ -191,6 +194,7 @@ public class RecordController extends BaseController
     {
         User user = ShiroUtils.getSysUser();
         map.put("user", user);
+        map.put("date", DateUtils.getDate());
         return prefix + "/jiaozhigong";
     }
 
@@ -260,6 +264,7 @@ public class RecordController extends BaseController
         }else{
             modelMap.put("m_phone", false);
         }
+        modelMap.put("date", DateUtils.getDate());
         modelMap.put("recordNumber", getSysUser().getLoginName());
         return prefix + "/record_list";
     }

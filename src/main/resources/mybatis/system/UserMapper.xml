@@ -199,6 +199,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
+		order by u.dept_id, u.zy_name, u.college_id, u.grade_id
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
 	</select>
@@ -226,6 +227,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND date_format(record_date,'%y%m%d') = date_format(#{params.beginTime},'%y%m%d')
 		</if>
 		)
+		order by u.dept_id, u.zy_name, u.college_id, u.grade_id
 	</select>
 
 	<select id="xuesheng" parameterType="User" resultMap="UserResult1">
@@ -242,6 +244,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="userName != null and userName != ''">
 			AND u.user_name like concat('%', #{userName}, '%')
 		</if>
+		order by u.dept_id, u.zy_name, u.college_id, u.grade_id
 	</select>
 
 	<select id="jiaozhigong" parameterType="User" resultMap="UserResult1">
@@ -260,6 +263,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="userName != null and userName != ''">
 			AND u.user_name like concat('%', #{userName}, '%')
 		</if>
+		order by u.dept_id
 	</select>
 	
 	<select id="selectAllocatedList" parameterType="User" resultMap="UserResult">
