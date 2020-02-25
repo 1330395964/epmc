@@ -155,6 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND date_format(r.record_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
         </if>
         and (r.temp_morning > 37.3 or r.temp_afternoon > 37.3 or  r.health = true or r.fever = true  or r.cough = true or r.weak = true)
+        order by record_date desc
     </select>
 
     <select id="bumen" parameterType="Record" resultMap="RecordResult">
@@ -191,6 +192,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <when test="tempMorning != null  and tempMorning == 0 ">and temp_morning &lt;= 37.3 and temp_afternoon &lt;= 37.3</when>
             <otherwise>and temp_morning = #{tempMorning}</otherwise>
         </choose>
+        order by record_date desc
     </select>
 
     <select id="geren" parameterType="Record" resultMap="RecordResult">
@@ -240,6 +242,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="fever != null">and fever = #{fever}</if>
         <if test="cough != null">and cough = #{cough}</if>
         <if test="weak != null">and weak = #{weak}</if>
+        order by record_date desc
     </select>
 
     <select id="jiaozhigong" parameterType="Record" resultMap="RecordResult">
@@ -278,6 +281,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="fever != null">and fever = #{fever}</if>
         <if test="cough != null">and cough = #{cough}</if>
         <if test="weak != null">and weak = #{weak}</if>
+        order by record_date desc
     </select>
 
     <select id="selectRecordById" parameterType="Long" resultMap="RecordResult">

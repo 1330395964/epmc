@@ -119,6 +119,7 @@ public class RecordController extends BaseController
     @PostMapping("/yichang")
     @ResponseBody
     public TableDataInfo yichang(Record record){
+        startPage();
         List<Record> list = recordService.selectYichang(record);
         return getDataTable(list);
     }
