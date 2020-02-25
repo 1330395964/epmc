@@ -133,6 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cough != null">and cough = #{cough}</if>
             <if test="weak != null">and weak = #{weak}</if>
         </where>
+        order by record_date desc
     </select>
     
     <select id="selectYichang" parameterType="Record" resultMap="RecordResult">
