@@ -32,7 +32,7 @@ server:
 # 日志配置
 logging:
   level:
-    edu.gxuwz: debug
+    edu.gxuwz: info
     org.springframework: warn
 
 # 用户配置
