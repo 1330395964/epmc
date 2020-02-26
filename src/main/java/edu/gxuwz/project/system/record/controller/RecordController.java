@@ -28,7 +28,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -522,7 +521,7 @@ public class RecordController extends BaseController
     public AjaxResult addSave(@Validated Record record)
     {
         record.setRecordNumber(getLoginName());
-        Record record1 = recordService.selectRecordByDateAndId(new Date(System.currentTimeMillis()), getSysUser().getLoginName());
+        Record record1 = recordService.selectRecordByDateAndId(record.getRecordDate(), getSysUser().getLoginName());
         if(record1 == null && !StringUtils.isEmpty(record.getTempMorning())){
             double t = Double.valueOf(record.getTempMorning());
             if(t > 37.3){
