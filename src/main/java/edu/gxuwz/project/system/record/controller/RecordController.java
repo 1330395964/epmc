@@ -316,18 +316,64 @@ public class RecordController extends BaseController
             ArrayList<RecordData> records = new ArrayList<>();
             int i = 1;
             if(huizong != null){
+                RecordData data = new RecordData();
+                int countRecordStudent =  0;
+                int countRecordTeacher =  0;
+                int countStudent =  0;
+                int countTeacher =  0;
+                int countStudentShuld =  0;
+                int countTeacherShuld =  0;
                 for(Map<String,Object> map : huizong){
                     RecordData recordData = new RecordData();
                     recordData.setDept((Dept) map.get("dept"));
                     recordData.setIndex(Long.valueOf(i));
                     recordData.setCountRecordStudent(map.get("countRecordStudent"));
                     recordData.setCountRecordTeacher(map.get("countRecordTeacher"));
+                    if(map.get("countRecordStudent") != null){
+                        int value = Integer.valueOf(map.get("countRecordStudent").toString());
+                        countRecordStudent += value;
+                    }
+                    if(map.get("countRecordTeacher") != null){
+                        int value = Integer.valueOf(map.get("countRecordTeacher").toString());
+                        countRecordTeacher += value;
+                    }
+                    recordData.setCountStudentShuld(map.get("countStudentShuld"));
+                    recordData.setCountTeacherShuld(map.get("countTeacherShuld"));
+                    if(map.get("countStudentShuld") != null){
+                        int value = Integer.valueOf(map.get("countStudentShuld").toString());
+                        countStudentShuld += value;
+                    }
+                    if(map.get("countTeacherShuld") != null){
+                        int value = Integer.valueOf(map.get("countTeacherShuld").toString());
+                        countTeacherShuld += value;
+                    }
+
                     recordData.setCountStudent(map.get("countStudent"));
                     recordData.setCountTeacher(map.get("countTeacher"));
+                    if(map.get("countStudent") != null){
+                        int value = Integer.valueOf(map.get("countStudent").toString());
+                        countStudent += value;
+                    }
+                    if(map.get("countTeacher") != null){
+                        int value = Integer.valueOf(map.get("countTeacher").toString());
+                        countTeacher += value;
+                    }
+
                     recordData.setDate((String)map.get("date"));
                     records.add(recordData);
+                    data.setDate((String)map.get("date"));
                     i++;
                 }
+                Dept dept = new Dept();
+                dept.setDeptName("合计");
+                data.setDept(dept);
+                data.setCountTeacher(countTeacher);
+                data.setCountStudent(countStudent);
+                data.setCountRecordTeacher(countRecordTeacher);
+                data.setCountRecordStudent(countRecordStudent);
+                data.setCountStudentShuld(countStudentShuld);
+                data.setCountTeacherShuld(countTeacherShuld);
+                records.add(data);
             }
             ExcelUtil<RecordData> util = new ExcelUtil<RecordData>(RecordData.class);
             return util.exportExcel(records, "汇总记录");

@@ -24,8 +24,14 @@ public class RecordData extends BaseEntity {
     @Excel(name = "学生填报人数")
     private Object countStudent;
 
+    @Excel(name = "学生应报人数")
+    private Object countStudentShuld;
+
     @Excel(name = "教职工填报人数")
     private Object countTeacher;
+
+    @Excel(name = "教职工应报人数")
+    private Object countTeacherShuld;
 
     @Excel(name = "统计日期")
     private String date;
@@ -86,6 +92,22 @@ public class RecordData extends BaseEntity {
         this.date = date;
     }
 
+    public Object getCountStudentShuld() {
+        return countStudentShuld;
+    }
+
+    public void setCountStudentShuld(Object countStudentShuld) {
+        this.countStudentShuld = countStudentShuld;
+    }
+
+    public Object getCountTeacherShuld() {
+        return countTeacherShuld;
+    }
+
+    public void setCountTeacherShuld(Object countTeacherShuld) {
+        this.countTeacherShuld = countTeacherShuld;
+    }
+
     @Override
     public String toString() {
         return "RecordData{" +
@@ -94,7 +116,9 @@ public class RecordData extends BaseEntity {
                 ", countRecordStudent=" + countRecordStudent +
                 ", countRecordTeacher=" + countRecordTeacher +
                 ", countStudent=" + countStudent +
+                ", countStudentShuld=" + countStudentShuld +
                 ", countTeacher=" + countTeacher +
+                ", countTeacherShuld=" + countTeacherShuld +
                 ", date='" + date + '\'' +
                 '}';
     }
