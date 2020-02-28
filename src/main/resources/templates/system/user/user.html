@@ -35,14 +35,33 @@
 						<div class="select-list">
 							<ul>
 								<li>
-									用户名称：<input type="text" name="userName"/>
+									用户名：<input type="text" name="userName"/>
 								</li>
 								<li>
 									<p>教职工/学生：</p>
 									<select name="student" >
-										<option value="0" selected>教职工</option>
+										<option style='display: none'></option>
+										<option value="0" >教职工</option>
 										<option value="1" >学生</option>
 									</select>
+								</li>
+								<li>
+									<p>年级：</p>
+									<select name="collegeId" >
+										<option style='display: none'></option>
+										<option value="19" >2019级</option>
+										<option value="18" >2018级</option>
+										<option value="17" >2017级</option>
+										<option value="16" >2016级</option>
+										<option value="15" >2015级</option>
+										<option value="14" >2014级</option>
+									</select>
+								</li>
+								<li>
+									专业：<input type="text" name="zyName"/>
+								</li>
+								<li>
+									班级：<input type="text" name="gradeId"/>
 								</li>
 								<li>
 									用户状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
