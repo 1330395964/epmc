@@ -339,4 +339,40 @@ public class UserController extends BaseController
         userService.checkUserAllowed(user);
         return toAjax(userService.changeStatus(user));
     }
+
+    /**
+     * 检索班级
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("selectGrades")
+    public List<String> selectGrades(User user){
+        List<String> strings = userService.selectGrades(user);
+        return strings;
+    }
+
+    /**
+     * 检索所有专业
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("selectZy")
+    public List<String> selectZy(User user){
+        List<String> strings = userService.selectZy(user);
+        return strings;
+    }
+
+    /**
+     * 检索年级
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("selectColleges")
+    public List<String> selectColleges(User user){
+        List<String> strings = userService.selectColleges(user);
+        return strings;
+    }
 }
