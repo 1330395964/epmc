@@ -53,21 +53,21 @@
 										<option value="0" selected>部门</option>
 									</select>
 								</li>
-								<li id="zySt">
+								<li id="zySt" style="display: none;">
 									<p>所属专业：</p>
 									<select id="zyName" name="zyName" onchange="selectColleges();">
 										<option value="">--请选择--</option>
 										<option th:each="zy:${zyNames}" th:value="${zy}" th:text="${zy}">--请选择--</option>
 									</select>
 								</li>
-								<li id="collegeSt">
+								<li id="collegeSt" style="display: none;">
 									<p>所属年级：</p>
 									<select id="collegeId" name="collegeId" onchange="selectGrades();">
 										<option value="">--请选择--</option>
 										<option th:each="grade:${grades}" th:value="${grade}" th:text="${grade}">--请选择--</option>
 									</select>
 								</li>
-								<li id="gradeSt">
+								<li id="gradeSt" style="display: none;">
 									<p>所属班级：</p>
 									<select id="gradeId" name="gradeId" >
 										<option value="">--请选择--</option>
@@ -353,12 +353,10 @@
 		// 学生教师改变
 		function changeBnFn(){
 			if($.trim($("#dom_student").val()) == 1){
-				$("#bumenSt").show();
 				$("#zySt").show();
 				$("#gradeSt").show();
 				$("#collegeSt").show();
 			}else{
-				$("#bumenSt").hide();
 				$("#zySt").hide();
 				$("#gradeSt").hide();
 				$("#collegeSt").hide();
