@@ -46,13 +46,6 @@
 										<option value="1" >学生</option>
 									</select>
 								</li>
-								<li>
-									<p style="width: 72px;">部门/全校：</p>
-									<select id="changeBnXy" onchange="changeBnXyFn()" >
-										<option value="1">全校</option>
-										<option value="0" selected>部门</option>
-									</select>
-								</li>
 								<li id="zySt" style="display: none;">
 									<p>所属专业：</p>
 									<select id="zyName" name="zyName" onchange="selectColleges();">
@@ -234,6 +227,7 @@
 				$("#deptId").val(treeNode.id);
 				$("#parentId").val(treeNode.pId);
 				$.table.search();
+				changeZyName();
 			}
 		}
 
