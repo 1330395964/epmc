@@ -199,7 +199,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="deptId != null and deptId != 100">
 			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
 		</if>
-		<if test="deptId != null and deptId != 0">and u.dept_id = #{deptId}</if>
 		<if test="zyName != null and zyName != ''">and u.zy_name = #{zyName}</if>
 		<if test="gradeId != null and gradeId != ''">and u.grade_id = #{gradeId}</if>
 		<if test="collegeId != null and collegeId != ''">and u.college_id = #{collegeId}</if>
