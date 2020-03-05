@@ -102,7 +102,7 @@ public class ProfileController extends BaseController
             boolean equals = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, sysUser.getUpdateTime()).equals(DateUtils.getDate());
             if ( !equals) { // 当天没有登记进行登记
                 if(DateUtils.getDatePoorOver24(sysUser.getUpdateTime(), new Date())){ // 中断登记
-                    user.setDengji(0);
+                    user.setDengji(1);
                 }else{
                     user.setDengji(sysUser.getDengji() + 1);
                 }
