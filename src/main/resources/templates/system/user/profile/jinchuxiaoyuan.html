@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('我的进出信息')" />
+</head>
+
+<body style="font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;">
+    <input id="userId" name="userId" type="hidden" th:value="${user.userId}" />
+    <section class="section-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title ibox-title-gray dashboard-header gray-bg">
+                        <h5>进出校园-个人资料卡</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="text-center">
+                            <p id="flushDate" style="font-size: 25px;"></p>
+                        </div>
+                        <ul class="list-group list-group-striped" style="font-size: 18px;">
+                            <li th:switch="${user.student}" class="list-group-item"><i class="fa fa-user"></i>
+                                <b th:case="true" class="font-noraml">学号：</b>
+                                <b th:case="false" class="font-noraml">工号：</b>
+                                <p class="pull-right">[[${user.loginName}]]</p>
+                            </li>
+                            <li class="list-group-item"><i class="fa fa-user"></i>
+                                <b class="font-noraml">身份证号：</b>
+                                <p class="pull-right">[[${user.cardNu}]]</p>
+                            </li>
+                            <li class="list-group-item"><i class="fa fa-user"></i>
+                                <b class="font-noraml">姓名：</b>
+                                <p class="pull-right">[[${user.userName}]]</p>
+                            </li>
+                            <li th:if="${user.student} == true" class="list-group-item"><i class="fa fa-group"></i>
+                                <b class="font-noraml">身份：</b>
+                                <p class="pull-right" >学生</p>
+                            </li>
+                            <li th:if="${user.student} == false" class="list-group-item"><i class="fa fa-group"></i>
+                                <b class="font-noraml">身份：</b>
+                                <p class="pull-right" >教师</p>
+                            </li>
+<!--                            <li th:switch="${user.sex}" class="list-group-item"><i class="fa fa-user"></i>-->
+<!--                                <b class="font-noraml">性别：</b>-->
+<!--                                <p th:case="0" class="pull-right">男</p>-->
+<!--                                <p th:case="1" class="pull-right">女</p>-->
+<!--                            </li>-->
+                            <li th:if="${user.student} == true" class="list-group-item"><i class="fa fa-group"></i>
+                                <b class="font-noraml">所属学院：</b>
+                                <p class="pull-right" >[[${user.dept?.deptName}]]</p>
+                            </li>
+                            <li th:if="${user.student} == false" class="list-group-item"><i class="fa fa-group"></i>
+                                <b class="font-noraml">所属部门：</b>
+                                <p class="pull-right" >[[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'无岗位')}]]</p>
+                            </li>
+<!--                            <li th:if="${user.student} == true" class="list-group-item"><i class="fa fa-graduation-cap"></i>-->
+<!--                                <b  class="font-noraml">专业：</b>-->
+<!--                                <p class="pull-right">[[${user.zyName}]]</p>-->
+<!--                            </li>-->
+<!--                            <li th:if="${user.student} == true" class="list-group-item"><i class="fa fa-graduation-cap"></i>-->
+<!--                                <b  class="font-noraml">年级：</b>-->
+<!--                                <p class="pull-right">[[${user.collegeId}]]</p>-->
+<!--                            </li>-->
+<!--                            <li th:if="${user.student} == true" class="list-group-item"><i class="fa fa-graduation-cap"></i>-->
+<!--                                <b  class="font-noraml">班级：</b>-->
+<!--                                <p class="pull-right">[[${user.gradeId}]]</p>-->
+<!--                            </li>-->
+                            <li class="list-group-item"><i class="fa fa-edit"></i>
+                                <b  class="font-noraml">连续登记：</b>
+                                <p class="pull-right" style="font-weight: bold;font-size: 20px;color: red;">[[${user.dengji}]]天</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</section>
+    
+    <th:block th:include="include :: footer" />
+    <script>
+        window.onload = function(){
+            timeFlush();
+            $.get(ctx + 'system/user/profile/updateDengji', function(data){console.log(data)});
+        }
+
+        setInterval(timeFlush, 1000);
+
+        function timeFlush(){
+            var r = timeGo();
+            var html = '';
+            html += r.month + '月' + r.day + '日  ' + '<span style="color: red;">' + r.hour + ":" + r.minute + ":" + r.second + '</span>';
+            $("#flushDate").html(html);
+        }
+
+        function timeGo(){
+            var now = new Date();
+            // alert(now);//弹出美式时间：Wed Jun 20 2018 15:27:13 GMT+0800 (中国标准时间)
+            var year = now.getFullYear();//2018年
+            var month = now.getMonth() + 1;//6月弹出5//范围0-11
+            var date = now.getDate();//20号
+            var week = now.getDay();//3//星期几，西半球时间，范围0-6，星期日为一周的第一天，为0
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            var result = {
+                year : year,
+                month : toDouble(month),
+                day : toDouble(date),
+                week : toWeek(week),
+                hour : toDouble(hour),
+                minute : toDouble(minute),
+                second : toDouble(second)
+            };
+            return result;
+        }
+
+        //此函数将星期的数字转为汉字表示
+        function toWeek(num){
+            switch(num){
+                case 0:
+                    return '星期天';
+                    break;
+                case 1:
+                    return '星期一';
+                    break;
+                case 2:
+                    return '星期二';
+                    break;
+                case 3:
+                    return '星期三';
+                    break;
+                case 4:
+                    return '星期四';
+                    break;
+                case 5:
+                    return '星期五';
+                    break;
+                case 6:
+                    return '星期六';
+                    break;
+            }
+        }
+
+        //此函数将不足两位的数字前面补0
+        function toDouble(num){
+            if(num < 10){
+                return '0' + num;
+            }else{
+                return num;
+            }
+        }
+
+	</script>
+</body>
+</html>

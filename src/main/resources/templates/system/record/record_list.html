@@ -3,8 +3,8 @@
 <head>
     <th:block th:include="include :: header('记录列表')" />
 </head>
-<body class="gray-bg">
-     <div class="container-div">
+<body>
+     <div class="container">
         <div class="row">
             <div class="col-sm-12 search-collapse" th:if="${m_phone} == false">
                 <form id="formId">
@@ -84,7 +84,7 @@
                     <i class="fa fa-download"></i> 导出Word
                 </a>
             </div>
-            <div class="btn-group-sm" id="toolbar" th:if="${m_phone} == true" role="group">
+            <div class="btn-group-sm" style="margin-left: 10px;" id="toolbar" th:if="${m_phone} == true" role="group">
                 <a class="btn btn-warning" onclick="$.table.exportExcel1('system/record/exportSelf')" shiro:hasPermission="system:record:export">
                     <i class="fa fa-download"></i> 导出Excel
                 </a>
@@ -92,7 +92,7 @@
                     <i class="fa fa-download"></i> 导出Word
                 </a>
             </div>
-            <div class="col-sm-12 select-table table-striped">
+            <div class="col-sm-12" style="margin-top: 10px;">
                 <table id="bootstrap-table" th:if="${m_phone} == false" ></table>
                 <div class="row animated fadeInRight" th:if="${m_phone} == true">
                     <div class="ibox float-e-margins">

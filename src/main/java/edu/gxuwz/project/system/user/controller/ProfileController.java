@@ -1,5 +1,6 @@
 package edu.gxuwz.project.system.user.controller;
 
+import edu.gxuwz.common.utils.DateUtils;
 import edu.gxuwz.common.utils.StringUtils;
 import edu.gxuwz.common.utils.file.FileUploadUtils;
 import edu.gxuwz.framework.aspectj.lang.annotation.Log;
@@ -85,6 +86,56 @@ public class ProfileController extends BaseController
         //mmap.put("colleges", colleges);
         mmap.put("grades", grades);
         return prefix + "/profile1";
+    }
+
+    /**
+     * 记录连续登记天数
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/updateDengji")
+    public AjaxResult updateDengji(){
+        User sysUser = getSysUser();
+        User user = new User();
+        user.setUserId(sysUser.getUserId());
+        if(sysUser.getUpdateTime() != null) { // 之后的登记
+            boolean equals = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, sysUser.getUpdateTime()).equals(DateUtils.getDate());
+            if ( !equals) { // 当天没有登记进行登记
+                if(DateUtils.getDatePoorOver24(sysUser.getUpdateTime(), new Date())){ // 中断登记
+                    user.setDengji(0);
+                }else{
+                    user.setDengji(sysUser.getDengji() + 1);
+                }
+                int i = userService.updateUserInfo(user);
+                if(i>0){
+                    setSysUser(userService.selectUserById(sysUser.getUserId()));
+                }
+            }
+        }else{ // 注册后第一次登记
+            user.setDengji(sysUser.getDengji() + 1);
+            int i = userService.updateUserInfo(user);
+            if(i>0){
+                setSysUser(userService.selectUserById(sysUser.getUserId()));
+            }
+        }
+        return success();
+    }
+
+
+    /**
+     * 进出校园个人信息
+     */
+    @GetMapping("/jinchuxiaoyuan")
+    public String jinchuxiaoyuan(ModelMap mmap)
+    {
+        User user = getSysUser();
+        Dept dept = deptService.selectDeptById(user.getDeptId());
+        if(dept == null){
+            dept = new Dept();
+        }
+        user.setDept(dept);
+        mmap.put("user", user);
+        return prefix + "/jinchuxiaoyuan";
     }
 
     @GetMapping("/checkPassword")

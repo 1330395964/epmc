@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
 
+		<result property="dengji"    column="dengji"   />
 		<result property="student"   column="student"  />
 		<result property="parentsName"       column="parents_name"       />
 		<result property="parentsPhnu"   column="parents_phnu"  />
@@ -84,6 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
 		
+		<result property="dengji"    column="dengji"   />
 		<result property="student"   column="student"  />
 		<result property="parentsName"       column="parents_name"       />
 		<result property="parentsPhnu"   column="parents_phnu"  />
@@ -108,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<sql id="selectUserVo">
         select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
         		u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
-        		u.student, u.parents_name, u.parents_phnu, u.province, u.city_name,
+        		u.student, u.parents_name, u.parents_phnu, u.province, u.city_name, u.dengji,
 				u.county, u.address, u.graduates, u.on_job, u.workplace, u.after_wuhan, u.contact_wuhan,
 				u.grade_id, u.card_nu, u.zy_name, u.college_id, u.update_time,
        		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
@@ -380,6 +382,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="loginDate != null">login_date = #{loginDate},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
 			<if test="remark != null">remark = #{remark},</if>
+ 			<if test="dengji != null">dengji = #{dengji},</if>
  			<if test="student != null">student = #{student},</if>
 			<if test="parentsName != null">parents_name = #{parentsName},</if>
 			<if test="parentsPhnu != null">parents_phnu = #{parentsPhnu},</if>

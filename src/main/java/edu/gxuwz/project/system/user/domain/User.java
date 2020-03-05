@@ -123,6 +123,11 @@ public class User extends BaseEntity
     private String address;
 
     /**
+     * 连续登记天数
+     */
+    private Integer dengji;
+
+    /**
      * 0非毕业生1毕业生
      */
     //@Excel(name = "是否毕业生", readConverterExp = "0=非毕业生,1=毕业生")
@@ -551,6 +556,14 @@ public class User extends BaseEntity
         this.collegeId = collegeId;
     }
 
+    public Integer getDengji() {
+        return dengji;
+    }
+
+    public void setDengji(Integer dengji) {
+        this.dengji = dengji;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -577,6 +590,7 @@ public class User extends BaseEntity
                 ", cityName='" + cityName + '\'' +
                 ", county='" + county + '\'' +
                 ", address='" + address + '\'' +
+                ", dengji=" + dengji +
                 ", graduates='" + graduates + '\'' +
                 ", onJob='" + onJob + '\'' +
                 ", workplace='" + workplace + '\'' +

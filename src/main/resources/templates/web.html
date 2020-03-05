@@ -16,7 +16,7 @@
     <link th:href="@{/epmc/css/ry-ui.css?v=4.1.0}" rel="stylesheet"/>
     <link th:href="@{/css/h5.css}" rel="stylesheet"/>
 </head>
-<body>
+<body style="overflow: hidden;">
     <div class="main-content">
         <input type="hidden" id="student" th:value="${student} " />
         <div style="display: none;" class="container">
@@ -50,38 +50,46 @@
                     th:src="@{/system/user/profile/profile1}" frameborder="0" seamless></iframe>
         </div>
         <!-- 正文内容 -->
-
-        <div class="bottomMenu 123">
-            <ul>
-                <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="0">
-                    <a href="javascript:;" class="" style="">
-                        <div class="menuItem">
-                            <div class="menuIco"><img th:src="@{/img/web/20190831091817493.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
-                            <div class="menuName" style="color:#666666;">我的信息</div>
-                        </div>
-                    </a>
-                    <div class="submenuItems"></div>
-                </li>
-                <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="1">
-                    <a href="javascript:;" class="" style="">
-                        <div class="menuItem">
-                            <div class="menuIco"><img th:src="@{/img/web/icon17.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
-                            <div class="menuName" style="color:#666666;">检测填报</div>
-                        </div>
-                    </a>
-                    <div class="submenuItems" style="display:none;"></div>
-                </li>
-                <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="2">
-                    <a href="javascript:;" class="" style="">
-                        <div class="menuItem">
-                            <div class="menuIco"><img th:src="@{/img/web/20190831091817419.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
-                            <div class="menuName" style="color:#666666;">我的填报</div>
-                        </div>
-                    </a>
-                    <div class="submenuItems" style="display:none;"></div>
-                </li>
-            </ul>
-        </div>
+    </div>
+    <div class="bottomMenu 123">
+        <ul>
+            <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="0">
+                <a href="javascript:;" class="" style="">
+                    <div class="menuItem">
+                        <div class="menuIco"><img th:src="@{/img/web/20190831091817493.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
+                        <div class="menuName" style="color:#666666;">我的信息</div>
+                    </div>
+                </a>
+                <div class="submenuItems"></div>
+            </li>
+            <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="1">
+                <a href="javascript:;" class="" style="">
+                    <div class="menuItem">
+                        <div class="menuIco"><img th:src="@{/img/web/icon17.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
+                        <div class="menuName" style="color:#666666;">检测填报</div>
+                    </div>
+                </a>
+                <div class="submenuItems" style="display:none;"></div>
+            </li>
+            <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="2">
+                <a href="javascript:;" class="" style="">
+                    <div class="menuItem">
+                        <div class="menuIco"><img th:src="@{/img/web/20190831091817419.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
+                        <div class="menuName" style="color:#666666;">我的填报</div>
+                    </div>
+                </a>
+                <div class="submenuItems" style="display:none;"></div>
+            </li>
+            <li style="height:100%;padding-top:2px;" onclick="changeBtn(this)" data-type="3">
+                <a href="javascript:;" class="" style="">
+                    <div class="menuItem">
+                        <div class="menuIco"><img th:src="@{/img/web/2019083109181716.png}" alt=""></div><input type="hidden" class="menuIcon" value=""><input type="hidden" class="menuColor" value="">
+                        <div class="menuName" style="color:#666666;">进出校园</div>
+                    </div>
+                </a>
+                <div class="submenuItems" style="display:none;"></div>
+            </li>
+        </ul>
     </div>
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: select2-js" />
@@ -117,6 +125,8 @@
                 tag += 'system/record/add?S_type=true';
             }else if(t == 2){
                 tag += 'system/record/list_list?M_phone=true';
+            }else if(t == 3){
+                tag += 'system/user/profile/jinchuxiaoyuan';
             }
             window.open( tag, 'iframe0');
         }
@@ -124,8 +134,9 @@
 
         function changeHeight() {
             var bottomHeight = $(".bottomMenu").height();
+            console.log(bottomHeight)
             $("body").css("padding-bottom", bottomHeight + "px");
-            $("#content-main").css("height", $("body").height() - bottomHeight + "px");
+            $("#content-main").css("height", $("body").height() + "px");
         }
         changeHeight();
     </script>
