@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static edu.gxuwz.common.utils.DateUtils.*;
 
 /**
  * 记录Service业务层处理
@@ -154,5 +157,37 @@ public class RecordServiceImpl implements IRecordService
         }
         return maps;
     }
+
+    @Override
+    public List<String> selectRecoredDatesByNumber(String recordNumber) {
+        return recordMapper.selectRecoredDatesByNumber(recordNumber);
+    }
+
+    @Override
+    public String getRecoredDates(String recordNumber) {
+        List<String> list = selectRecoredDatesByNumber(recordNumber);
+        if(list != null && list.size()>0){
+            // 获取开始时间到结束时间内的日期数据
+            String nextDate = getNextDate(parseDate(getDate()));
+            LinkedList<String> all = new LinkedList<>();
+            String end = list.get(0);
+            while (!nextDate.equals(end)){
+                all.add(end);
+                end = getNextDate(parseDate(end));
+            }
+            String startDate = all.get(0);
+            all.removeAll(list); // 剔除记录中的日期
+            if(all.isEmpty()){ // 全部签到
+                String day = getDatePoorForDay(parseDate(getNextDate(parseDate(getDate()))), parseDate(startDate));
+                return day;
+            }else{ // 中断签到
+                String day = getDatePoorForDay(parseDate(getDate()), parseDate(all.get(all.size() - 1)));
+                return day;
+            }
+        }else{
+            return "0天";
+        }
+    }
+
 
 }

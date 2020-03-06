@@ -97,4 +97,11 @@ public interface RecordMapper
      */
     Map<String, Object> huizong(Record record);
 
+    /**
+     * 登记者登记日期列表
+     * @param recordNumber
+     * @return
+     */
+    List<String> selectRecoredDatesByNumber(String recordNumber);
+
 }

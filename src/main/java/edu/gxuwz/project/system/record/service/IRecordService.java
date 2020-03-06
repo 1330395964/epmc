@@ -97,4 +97,18 @@ public interface IRecordService
      */
     List<Map<String, Object>> huizong(Record record);
 
+    /**
+     * 登记者登记日期列表
+     * @param recordNumber
+     * @return
+     */
+    List<String> selectRecoredDatesByNumber(String recordNumber);
+
+    /**
+     * 获取记录者连续登记天数
+     * @param recordNumber
+     * @return
+     */
+    String getRecoredDates(String recordNumber);
+
 }

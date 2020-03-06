@@ -322,6 +322,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectRecordVo"/>
         where record_number = #{recordNumber} and record_date = #{recordDate}
     </select>
+    
+    <select id="selectRecoredDatesByNumber" parameterType="String" resultType="String">
+        SELECT
+        DISTINCT
+            record_date
+        FROM
+            sys_record
+        WHERE
+            record_number = #{recordNumber}
+        ORDER BY record_date ASC
+    </select>
         
     <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="recordId">
         insert into sys_record(

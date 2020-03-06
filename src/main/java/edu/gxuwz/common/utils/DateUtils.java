@@ -155,6 +155,20 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     }
 
     /**
+     * 计算两个时间差 - 天
+     */
+    public static String getDatePoorForDay(Date endDate, Date nowDate)
+    {
+        long nd = 1000 * 24 * 60 * 60;
+        // long ns = 1000;
+        // 获得两个时间的毫秒时间差异
+        long diff = endDate.getTime() - nowDate.getTime();
+        // 计算差多少天
+        long day = diff / nd;
+        return day + "天";
+    }
+
+    /**
      * 计算两个时间差超过24小时, true 超过，false没超过
      */
     public static boolean getDatePoorOver24(Date endDate, Date nowDate)
@@ -165,4 +179,67 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         long diff = endDate.getTime() - nowDate.getTime();
         return nd < diff;
     }
+
+    /**
+     * 获取当前时间的下一天
+     * @param date
+     * @return
+     */
+    public static String getNextDate(Date date){
+        long nd = 1000 * 24 * 60 * 60;
+        long d = date.getTime() + nd;
+        java.sql.Date day = new java.sql.Date(d);
+        return parseDateToStr(YYYY_MM_DD, day);
+    }
+
+    /*public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>();
+        list.add("2020-02-21");
+        list.add("2020-02-22");
+        list.add("2020-02-23");
+        //list.add("2020-02-24");
+        list.add("2020-02-25");
+        list.add("2020-02-26");
+        list.add("2020-02-27");
+        list.add("2020-02-28");
+        list.add("2020-02-29");
+        list.add("2020-03-01");
+        //list.add("2020-03-02");
+        list.add("2020-03-03");
+        list.add("2020-03-04");
+        //list.add("2020-03-05");
+        list.add("2020-03-06");
+        String min = list.get(0);
+        String max = list.get(list.size()-1);
+        Date date = parseDate(min); // 开始时间
+        System.out.println(date.getTime());
+        Date date1 = parseDate(max); // 结束时间
+        System.out.println(date1.getTime());
+
+        String datePoor = getDatePoor(date1, DateUtils.parseDate(DateUtils.getDate()));
+        System.out.println(datePoor);
+
+        // 获取开始时间到结束时间内的日期数据
+        String date2 = getNextDate(parseDate(DateUtils.getDate()));
+        LinkedList<String> all = new LinkedList<>();
+        String end = min;
+        while (!date2.equals(end)){
+            all.add(end);
+            end = getNextDate(parseDate(end));
+        }
+        for (String a: all) {
+            System.out.println(a);
+        }
+        System.out.println("天数" + all.size());
+        all.removeAll(list);
+        System.out.println("天数" + all.size());
+        for (String a: all) {
+            System.out.println(a);
+        }
+
+        // 为空，就是all的大小，不为空，取all最后一条数据与当前日期对比
+        String datePoor1 = getDatePoorForDay(DateUtils.parseDate(DateUtils.getDate()), parseDate("2020-03-06"));
+        System.out.println(datePoor1);
+    }
+*/
 }

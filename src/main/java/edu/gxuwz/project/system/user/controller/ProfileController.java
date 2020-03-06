@@ -14,6 +14,7 @@ import edu.gxuwz.project.system.dept.domain.Dept;
 import edu.gxuwz.project.system.dept.service.IDeptService;
 import edu.gxuwz.project.system.grade.domain.Grade;
 import edu.gxuwz.project.system.grade.service.IGradeService;
+import edu.gxuwz.project.system.record.service.IRecordService;
 import edu.gxuwz.project.system.user.domain.User;
 import edu.gxuwz.project.system.user.service.IUserService;
 import org.slf4j.Logger;
@@ -39,6 +40,9 @@ public class ProfileController extends BaseController
     private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
 
     private String prefix = "system/user/profile";
+
+    @Autowired
+    private IRecordService recordService;
 
     @Autowired
     private IUserService userService;
@@ -135,6 +139,8 @@ public class ProfileController extends BaseController
         }
         user.setDept(dept);
         mmap.put("user", user);
+        String dates = recordService.getRecoredDates(user.getLoginName());
+        mmap.put("dates", dates);
         return prefix + "/jinchuxiaoyuan";
     }
 
